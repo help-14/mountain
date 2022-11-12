@@ -19,9 +19,24 @@ func ConvertFileResponse(path string, file fs.FileInfo) response.FileResponse {
 	res.ModTime = file.ModTime()
 	res.Path = filepath.Join(path, file.Name())
 
-	res.IsDir = file.IsDir()
+	// Resolve symlink and check IsDir?
+	resolvedLink, err := os.Readlink(res.Path)
+	if err == nil {
+		fmt.Println("/" + resolvedLink)
+		stat, startErr := os.Stat("/" + resolvedLink)
+		if startErr == nil {
+			res.IsSymLink = true
+			res.IsDir = stat.IsDir()
+		} else {
+			fmt.Println(startErr.Error())
+			res.IsDir = file.IsDir()
+		}
+	} else {
+		res.IsDir = file.IsDir()
+	}
+
 	if !res.IsDir {
-		res.Extension = res.Name[:strings.LastIndex(res.Name, ".")+1]
+		res.Extension = filepath.Ext(res.Name)
 		res.Size = file.Size()
 	}
 
@@ -29,12 +44,12 @@ func ConvertFileResponse(path string, file fs.FileInfo) response.FileResponse {
 }
 
 func ReadDir(path string, dirOnly bool) ([]response.FileResponse, error) {
+	result := []response.FileResponse{}
+
 	files, err := ioutil.ReadDir(path)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
-
-	var result []response.FileResponse
 
 	for _, file := range files {
 		if dirOnly && !file.IsDir() {

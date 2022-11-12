@@ -8,5 +8,6 @@ type FileResponse struct {
 	Extension string    `json:"ext"`
 	Path      string    `json:"path"`
 	IsDir     bool      `json:"directory"`
+	IsSymLink bool      `json:"symlink"`
 	ModTime   time.Time `json:"modified"`
 }

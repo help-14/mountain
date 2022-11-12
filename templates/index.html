@@ -1,0 +1,75 @@
+<html>
+
+<head>
+    <link rel="icon" type="image/png" href="/assets/favicon.ico">
+    <script src="/assets/js/alpine.min.js" defer></script>
+    <script src="/assets/js/mountain.js"></script>
+</head>
+
+<body>
+    <div class="h-full bg-gray-200 text-gray-800 p-4 lg:p-8" x-data="startInstance()" x-init="goto(getStartUrl())">
+        <div class="flex flex-wrap -mx-2 pb-8">
+            <div>
+                <template x-for="bc in breadcrumbs" :key="bc.path">
+                    <button x-on:click="goto(bc.path)">
+                        <div class="font-medium text-xl truncate" x-text="bc.name"></div>
+                    </button>
+                </template>
+                <div class="font-medium text-xl truncate" x-text="`Current path: ${path}`"></div>
+            </div>
+            <!-- begin: user card -->
+            <div x-show="!emptyFolder">
+                <template x-for="file in files">
+                    <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 h-full font-light">
+                        <button x-on:click="if(file.directory) goto(file.path)"
+                            x-on:contextmenu="$event.preventDefault();hideContextMenu();file.showContextMenu=true"
+                            @click.prevent="hideContextMenu()">
+                            <div class="font-medium text-xl truncate"
+                                x-text="`${file.directory ? '📁' : '📄'} ${file.name}`">
+                            </div>
+                        </button>
+                        <div class="relative" @click.away="hideContextMenu()">
+                            <div class="absolute mt-12 top-0 left-1 min-w-full w-48 z-30" style="display:none;"
+                                x-show="file.showContextMenu"
+                                x-transition:enter="transition ease duration-100 transform"
+                                x-transition:enter-start="opacity-0 scale-90 translate-y-1"
+                                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                                x-transition:leave="transition ease duration-100 transform"
+                                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                                x-transition:leave-end="opacity-0 scale-90 translate-y-1">
+                                <span
+                                    class="absolute top-0 left-0 w-2 h-2 bg-white transform rotate-45 -mt-1 ml-3 border-gray-300 border-l border-t z-20"></span>
+                                <div
+                                    class="bg-white overflow-auto rounded-lg shadow-md w-full relative z-10 py-2 border border-gray-300 text-gray-800 text-xs">
+                                    <ul class="list-reset">
+                                        <li>
+                                            <a href="#"
+                                                class="px-4 py-1 flex hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100"
+                                                @click.prevent="hideContextMenu()">Rename</a>
+                                            <a href="#"
+                                                class="px-4 py-1 flex hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100"
+                                                @click.prevent="hideContextMenu()">Copy</a>
+                                            <a href="#"
+                                                class="px-4 py-1 flex hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100"
+                                                @click.prevent="hideContextMenu()">Move</a>
+                                            <a href="#"
+                                                class="px-4 py-1 flex hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 text-red-500"
+                                                @click.prevent="hideContextMenu()">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div x-show="emptyFolder" class="font-medium text-xl truncate">
+                This folder is empty
+            </div>
+            <!-- end: user card -->
+        </div>
+    </div>
+
+</body>
+
+</html>
