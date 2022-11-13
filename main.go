@@ -42,7 +42,7 @@ func main() {
 	router.Static("/assets", "./assets")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{
 			"title": "Mountain",
 		})
 	})

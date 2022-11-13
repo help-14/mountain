@@ -39,7 +39,7 @@ function startInstance() {
                     parent.location.hash = path
 
                     let breadcrumbs = [{
-                        name: '/',
+                        name: '<i class="fa fa-solid fa-home"></i>',
                         path: '/'
                     }]
                     let splitted = path.split('/')
