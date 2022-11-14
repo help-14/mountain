@@ -25,7 +25,7 @@
 
 <body class="g-sidenav-show bg-gray-100" x-data="startInstance()" x-init="goto(getStartUrl())">
     <header class="navbar navbar-expand-lg navbar-dark bd-navbar sticky-top bg-primary">
-        <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap">
+        <nav class="container-fluid bd-gutter flex-wrap flex-lg-nowrap">
             <a href="https://mountain.help14.com" class="navbar-brand p-0 me-0 me-lg-2">
                 <img src="/assets/img/mountain.png" style="height: 32px" />
             </a>
@@ -37,6 +37,15 @@
             </div>
         </nav>
     </header>
+
+    <nav class="container-xxl mt-5 mb-5" data-scroll="false">
+        <div class="btn-group" role="group" aria-label="Navigation">
+            <template x-for="(bc, index) in breadcrumbs">
+                <button type="button" class="btn mb-0" x-on:click="goto(bc.path)" x-html="bc.name" aria-current="page"
+                    :class="{ 'btn-secondary': index === breadcrumbs.length -1,'btn-primary': index < breadcrumbs.length -1 }"></button>
+            </template>
+        </div>
+    </nav>
 
     <div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout h-auto">
         <div class="row overflow-scroll" x-show="!emptyFolder">
@@ -95,15 +104,7 @@
 
     </div>
     <footer class="footer fixed-bottom bg-light">
-        <nav class="container m-0 p-0" data-scroll="false">
-            <div class="btn-group" role="group" aria-label="Navigation">
-                <template x-for="(bc, index) in breadcrumbs">
-                    <button type="button" class="btn mb-0" x-on:click="goto(bc.path)" x-html="bc.name"
-                        aria-current="page"
-                        :class="{ 'btn-secondary': index === breadcrumbs.length -1,'btn-primary': index < breadcrumbs.length -1 }"></button>
-                </template>
-            </div>
-        </nav>
+
     </footer>
 </body>
 
