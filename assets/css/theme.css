@@ -38,17 +38,30 @@
     --bs-body-color-rgb: 33, 37, 41;
     --bs-body-bg-rgb: 255, 255, 255; */
 
-    --bs-link-color: #786fa6;
-    --bs-link-hover-color: #574b90;
+    --bs-link-color: var(--bs-indigo);
+    --bs-link-hover-color: var(--bs-purple);
 }
 
 .btn-primary {
-    --bs-btn-border-color: #574b90;
-    --bs-btn-bg: #574b90;
+    --bs-btn-border-color: var(--bs-purple);
+    --bs-btn-bg: var(--bs-purple);
 
-    --bs-btn-hover-bg: #786fa6;
+    --bs-btn-hover-bg: var(--bs-indigo);
     --bs-btn-hover-border-color: #40407a;
 
     --bs-btn-active-bg: #40407a;
-    --bs-btn-active-border-color: #786fa6;
+    --bs-btn-active-border-color: var(--bs-indigo);
+}
+
+.btn-secondary {
+    --bs-btn-bg: #aaa69d;
+    --bs-btn-border-color: transparent;
+}
+
+.btn-ops {
+    width: 44px;
+}
+
+.dropdown-item.active {
+    background-color: var(--bs-indigo);
 }

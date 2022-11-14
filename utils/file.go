@@ -17,7 +17,7 @@ func ConvertFileResponse(path string, file fs.FileInfo) response.FileResponse {
 
 	res.Name = file.Name()
 	res.ModTime = file.ModTime()
-	res.Path = filepath.Join(path, file.Name())
+	res.Path = filepath.ToSlash(filepath.Join(path, file.Name()))
 
 	// Resolve symlink and check IsDir?
 	resolvedLink, err := os.Readlink(res.Path)
