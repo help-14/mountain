@@ -4,33 +4,6 @@ function getHashPath() {
     return decodeURI(parent.location.hash.substring(1))
 }
 
-function hideToast() {
-    const toastContainer = document.querySelector('.toast-container')
-    if (toastContainer) {
-        toastContainer.innerHTML = ''
-    }
-}
-
-function showToast(message) {
-    const toastContainer = document.querySelector('.toast-container')
-    if (toastContainer) {
-        const id = Date.now().toString()
-        toastContainer.innerHTML += `
-        <div id="t${id}" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="me-auto">Something went wrong</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">${message}</div>
-        </div>`
-        setTimeout(() => {
-            document.querySelector(`.toast-container #t${id}`)?.remove()
-        }, 4000);
-    } else {
-        alert(message)
-    }
-}
-
 function startInstance() {
     return {
         files: [],
@@ -42,15 +15,20 @@ function startInstance() {
                 return '/'
             return getHashPath()
         },
+        // hideContextMenu() {
+        //     this.files.forEach(element => {
+        //         if (element.showContextMenu)
+        //             element.showContextMenu = false
+        //     });
+        // },
         goto(path = '/') {
-            hideToast()
             fetch(`/api/get?path=${path}`)
                 .then(async response => {
                     const data = await response.json()
                     if (response.ok) {
                         return data
                     } else {
-                        showToast(data.error)
+                        alert(data.error)
                     }
                 })
                 .then(data => {
@@ -80,12 +58,6 @@ function startInstance() {
                         })
                     }
                     this.breadcrumbs = breadcrumbs
-                })
-                .catch(err => {
-                    if (err) {
-                        console.error(err)
-                        showToast(err.message)
-                    }
                 })
         }
     }

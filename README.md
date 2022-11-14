@@ -10,7 +10,6 @@ Web-based file browser
 
 ## Special thanks:
 
-- Creative Tim for Argon dashboard
 - Freepik for the logo
 - Alpine.js
 - Bootstrap
