@@ -15,12 +15,12 @@ function startInstance() {
                 return '/'
             return getHashPath()
         },
-        hideContextMenu() {
-            this.files.forEach(element => {
-                if (element.showContextMenu)
-                    element.showContextMenu = false
-            });
-        },
+        // hideContextMenu() {
+        //     this.files.forEach(element => {
+        //         if (element.showContextMenu)
+        //             element.showContextMenu = false
+        //     });
+        // },
         goto(path = '/') {
             fetch(`/api/get?path=${path}`)
                 .then(async response => {
@@ -33,7 +33,12 @@ function startInstance() {
                 })
                 .then(data => {
                     this.emptyFolder = data.length === 0
-                    this.files = data.map(a => { return { showContextMenu: false, ...a } })
+                    this.files = data.map(a => {
+                        return {
+                            selected: false,
+                            ...a
+                        }
+                    })
                     currentPath = path
                     this.path = path
                     parent.location.hash = path

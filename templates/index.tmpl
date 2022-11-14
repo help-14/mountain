@@ -25,10 +25,23 @@
 
 <body class="g-sidenav-show bg-gray-100" x-data="startInstance()" x-init="goto(getStartUrl())">
     <header class="navbar navbar-expand-lg navbar-dark bd-navbar sticky-top bg-primary">
-        <nav class="container-fluid bd-gutter flex-wrap flex-lg-nowrap">
+        <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap">
             <a href="https://mountain.help14.com" class="navbar-brand p-0 me-0 me-lg-2">
                 <img src="/assets/img/mountain.png" style="height: 32px" />
             </a>
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Dropdown
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" type="button">Action</button></li>
+                        <li><button class="dropdown-item" type="button">Another action</button></li>
+                        <li><button class="dropdown-item" type="button">Something else here</button></li>
+                    </ul>
+                </div>
+            </div>
             <div class="ms-md-auto pe-md-3 d-flex align-items-center justify-content-end">
                 <div class="input-group">
                     <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
@@ -42,7 +55,7 @@
         <div class="btn-group" role="group" aria-label="Navigation">
             <template x-for="(bc, index) in breadcrumbs">
                 <button type="button" class="btn mb-0" x-on:click="goto(bc.path)" x-html="bc.name" aria-current="page"
-                    :class="{ 'btn-secondary': index === breadcrumbs.length -1,'btn-primary': index < breadcrumbs.length -1 }"></button>
+                    :class="{ 'btn-light': index === breadcrumbs.length-1, 'btn-secondary': index < breadcrumbs.length-1 }"></button>
             </template>
         </div>
     </nav>
@@ -50,49 +63,19 @@
     <div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout h-auto">
         <div class="row overflow-scroll" x-show="!emptyFolder">
             <template x-for="file in files">
-                <div class="col-xl-3 col-sm-6 cursor-pointer">
-                    <button type="button" class="btn btn-light" x-on:click="if(file.directory) goto(file.path)"
-                        x-on:contextmenu="$event.preventDefault();hideContextMenu();file.showContextMenu=true"
-                        @click.prevent="hideContextMenu()">
-                        <div class="row p-3">
-                            <div class="col-3"></div>
-                            <div class="col-8">
-                                <p x-text="`${file.directory ? '📁' : '📄'} ${file.name}`"></p>
+                <div class="col-xl-3 col-sm-6 d-grid">
+                    <button type="button" class="btn btn-light"
+                        :class="{'btn-light': !file.selected, 'btn-primary': file.selected}"
+                        @click="file.selected=!file.selected" @dblclick="if(file.directory) goto(file.path)">
+                        <div class="row p-1 d-flex">
+                            <div class="col-3 align-middle fs-2 align-self-center"
+                                x-text="`${file.directory ? '📁' : '📄'}`">
+                            </div>
+                            <div class="col-8 fs-6 text-start text-wrap text-break align-middle align-self-center"
+                                x-text="file.name">
                             </div>
                         </div>
                     </button>
-                    <!-- <div class="relative" @click.away="hideContextMenu()">
-                            <div class="absolute mt-12 top-0 left-1 min-w-full w-48 z-30" style="display:none;"
-                                x-show="file.showContextMenu"
-                                x-transition:enter="transition ease duration-100 transform"
-                                x-transition:enter-start="opacity-0 scale-90 translate-y-1"
-                                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                                x-transition:leave="transition ease duration-100 transform"
-                                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                                x-transition:leave-end="opacity-0 scale-90 translate-y-1">
-                                <span
-                                    class="absolute top-0 left-0 w-2 h-2 bg-white transform rotate-45 -mt-1 ml-3 border-gray-300 border-l border-t z-20"></span>
-                                <div
-                                    class="bg-white overflow-auto rounded-lg shadow-md w-full relative z-10 py-2 border border-gray-300 text-gray-800 text-xs">
-                                    <ul class="list-reset">
-                                        <li>
-                                            <a href="#"
-                                                class="px-4 py-1 flex hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100"
-                                                @click.prevent="hideContextMenu()">Rename</a>
-                                            <a href="#"
-                                                class="px-4 py-1 flex hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100"
-                                                @click.prevent="hideContextMenu()">Copy</a>
-                                            <a href="#"
-                                                class="px-4 py-1 flex hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100"
-                                                @click.prevent="hideContextMenu()">Move</a>
-                                            <a href="#"
-                                                class="px-4 py-1 flex hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 text-red-500"
-                                                @click.prevent="hideContextMenu()">Delete</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div> -->
                 </div>
             </template>
             <div class="row" x-show="emptyFolder">
