@@ -20,9 +20,12 @@
       subMaxLevel: 1,
       homepage: 'pages/home.md',
       alias: {
-        '/.*/_sidebar.md': '/_sidebar.md'
+        '/.*/_sidebar.md': '/pages/sidebar.md',
+        '/_sidebar.md': '/pages/sidebar.md'
       },
-      coverpage: true
+      coverpage: {
+        '/': '/pages/coverpage.md',
+      },
     }
   </script>
   <!-- Docsify v4 -->
