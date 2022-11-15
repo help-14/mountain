@@ -1,0 +1,117 @@
+{{define "shortcutModal"}}
+<div class="modal fade" id="shortcutModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Shortcuts</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="2">Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">A</div>
+                            </td>
+                            <td>Select all files</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">I</div>
+                            </td>
+                            <td>Invert selected files</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Esc</div>
+                            </td>
+                            <td>Select none</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">P</div>
+                            </td>
+                            <td>Search</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="2">Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">R</div>
+                            </td>
+                            <td>Rename selected files</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">X</div>
+                            </td>
+                            <td>Move selected files</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">C</div>
+                            </td>
+                            <td>Copy selected files</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Backspace</div> /
+                                <div class="badge bg-secondary">Delete</div>
+                            </td>
+                            <td>Delete selected files</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">D</div>
+                            </td>
+                            <td>Download selected files</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">U</div>
+                            </td>
+                            <td>Upload selected files</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">N</div>
+                            </td>
+                            <td>Create new folder</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="badge bg-secondary">Ctrl</div>
+                                <div class="badge bg-secondary">Shift</div>
+                                <div class="badge bg-secondary">N</div>
+                            </td>
+                            <td>Create new file</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

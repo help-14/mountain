@@ -1,0 +1,39 @@
+{{define "controls"}}
+<div class="col-auto me-auto align-self-end">
+    <button x-show="opsToolbar" @click="download()" type="button" class="btn mb-0 btn-light btn-ops"
+        title="Download selected">
+        <i class="fa fa-solid fa-download" x-transition></i>
+    </button>
+    <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops" data-bs-toggle="modal"
+        data-bs-target="#renameModal" title="Rename selected">
+        <i class="fa fa-solid fa-i-cursor" x-transition></i>
+    </button>
+    <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops" data-bs-toggle="modal"
+        data-bs-target="#destinationModal" @click="modalSelectFolder.ops='Copy';modalGoTo(path)" title="Copy selected">
+        <i class="fa fa-solid fa-copy" x-transition></i>
+    </button>
+    <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops" data-bs-toggle="modal"
+        data-bs-target="#destinationModal" @click="modalSelectFolder.ops='Move';modalGoTo(path)" title="Move selected">
+        <i class="fa fa-solid fa-share" x-transition></i>
+    </button>
+    <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops text-danger" data-bs-toggle="modal"
+        data-bs-target="#deleteModal" title="Delete selected">
+        <i class="fa fa-solid fa-trash" x-transition></i>
+    </button>
+    <button type="button" class="btn mb-0 btn-light btn-ops" title="Upload">
+        <i class="fa fa-solid fa-cloud-arrow-up"></i>
+    </button>
+</div>
+<div class="col-auto me-auto border-start">
+    <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+            title="Create new ...">
+            <i class="fa fa-solid fa-plus"></i>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">📁 Folder</a></li>
+            <li><a class="dropdown-item" href="#">📄 Text file</a></li>
+        </ul>
+    </div>
+</div>
+{{end}}

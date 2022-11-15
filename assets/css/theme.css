@@ -62,6 +62,10 @@
     width: 44px;
 }
 
+.dropdown-item {
+    --bs-dropdown-link-active-bg: var(--bs-purple);
+}
+
 .dropdown-item.active {
     background-color: var(--bs-indigo);
 }

@@ -1,0 +1,171 @@
+{{define "header"}}
+<header class="navbar navbar-expand-lg navbar-dark bd-navbar sticky-top bg-primary">
+    <div class="container-xxl pe-0">
+        <div class="row w-100">
+            <div class="col-auto">
+                <a href="https://mountain.help14.com" class="navbar-brand p-0 me-0 me-lg-2">
+                    <img src="/assets/img/mountain.png" style="height: 32px" />
+                </a>
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center">
+                    <div class="dropdown ms-2 me-2">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fa fa-solid fa-sort ms-1 me-1"></i> Sort
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button class="dropdown-item" @click="config.sort.by='name';goto(path)"
+                                    :class="{active:config.sort.by==='name'}" type="button">
+                                    <i class="fa fa-solid fa-font ms-1 me-1"></i> Name
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" @click="config.sort.by='date';goto(path)"
+                                    :class="{active:config.sort.by==='date'}" type="button">
+                                    <i class="fa fa-solid fa-calendar ms-1 me-1"></i> Date modified
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" @click="config.sort.by='type';goto(path)"
+                                    :class="{active:config.sort.by==='type'}" type="button">
+                                    <i class="fa fa-solid fa-file-signature ms-1 me-1"></i> Type
+                                </button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <button class="dropdown-item" @click="config.sort.order=0;goto(path)"
+                                    :class="{active:config.sort.order===0}" type="button">
+                                    <i class="fa fa-solid fa-arrow-down-a-z ms-1 me-1"></i> Ascending
+                                </button>
+                                <button class="dropdown-item" @click="config.sort.order=1;goto(path)"
+                                    :class="{active:config.sort.order===1}" type="button">
+                                    <i class="fa fa-solid fa-arrow-up-a-z ms-1 me-1"></i> Descending
+                                </button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <button class="dropdown-item" @click="config.sort.group=!config.sort.group;goto(path)"
+                                    :class="{active:config.sort.group}" type="button">
+                                    <i class="fa fa-solid fa-object-ungroup ms-1 me-1"></i> Group by type
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown ms-2 me-2">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fa fa-solid fa-eye ms-1 me-1"></i> View
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button class="dropdown-item" @click="showToast('not implemented 😂')"
+                                    :class="{active:config.view.as==='list'}" type="button">
+                                    <i class="fa fa-solid fa-list ms-1 me-1"></i> List
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" @click="config.view.as='tiles'"
+                                    :class="{active:config.view.as==='tiles'}" type="button">
+                                    <i class="fa fa-solid fa-grip ms-1 me-1"></i> Tiles
+                                </button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <button class="dropdown-item" @click="config.view.navigation=!config.view.navigation"
+                                    :class="{active:config.view.navigation}" type="button">
+                                    <i class="fa fa-solid fa-folder-tree ms-1 me-1"></i> Navigation panel
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" @click="showToast('not implemented 😂')"
+                                    :class="{active:config.view.preview}" type="button">
+                                    <i class="fa fa-solid fa-magnifying-glass ms-1 me-1"></i> Preview panel
+                                </button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <button class="dropdown-item" @click="config.view.ext=!config.view.ext;goto(path)"
+                                    :class="{active:config.view.ext}" type="button">
+                                    <i class="fa fa-solid fa-file-code ms-1 me-1"></i> Name extension
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown ms-2 me-2">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fa fa-solid fa-object-group ms-1 me-1"></i> Select
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button class="dropdown-item" type="button" @click="select('none');showOps()">
+                                    <i class="fa fa-solid fa-border-none ms-1 me-1"></i> Select none
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" type="button" @click="select('all');showOps()">
+                                    <i class="fa fa-solid fa-border-all ms-1 me-1"></i> Select all
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" type="button" @click="select('invert');showOps()">
+                                    <i class="fa fa-solid fa-border-top-left ms-1 me-1"></i> Invert selected
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown ms-2 me-2">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fa fa-solid fa-info ms-1 me-1"></i> About
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button class="dropdown-item" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#shortcutModal">
+                                    <i class="fa fa-solid fa-keyboard ms-1 me-1"></i> Shortcuts
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" type="button"
+                                    onclick="window.open('http://mountain.help14.com','_blank')">
+                                    <i class="fa fa-solid fa-book-open ms-1 me-1"></i> Documentation
+                                </button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <button class="dropdown-item" type="button"
+                                    onclick="window.open('https://github.com/help-14/mountain/releases','_blank')">
+                                    <i class="fa fa-solid fa-wrench ms-1 me-1"></i> Check for update
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="d-flex align-items-center justify-content-end">
+                    <div class="input-group">
+                        <span class="input-group-text text-body">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </span>
+                        <input id="searchBox" type="text" class="form-control" placeholder="Type here...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{{end}}

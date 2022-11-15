@@ -9,7 +9,8 @@ import (
 
 func GetDir(c *gin.Context) {
 	path := c.DefaultQuery("path", "/")
-	files, err := utils.ReadDir(path, false)
+	directory := c.Query("directory")
+	files, err := utils.ReadDir(path, directory == "true")
 
 	if err != nil {
 		ReturnError(c, http.StatusInternalServerError, err)

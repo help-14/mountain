@@ -1,0 +1,11 @@
+{{define "kbshortcut"}}
+@keyup.ctrl.a.window="select('all');showOps()"
+@keyup.ctrl.i.window="select('invert');showOps()"
+@keyup.esc.window="select('none');showOps()"
+@keyup.ctrl.r.window="showRenameModal()"
+@keyup.ctrl.x.window="showOpsModal('Move')"
+@keyup.ctrl.c.window="showOpsModal('Copy')"
+@keyup.backspace.window="showDeleteModal()"
+@keyup.delete.window="showDeleteModal()"
+@keyup.ctrl.p.window="showSearch()"
+{{end}}

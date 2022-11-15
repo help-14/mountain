@@ -29,10 +29,81 @@ function showToast(message) {
     }
 }
 
+function fetchFile(url) {
+    console.log(url)
+    try {
+        var a = document.createElement("a");
+        a.href = url;
+        a.target = '_blank'
+        fileName = url.split("/").pop();
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+    } catch (err) {
+        showToast(err.message)
+    }
+}
+
 function getStartUrl() {
     if (parent.location.hash.length <= 2)
         return '/'
     return getHashPath()
+}
+
+function sort(arr, config) {
+    if (!arr) return []
+
+    const { by, order, group } = config
+    let o = order === 0 ? 1 : -1
+    let result = arr
+
+    if (result.length > 0) {
+        if (by === 'name') {
+            result = arr.sort((a, b) => {
+                let x = a.name.toLowerCase()
+                let y = b.name.toLowerCase()
+                if (x < y) { return -1 * o; }
+                if (x > y) { return 1 * o; }
+                return 0;
+            })
+        }
+        if (by === 'date') {
+            result = arr.sort((a, b) => {
+                let x = new Date(a.modified)
+                let y = new Date(b.modified)
+                if (x < y) { return -1 * o; }
+                if (x > y) { return 1 * o; }
+                return 0;
+            })
+        }
+        if (by === 'type') {
+            result = arr.sort((a, b) => {
+                let x = a.ext.toLowerCase()
+                let y = b.ext.toLowerCase()
+                if (x < y) { return -1 * o; }
+                if (x > y) { return 1 * o; }
+                return 0;
+            })
+        }
+
+        if (group) {
+            let dirs = []
+            let files = []
+            for (let i = 0; i < result.length; i++) {
+                const test = result[i]
+                if (test.directory) {
+                    dirs.push({ ...test })
+                } else {
+                    files.push({ ...test })
+                }
+            }
+            result = o === 1 ? dirs.concat(files) : files.concat(dirs)
+        }
+    }
+
+    return result
 }
 
 function goto(path = '/') {
@@ -48,12 +119,14 @@ function goto(path = '/') {
         })
         .then(data => {
             this.emptyFolder = data.length === 0
-            this.files = data.map(a => {
+            this.files = sort(data.map(a => {
                 return {
                     selected: false,
-                    ...a
+                    ...a,
+                    name: (!this.config.view.ext && a.ext.length > 0 && a.name.length > a.ext.length) ? a.name.substring(0, a.name.length - a.ext.length) : a.name,
                 }
-            })
+            }), this.config.sort)
+
             currentPath = path
             this.path = path
             parent.location.hash = path
@@ -82,33 +155,169 @@ function goto(path = '/') {
         })
 }
 
+function modalGoTo(path = '/') {
+    fetch(`/api/get?directory=true&path=${path}`)
+        .then(async response => {
+            const data = await response.json()
+            if (response.ok) {
+                return data
+            } else {
+                showToast(data.error)
+            }
+        })
+        .then(data => {
+            this.modalSelectFolder.files = sort(data, this.config.sort)
+            this.modalSelectFolder.path = path
+
+            let breadcrumbs = [{
+                name: '<i class="fa fa-solid fa-home"></i>',
+                path: '/'
+            }]
+            let splitted = path.split('/')
+            for (let i = 1; i < splitted.length; i++) {
+                const name = splitted[i]
+                if (name.length === 0) continue
+
+                breadcrumbs.push({
+                    name: splitted[i],
+                    path: splitted.slice(0, i + 1).join('/')
+                })
+            }
+            this.modalSelectFolder.breadcrumbs = breadcrumbs
+        })
+        .catch(err => {
+            if (err) {
+                console.error(err)
+                showToast(err.message)
+            }
+        })
+}
+
 function showOps() {
     this.opsToolbar = this.files.some(f => f.selected)
 }
 
+function select(type) {
+    switch (type) {
+        case 'all':
+            this.files.forEach(element => element.selected = true)
+            break
+        case 'none':
+            this.files.forEach(element => element.selected = false)
+            break
+        case 'invert':
+            this.files.forEach(element => element.selected = !element.selected)
+            break
+    }
+}
+
+function download() {
+    const selected = this.files.filter(f => f.selected)
+    if (selected.length === 0)
+        return
+
+    if (selected.length === 1 && !selected.directory) {
+        fetchFile(selected[0].path)
+        return
+    }
+
+    fetch(`/api/zip?path=${path}`, {
+        method: 'POST', cache: 'no-cache', headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        }, body: JSON.stringify(data)
+    })
+        .then(async response => {
+            const data = await response.json()
+            if (response.ok) {
+                return data
+            } else {
+                showToast(data.error)
+            }
+        })
+        .then(data => {
+            console.log(this.config)
+        })
+        .catch(err => {
+            if (err) {
+                console.error(err)
+                showToast(err.message)
+            }
+        })
+}
+
+function upload() {
+    const formData = new FormData();
+    const photos = document.querySelector('input[type="file"][multiple]');
+
+    formData.append('title', 'My Vegas Vacation');
+    let i = 0;
+    for (const photo of photos.files) {
+        formData.append(`photos_${i}`, photo);
+        i++;
+    }
+
+    fetch('https://example.com/posts', {
+        method: 'POST',
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((result) => {
+            console.log('Success:', result);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+function showDeleteModal() {
+    if (this.files.some(f => f.selected)) {
+        const dom = document.querySelector('#deleteModal')
+        if (dom) new bootstrap.Modal(dom).show()
+    }
+}
+
+function showRenameModal() {
+    if (this.files.some(f => f.selected)) {
+        const dom = document.querySelector('#renameModal')
+        if (dom) new bootstrap.Modal(dom).show()
+    }
+}
+
+function showOpsModal(ops) {
+    this.modalSelectFolder.ops = ops
+    this.modalGoTo(this.path)
+    if (this.files.some(f => f.selected)) {
+        const dom = document.querySelector('#destinationModal')
+        if (dom) new bootstrap.Modal(dom).show()
+    }
+}
+
+function showSearch() {
+    document.querySelector('#searchBox')?.focus()
+}
+
 function startInstance() {
     return {
-        config: {
-            sort: {
-                by: 'name',
-                order: 0,
-                group: true,
-            },
-            view: {
-                as: 'tiles',
-                navigation: false,
-                preview: false,
-                ext: true
-            }
-        },
         files: [],
         breadcrumbs: [],
         path: '',
         emptyFolder: false,
         opsToolbar: false,
+        modalSelectFolder: {
+            ops: '',
+            files: [],
+            breadcrumbs: [],
+            path: '',
+        },
         getStartUrl,
         goto,
-        showOps
+        modalGoTo,
+        showOps,
+        select,
+        download,
+        showSearch,
+        showDeleteModal, showRenameModal, showOpsModal
     }
 }
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/assets/favicon.ico">
+    <title>{{ .title }}</title>
+
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <link href="/assets/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/assets/css/solid.min.css" rel="stylesheet">
+
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <link href="/assets/css/theme.css" rel="stylesheet" />
+
+    <script defer src="/assets/js/persist.min.js"></script>
+    <script defer src="/assets/js/alpine.min.js"></script>
+    <script src="/assets/js/mountain.js"></script>
+</head>
+
+<body class="g-sidenav-show bg-gray-100" x-data="{ config: {
+    sort: {
+        by: $persist('name'),
+        order: $persist(0),
+        group: $persist(true),
+    },
+    view: {
+        as: $persist('tiles'),
+        navigation: $persist(true),
+        preview: $persist(false),
+        ext: $persist(true)
+    }
+}, ...startInstance()}" x-init="goto(getStartUrl())" {{template "kbshortcut" .}}>
+    <div class="container-fluid ps-0 pe-0">
+        {{template "header" .}}
+
+        <div class="container-xxl mt-5 mb-5" data-scroll="false">
+            <div class="row">
+                {{template "breadcrum" .}}
+                <div class="col"></div>
+                {{template "controls" .}}
+            </div>
+        </div>
+
+        {{template "files" .}}
+
+        {{template "footer" .}}
+        {{template "modals" .}}
+        {{template "toast" .}}
+</body>
+
+</html>

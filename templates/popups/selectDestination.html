@@ -1,0 +1,48 @@
+{{define "destinationModal"}}
+<div class="modal fade" id="destinationModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Choose destination</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="row bg-light ms-0 me-0" style="padding-left: 1px;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-2">
+                        <template x-for="(bc, index) in modalSelectFolder.breadcrumbs">
+                            <li class="breadcrumb-item cursor-pointer" aria-current="page"
+                                x-on:click="modalGoTo(bc.path)" x-html="bc.name"></li>
+                        </template>
+                    </ol>
+                </nav>
+            </div>
+            <div class="modal-body row w-auto">
+                <template x-for="file in modalSelectFolder.files" x-show="modalSelectFolder.files.length>0"
+                    x-transition>
+                    <div class="col-3 d-grid mt-2 mb-2" x-transition>
+                        <button type="button" class="btn btn-light" @click="modalGoTo(file.path)">
+                            <div class="row p-1 d-flex">
+                                <div class="col-3 align-middle fs-3 align-self-center">📁</div>
+                                <div class="col-8 p-0 ps-2 pe-2 fs-6 text-start text-wrap text-break align-middle align-self-center"
+                                    x-text="file.name"></div>
+                            </div>
+                        </button>
+                    </div>
+                </template>
+                <div class="row p-5" x-show="modalSelectFolder.files.length===0" x-transition>
+                    <div class=" font-medium fs-1 text-xl truncate text-secondary text-center align-self-end">
+                        <i class="fa fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="font-medium fs-1 text-xl truncate text-secondary text-center">
+                        This folder is empty
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" x-text="modalSelectFolder.ops"></button>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
