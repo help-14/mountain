@@ -2,6 +2,8 @@ package routes
 
 import (
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	"github.com/help-14/mountain/utils"
@@ -21,7 +23,9 @@ func GetDir(c *gin.Context) {
 
 type CreateBody struct {
 	Path      string `json:"path"`
+	Name      string `json:"name"`
 	Directory bool   `json:"directory"`
+	Content   string `json:"content"`
 }
 
 func Create(c *gin.Context) {
@@ -36,7 +40,18 @@ func Create(c *gin.Context) {
 		return
 	}
 
-	err := utils.Create(body.Path)
+	destination := filepath.Join(body.Path, body.Name)
+	err := os.MkdirAll(filepath.Join(body.Path), os.ModePerm)
+	if err != nil {
+		ReturnError(c, http.StatusInternalServerError, err)
+	}
+
+	if body.Directory {
+		err = os.MkdirAll(destination, os.ModePerm)
+	} else {
+		err = utils.CreateFile(destination, body.Content)
+	}
+
 	if err == nil {
 		c.JSON(http.StatusOK, nil)
 	} else {

@@ -11,7 +11,7 @@ func main() {
 	router := gin.Default()
 
 	router.GET("/api/get", routes.GetDir)
-	router.POST("/api/create", routes.GetDir)
+	router.POST("/api/create", routes.Create)
 	router.POST("/api/copy", routes.GetDir)
 	router.POST("/api/move", routes.GetDir)
 	router.POST("/api/rename", routes.GetDir)

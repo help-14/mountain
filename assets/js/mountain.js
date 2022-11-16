@@ -9,6 +9,10 @@ function hideToast() {
     if (toastContainer) toastContainer.innerHTML = ''
 }
 
+function modalOpened() {
+    return document.querySelector('.modal.show') ? true : false
+}
+
 function showToast(message) {
     const toastContainer = document.querySelector('.toast-container')
     if (toastContainer) {
@@ -128,6 +132,7 @@ function goto(path = '/') {
             }), this.config.sort)
 
             currentPath = path
+            this.opsToolbar = false
             this.path = path
             parent.location.hash = path
 
@@ -198,6 +203,7 @@ function showOps() {
 }
 
 function select(type) {
+    if (modalOpened()) return
     switch (type) {
         case 'all':
             this.files.forEach(element => element.selected = true)
@@ -209,6 +215,7 @@ function select(type) {
             this.files.forEach(element => element.selected = !element.selected)
             break
     }
+    this.showOps()
 }
 
 function download() {
@@ -271,6 +278,7 @@ function upload() {
 }
 
 function showDeleteModal() {
+    if (modalOpened()) return
     if (this.files.some(f => f.selected)) {
         const dom = document.querySelector('#deleteModal')
         if (dom) new bootstrap.Modal(dom).show()
@@ -278,6 +286,7 @@ function showDeleteModal() {
 }
 
 function showRenameModal() {
+    if (modalOpened()) return
     if (this.files.some(f => f.selected)) {
         const dom = document.querySelector('#renameModal')
         if (dom) new bootstrap.Modal(dom).show()
@@ -285,6 +294,7 @@ function showRenameModal() {
 }
 
 function showOpsModal(ops) {
+    if (modalOpened()) return
     this.modalSelectFolder.ops = ops
     this.modalGoTo(this.path)
     if (this.files.some(f => f.selected)) {
@@ -294,7 +304,82 @@ function showOpsModal(ops) {
 }
 
 function showSearch() {
-    document.querySelector('#searchBox')?.focus()
+    if (!modalOpened())
+        document.querySelector('#searchBox')?.focus()
+}
+
+function createFile() {
+    const newFileName = document.querySelector('#newFileName')
+    const newFileContent = document.querySelector('#newFileContent')
+    if (!newFileName || !newFileContent) return
+
+    if (newFileName.value.trim().length <= 0) {
+        showToast("File name can't be empty")
+        return
+    }
+
+    fetch(`/api/create`, {
+        method: 'POST', cache: 'no-cache', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            path: this.path,
+            name: newFileName.value.trim(),
+            directory: false,
+            content: newFileContent.value.trim()
+        })
+    })
+        .then(async response => {
+            const data = await response.json()
+            if (response.ok) {
+                return data
+            } else {
+                showToast(data.error)
+            }
+        })
+        .then(data => {
+            this.goto(currentPath)
+            newFileName.value = ''
+            newFileContent.value = ''
+            document.querySelector('.modal.show button.btn-close')?.click()
+        })
+        .catch(err => {
+            showToast(err.message)
+        })
+}
+
+function createFolder() {
+    const newFolderInput = document.querySelector('#newFolderInput')
+    if (!newFolderInput) return
+    const text = newFolderInput.value
+    if (text.length <= 0) {
+        showToast("Folder name can't be empty")
+        return
+    }
+
+    fetch(`/api/create`, {
+        method: 'POST', cache: 'no-cache', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            path: this.path,
+            name: text,
+            directory: true,
+            content: ''
+        })
+    })
+        .then(async response => {
+            const data = await response.json()
+            if (response.ok) {
+                return data
+            } else {
+                showToast(data.error)
+            }
+        })
+        .then(data => {
+            this.goto(currentPath)
+            newFolderInput.value = ''
+            document.querySelector('.modal.show button.btn-close')?.click()
+        })
+        .catch(err => {
+            showToast(err.message)
+        })
 }
 
 function startInstance() {
@@ -302,6 +387,7 @@ function startInstance() {
         files: [],
         breadcrumbs: [],
         path: '',
+        multipleSelect: false,
         emptyFolder: false,
         opsToolbar: false,
         modalSelectFolder: {
@@ -310,14 +396,10 @@ function startInstance() {
             breadcrumbs: [],
             path: '',
         },
-        getStartUrl,
-        goto,
-        modalGoTo,
-        showOps,
-        select,
-        download,
-        showSearch,
-        showDeleteModal, showRenameModal, showOpsModal
+        getStartUrl, goto, modalGoTo, showOps, select,
+        download, upload, modalOpened,
+        showSearch, showDeleteModal, showRenameModal, showOpsModal,
+        createFolder, createFile
     }
 }
 

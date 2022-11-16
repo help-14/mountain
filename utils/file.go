@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/help-14/mountain/response"
 )
@@ -86,17 +85,8 @@ func Copy(src, dst string) (int64, error) {
 	return nBytes, err
 }
 
-func Create(path string) error {
-	fileName := path[:strings.LastIndex(path, "/")+1]
-	if strings.Contains(fileName, ".") {
-		//create file
-		_, err := os.Create("empty.txt")
-		return err
-
-	} else {
-		//create folder
-		return os.MkdirAll(path, 0755)
-	}
+func CreateFile(path string, content string) error {
+	return os.WriteFile(path, []byte(content), 0666)
 }
 
 func Rename(src, dst string) error {

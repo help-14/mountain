@@ -1,0 +1,27 @@
+{{define "newFileModal"}}
+<div class="modal" id="newFileModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create new file</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">File name</label>
+                    <input id="newFileName" type="text" class="form-control" placeholder="File name..." autofocus>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Content</label>
+                    <textarea id="newFileContent" type="text" class="form-control" placeholder="Some text..."
+                        rows="6"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" @click="createFile()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
