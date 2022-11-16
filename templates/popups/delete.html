@@ -7,9 +7,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row fs-6 m-1">Those files will be deleted and can't be restore, are you really
-                    really
-                    sure?</div>
+                <div class="row fs-6 m-1">Those files will be deleted and can't be restore, are you really REALLY sure?
+                </div>
                 <div class="row">
                     <template x-for="file in files.filter(f=>f.selected)">
                         <div class="col-6 mt-3">
@@ -20,7 +19,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger" @click="deleteSelected()">Delete</button>
             </div>
         </div>
     </div>

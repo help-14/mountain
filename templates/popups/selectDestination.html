@@ -40,7 +40,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" x-text="modalSelectFolder.ops"></button>
+                <button type="submit" class="btn btn-primary" @click="copyOrMove(modalSelectFolder.ops)"
+                    x-text="if(modalSelectFolder.ops==='copy') return 'Copy';if(modalSelectFolder.ops==='move') return 'Move';"></button>
             </div>
         </div>
     </div>

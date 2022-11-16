@@ -21,13 +21,11 @@ func ConvertFileResponse(path string, file fs.FileInfo) response.FileResponse {
 	// Resolve symlink and check IsDir?
 	resolvedLink, err := os.Readlink(res.Path)
 	if err == nil {
-		fmt.Println("/" + resolvedLink)
 		stat, startErr := os.Stat("/" + resolvedLink)
 		if startErr == nil {
 			res.IsSymLink = true
 			res.IsDir = stat.IsDir()
 		} else {
-			fmt.Println(startErr.Error())
 			res.IsDir = file.IsDir()
 		}
 	} else {
@@ -90,9 +88,14 @@ func CreateFile(path string, content string) error {
 }
 
 func Rename(src, dst string) error {
+	parent := filepath.Dir(dst)
+	err := os.MkdirAll(parent, 0666)
+	if err != nil {
+		return err
+	}
 	return os.Rename(src, dst)
 }
 
 func Delete(path string) error {
-	return os.Remove(path)
+	return os.RemoveAll(path)
 }

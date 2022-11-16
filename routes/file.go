@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -28,10 +29,14 @@ type CreateBody struct {
 	Content   string `json:"content"`
 }
 
+func InvalidRequest(c *gin.Context) {
+	ReturnErrorMessage(c, http.StatusBadRequest, "Request data is invalid")
+}
+
 func Create(c *gin.Context) {
 	body := CreateBody{}
 	if err := c.BindJSON(&body); err != nil {
-		ReturnError(c, http.StatusBadRequest, err)
+		InvalidRequest(c)
 		return
 	}
 
@@ -59,18 +64,82 @@ func Create(c *gin.Context) {
 	}
 }
 
-func Copy(c *gin.Context) {
+type FromToBody struct {
+	From string `json:"from"`
+	To   string `json:"to"`
+}
 
+func Copy(c *gin.Context) {
+	body := []FromToBody{}
+	if err := c.BindJSON(&body); err != nil {
+		InvalidRequest(c)
+		return
+	}
+
+	errList := []string{}
+	for i := 0; i < len(body); i++ {
+		current := body[i]
+		_, err := utils.Copy(current.From, current.To)
+		if err != nil {
+			errList = append(errList, current.From)
+		}
+	}
+
+	if len(errList) == 0 {
+		c.JSON(http.StatusOK, nil)
+	} else {
+		fmt.Println(errList)
+		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be copy.")
+	}
 }
 
 func Move(c *gin.Context) {
-
+	Rename(c)
 }
 
 func Rename(c *gin.Context) {
+	body := []FromToBody{}
+	if err := c.BindJSON(&body); err != nil {
+		InvalidRequest(c)
+		return
+	}
 
+	errList := []string{}
+	for i := 0; i < len(body); i++ {
+		current := body[i]
+		err := utils.Rename(current.From, current.To)
+		if err != nil {
+			errList = append(errList, current.From)
+		}
+	}
+
+	if len(errList) == 0 {
+		c.JSON(http.StatusOK, nil)
+	} else {
+		fmt.Println(errList)
+		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be move.")
+	}
 }
 
 func Delete(c *gin.Context) {
+	body := []string{}
+	if err := c.BindJSON(&body); err != nil {
+		InvalidRequest(c)
+		return
+	}
 
+	errList := []string{}
+	for i := 0; i < len(body); i++ {
+		err := utils.Delete(body[i])
+		if err != nil {
+			errList = append(errList, body[i])
+		}
+	}
+
+	if len(errList) == 0 {
+		c.JSON(http.StatusOK, nil)
+	} else {
+		fmt.Println(errList)
+		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be deleted.")
+	}
 }

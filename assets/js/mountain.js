@@ -13,14 +13,32 @@ function modalOpened() {
     return document.querySelector('.modal.show') ? true : false
 }
 
-function showToast(message) {
+function hideModal() {
+    document.querySelector('.modal.show button.btn-close')?.click()
+}
+
+async function handleFetch(response) {
+    const data = await response.json()
+    if (response.ok) {
+        return data
+    } else {
+        const errText = data?.error || await response.text()
+        setTimeout(() => showToast(errText), 10); //something prevent toast to show up, setTimeout fixed it
+        throw new Error(errText)
+    }
+}
+
+const get = (url) => fetch(url).then(handleFetch)
+const post = (url, data) => fetch(url, { method: 'POST', cache: 'no-cache', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(handleFetch)
+
+function showToast(message, title) {
     const toastContainer = document.querySelector('.toast-container')
     if (toastContainer) {
         const id = Date.now().toString()
         toastContainer.innerHTML += `
         <div id="t${id}" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                <strong class="me-auto">Something went wrong</strong>
+                <strong class="me-auto">${title ?? 'Something went wrong'}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">${message}</div>
@@ -33,20 +51,13 @@ function showToast(message) {
     }
 }
 
-function fetchFile(url) {
-    console.log(url)
-    try {
-        var a = document.createElement("a");
-        a.href = url;
-        a.target = '_blank'
-        fileName = url.split("/").pop();
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
-    } catch (err) {
-        showToast(err.message)
+function enabled(element, state) {
+    const e = document.querySelector(element)
+    if (e) {
+        if (state)
+            e.removeAttribute("disabled");
+        else
+            e.setAttribute("disabled", true);
     }
 }
 
@@ -112,15 +123,7 @@ function sort(arr, config) {
 
 function goto(path = '/') {
     hideToast()
-    fetch(`/api/get?path=${path}`)
-        .then(async response => {
-            const data = await response.json()
-            if (response.ok) {
-                return data
-            } else {
-                showToast(data.error)
-            }
-        })
+    get(`/api/get?path=${path}`)
         .then(data => {
             this.emptyFolder = data.length === 0
             this.files = sort(data.map(a => {
@@ -152,24 +155,10 @@ function goto(path = '/') {
             }
             this.breadcrumbs = breadcrumbs
         })
-        .catch(err => {
-            if (err) {
-                console.error(err)
-                showToast(err.message)
-            }
-        })
 }
 
 function modalGoTo(path = '/') {
-    fetch(`/api/get?directory=true&path=${path}`)
-        .then(async response => {
-            const data = await response.json()
-            if (response.ok) {
-                return data
-            } else {
-                showToast(data.error)
-            }
-        })
+    get(`/api/get?directory=true&path=${path}`)
         .then(data => {
             this.modalSelectFolder.files = sort(data, this.config.sort)
             this.modalSelectFolder.path = path
@@ -190,16 +179,11 @@ function modalGoTo(path = '/') {
             }
             this.modalSelectFolder.breadcrumbs = breadcrumbs
         })
-        .catch(err => {
-            if (err) {
-                console.error(err)
-                showToast(err.message)
-            }
-        })
 }
 
 function showOps() {
     this.opsToolbar = this.files.some(f => f.selected)
+    this.showDownload = this.opsToolbar && !this.files.some(f => f.selected && f.directory)
 }
 
 function select(type) {
@@ -218,63 +202,51 @@ function select(type) {
     this.showOps()
 }
 
+function fetchFile(url) {
+    console.log(url)
+    try {
+        var a = document.createElement("a");
+        a.href = url;
+        a.target = '_blank'
+        fileName = url.split("/").pop();
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+    } catch (err) {
+        showToast(err.message)
+    }
+}
+
 function download() {
-    const selected = this.files.filter(f => f.selected)
+    let selected = this.files.filter(f => f.selected).map(f => f.name)
+    console.log(selected)
     if (selected.length === 0)
         return
-
-    if (selected.length === 1 && !selected.directory) {
-        fetchFile(selected[0].path)
-        return
-    }
-
-    fetch(`/api/zip?path=${path}`, {
-        method: 'POST', cache: 'no-cache', headers: {
-            'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        }, body: JSON.stringify(data)
-    })
-        .then(async response => {
-            const data = await response.json()
-            if (response.ok) {
-                return data
-            } else {
-                showToast(data.error)
-            }
-        })
-        .then(data => {
-            console.log(this.config)
-        })
-        .catch(err => {
-            if (err) {
-                console.error(err)
-                showToast(err.message)
-            }
-        })
+    let data = selected.map(n => joinPath(currentPath, n))
+    data.forEach(url => fetchFile(`/api/download?path=${url}`))
 }
 
 function upload() {
-    const formData = new FormData();
-    const photos = document.querySelector('input[type="file"][multiple]');
-
-    formData.append('title', 'My Vegas Vacation');
-    let i = 0;
-    for (const photo of photos.files) {
-        formData.append(`photos_${i}`, photo);
-        i++;
-    }
-
-    fetch('https://example.com/posts', {
-        method: 'POST',
-        body: formData,
-    })
-        .then((response) => response.json())
-        .then((result) => {
-            console.log('Success:', result);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+    let input = document.createElement('input');
+    input.type = "file"
+    input.setAttribute('multiple', 'multiple')
+    input.onchange = _ => {
+        let files = Array.from(input.files);
+        const formData = new FormData();
+        formData.append('path', currentPath)
+        files.forEach(f => formData.append('files', f))
+        fetch(`/api/upload`, { method: "POST", body: formData })
+            .then(async (result) => {
+                if (result.ok)
+                    setTimeout(async () => showToast(await result.text(), "Upload completed"), 10);
+                else
+                    setTimeout(() => showToast("Some files were not uploaded."), 10);
+                this.goto(this.path)
+            })
+    };
+    input.click();
 }
 
 function showDeleteModal() {
@@ -318,32 +290,20 @@ function createFile() {
         return
     }
 
-    fetch(`/api/create`, {
-        method: 'POST', cache: 'no-cache', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            path: this.path,
-            name: newFileName.value.trim(),
-            directory: false,
-            content: newFileContent.value.trim()
-        })
+    enabled('#newFileModal button[type="submit"]', false)
+    post(`/api/create`, {
+        path: this.path,
+        name: newFileName.value.trim(),
+        directory: false,
+        content: newFileContent.value.trim()
     })
-        .then(async response => {
-            const data = await response.json()
-            if (response.ok) {
-                return data
-            } else {
-                showToast(data.error)
-            }
-        })
         .then(data => {
             this.goto(currentPath)
             newFileName.value = ''
             newFileContent.value = ''
-            document.querySelector('.modal.show button.btn-close')?.click()
+            hideModal()
         })
-        .catch(err => {
-            showToast(err.message)
-        })
+        .finally(() => enabled('#newFileModal button[type="submit"]', true))
 }
 
 function createFolder() {
@@ -355,31 +315,71 @@ function createFolder() {
         return
     }
 
-    fetch(`/api/create`, {
-        method: 'POST', cache: 'no-cache', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            path: this.path,
-            name: text,
-            directory: true,
-            content: ''
-        })
+    enabled('#newFolderModal button[type="submit"]', false)
+    post(`/api/create`, {
+        path: this.path,
+        name: text,
+        directory: true,
+        content: ''
     })
-        .then(async response => {
-            const data = await response.json()
-            if (response.ok) {
-                return data
-            } else {
-                showToast(data.error)
-            }
-        })
         .then(data => {
             this.goto(currentPath)
             newFolderInput.value = ''
-            document.querySelector('.modal.show button.btn-close')?.click()
+            hideModal()
         })
-        .catch(err => {
-            showToast(err.message)
+        .finally(() => enabled('#newFolderModal button[type="submit"]', true))
+}
+
+async function deleteSelected() {
+    const selected = this.files.filter(f => f.selected).map(f => f.path)
+    hideModal()
+    await post(`/api/delete`, selected)
+    this.goto(currentPath)
+}
+
+function renameSelected() {
+    let data = document.querySelectorAll('#renameModal .modal-body input')
+    if (data.length === 0) {
+        hideModal()
+        return
+    }
+    data = Array.from(data).map(d => {
+        return {
+            from: joinPath(this.path, d.getAttribute('placeholder')),
+            to: joinPath(this.path, d.value)
+        }
+    })
+
+    enabled('#renameModal button[type="submit"]', false)
+    post(`/api/rename`, data)
+        .then(data => {
+            this.goto(currentPath)
+            hideModal()
         })
+        .finally(() => enabled('#renameModal button[type="submit"]', true))
+}
+
+function copyOrMove(ops) {
+    let selected = this.files.filter(f => f.selected).map(f => f.name)
+    if (selected.length === 0) {
+        hideModal()
+        return
+    }
+
+    let data = selected.map(fn => {
+        return {
+            from: joinPath(this.path, fn),
+            to: joinPath(this.modalSelectFolder.path, fn)
+        }
+    })
+
+    enabled('#destinationModal button[type="submit"]', false)
+    post(`/api/${ops}`, data)
+        .then(data => {
+            this.goto(currentPath)
+            hideModal()
+        })
+        .finally(() => enabled('#destinationModal button[type="submit"]', true))
 }
 
 function startInstance() {
@@ -390,6 +390,7 @@ function startInstance() {
         multipleSelect: false,
         emptyFolder: false,
         opsToolbar: false,
+        showDownload: false,
         modalSelectFolder: {
             ops: '',
             files: [],
@@ -399,7 +400,7 @@ function startInstance() {
         getStartUrl, goto, modalGoTo, showOps, select,
         download, upload, modalOpened,
         showSearch, showDeleteModal, showRenameModal, showOpsModal,
-        createFolder, createFile
+        createFolder, createFile, deleteSelected, renameSelected, copyOrMove
     }
 }
 
