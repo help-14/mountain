@@ -63,7 +63,7 @@
                             <i class="fa fa-solid fa-eye ms-1 me-1"></i> View
                         </button>
                         <ul class="dropdown-menu">
-                            <li>
+                            <li x-show="false">
                                 <button class="dropdown-item" @click="showToast('not implemented 😂')"
                                     :class="{active:config.view.as==='list'}" type="button">
                                     <i class="fa fa-solid fa-list ms-1 me-1"></i> List
@@ -84,7 +84,7 @@
                                     <i class="fa fa-solid fa-folder-tree ms-1 me-1"></i> Navigation panel
                                 </button>
                             </li>
-                            <li>
+                            <li x-show="false">
                                 <button class="dropdown-item" @click="showToast('not implemented 😂')"
                                     :class="{active:config.view.preview}" type="button">
                                     <i class="fa fa-solid fa-magnifying-glass ms-1 me-1"></i> Preview panel
@@ -151,10 +151,10 @@
                                     <i class="fa fa-solid fa-book-open ms-1 me-1"></i> Documentation
                                 </button>
                             </li>
-                            <li>
+                            <li x-show="false">
                                 <hr class="dropdown-divider">
                             </li>
-                            <li>
+                            <li x-show="false">
                                 <button class="dropdown-item" type="button"
                                     onclick="window.open('http://mountain.help14.com','_blank')">
                                     <i class="fa fa-solid fa-crown ms-1 me-1 text-warning"></i> Premium version
@@ -173,7 +173,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-auto">
+            <div class="col-auto" x-show="false">
                 <div class="d-flex align-items-center justify-content-end">
                     <div class="input-group">
                         <span class="input-group-text text-body">
