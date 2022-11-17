@@ -37,7 +37,6 @@ function updateDragSelect() {
     });
     ds.subscribe('callback', ({ items, event }) => {
         setTimeout(() => {
-            console.log(items)
             items.forEach(i => {
                 i.querySelector('input.select')?.click()
                 i.style.zIndex = "1";
