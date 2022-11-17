@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	routes "github.com/help-14/mountain/routes"
@@ -9,6 +10,11 @@ import (
 
 func main() {
 	router := gin.Default()
+
+	defaultPath := os.Getenv("SERVE_PATH")
+	if len(defaultPath) == 0 {
+		defaultPath = "/"
+	}
 
 	router.GET("/api/get", routes.GetDir)
 	router.POST("/api/create", routes.Create)
@@ -26,7 +32,8 @@ func main() {
 	router.LoadHTMLGlob("templates/**/*")
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title": "Mountain",
+			"title":       "Mountain",
+			"defaultPath": defaultPath,
 		})
 	})
 

@@ -1,5 +1,6 @@
 {{define "footer"}}
 <footer class="footer fixed-bottom bg-light">
+    <input id="defaultPath" type="text" value="{{ .defaultPath }}" x-show="false">
     <button id="enableMomentaryMultipleSelect" @click="momentaryMultipleSelect=true" x-show="false"></button>
     <button id="disableMomentaryMultipleSelect" @click="momentaryMultipleSelect=false" x-show="false"></button>
 </footer>

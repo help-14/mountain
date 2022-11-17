@@ -81,7 +81,7 @@ function enabled(element, state) {
 
 function getStartUrl() {
     if (parent.location.hash.length <= 2)
-        return '/'
+        return document.querySelector('#defaultPath').value
     return getHashPath()
 }
 
@@ -139,7 +139,7 @@ function sort(arr, config) {
     return result
 }
 
-function goto(path = '/') {
+function goto(path) {
     hideToast()
     get(`/api/get?path=${path}`)
         .then(data => {
