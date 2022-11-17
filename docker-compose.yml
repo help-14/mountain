@@ -1,8 +1,9 @@
 services:
   mountain:
-    container_name: help14/mountain
-    image: mountain
+    container_name: mountain
+    image: help14/mountain
     restart: unless-stopped
+    user: root
     volumes:
       - ./serve:/serve
     ports:

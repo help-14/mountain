@@ -33,6 +33,7 @@ function updateDragSelect() {
         selectables: document.querySelectorAll('button.selectable'),
         area: document.getElementById('dragArea'),
         multiSelectMode: true,
+        draggability: false,
         multiSelectKeys: ['Shift']
     });
     ds.subscribe('callback', ({ items, event }) => {
@@ -221,15 +222,16 @@ function select(type) {
     switch (type) {
         case 'all':
             ds.getSelectables().forEach(e => ds.addSelection(e, false))
+            this.files.forEach(f => f.selected = true)
             break
         case 'none':
             ds.clearSelection(false)
+            this.files.forEach(f => f.selected = false)
             break
         case 'invert':
             ds.getSelectables().forEach(e => ds.toggleSelection(e, false))
             break
     }
-    updateSelected()
     this.showOps()
 }
 

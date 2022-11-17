@@ -81,6 +81,7 @@ func Copy(c *gin.Context) {
 		current := body[i]
 		_, err := utils.Copy(current.From, current.To)
 		if err != nil {
+			fmt.Println(err.Error())
 			errList = append(errList, current.From)
 		}
 	}
@@ -88,7 +89,6 @@ func Copy(c *gin.Context) {
 	if len(errList) == 0 {
 		c.JSON(http.StatusOK, nil)
 	} else {
-		fmt.Println(errList)
 		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be copy.")
 	}
 }
