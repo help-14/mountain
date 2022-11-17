@@ -79,7 +79,7 @@ func Copy(c *gin.Context) {
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
 		current := body[i]
-		err := utils.CopyDirectory(current.From, current.To)
+		err := utils.Copy(current.From, current.To)
 		if err != nil {
 			fmt.Println(err.Error())
 			errList = append(errList, current.From)
