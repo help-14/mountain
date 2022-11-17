@@ -1,4 +1,5 @@
 var currentPath = ''
+var ds = null
 
 function getHashPath() {
     return decodeURI(parent.location.hash.substring(1))
@@ -15,6 +16,23 @@ function modalOpened() {
 
 function hideModal() {
     document.querySelector('.modal.show button.btn-close')?.click()
+}
+
+function updateDragSelect() {
+    ds = new DragSelect({
+        selectables: document.querySelectorAll('.selectable'),
+        area: document.getElementById('dragArea')
+    });
+    ds.subscribe('callback', ({ items, event }) => {
+        document.querySelector('#enableMomentaryMultipleSelect').click()
+        setTimeout(() => {
+            items.forEach(i => {
+                i.querySelector('input')?.click()
+                i.style.zIndex = "1";
+            })
+            setTimeout(() => document.querySelector('#disableMomentaryMultipleSelect').click(), 50)
+        }, 10)
+    })
 }
 
 async function handleFetch(response) {
@@ -155,6 +173,7 @@ function goto(path = '/') {
             }
             this.breadcrumbs = breadcrumbs
         })
+        .finally(() => updateDragSelect())
 }
 
 function modalGoTo(path = '/') {
@@ -388,6 +407,7 @@ function startInstance() {
         breadcrumbs: [],
         path: '',
         multipleSelect: false,
+        momentaryMultipleSelect: false,
         emptyFolder: false,
         opsToolbar: false,
         showDownload: false,

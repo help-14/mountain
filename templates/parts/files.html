@@ -1,11 +1,10 @@
 {{define "files"}}
-<div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout h-auto">
+<div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
     <div class="row w-auto h-auto" x-show="!emptyFolder" x-transition>
         <template x-for="file in files">
             <div class="col-xl-3 col-sm-6 d-grid mt-2 mb-2" x-transition>
-                <button type="button" class="btn btn-light"
+                <button type="button" class="btn btn-light selectable"
                     :class="{'btn-light': !file.selected, 'btn-primary': file.selected}"
-                    @click="if(!multipleSelect){select('none');}file.selected=!file.selected;showOps()"
                     @dblclick="if(file.directory){goto(file.path);}">
                     <div class="row p-1 d-flex">
                         <div class="col-3 align-middle fs-2 align-self-center"
@@ -13,6 +12,9 @@
                         <div class="col-8 fs-6 text-start text-wrap text-break align-middle align-self-center"
                             x-text="file.name"></div>
                     </div>
+                    <input type="button"
+                        @click="if(!multipleSelect && !momentaryMultipleSelect){select('none');} file.selected=!file.selected;showOps()"
+                        style="display: none;" />
                 </button>
             </div>
         </template>
