@@ -40,15 +40,15 @@
     <div class="container-fluid ps-0 pe-0">
         {{template "header" .}}
 
-        <div class="container-fluid mt-0 mb-0 h-100 min-vh-100" id="dragArea">
-            <div class="container-xxl mt-5 mb-5" data-scroll="false">
-                <div class="row">
-                    {{template "breadcrum" .}}
-                    <div class="col"></div>
-                    {{template "controls" .}}
-                </div>
+        <div class="container-xxl mt-5 mb-5" data-scroll="false">
+            <div class="row">
+                {{template "breadcrum" .}}
+                <div class="col"></div>
+                {{template "controls" .}}
             </div>
+        </div>
 
+        <div class="container-fluid mt-0 mb-0 h-100 min-vh-100" id="dragArea">
             {{template "files" .}}
         </div>
 

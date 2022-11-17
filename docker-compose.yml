@@ -1,0 +1,22 @@
+services:
+  mountain:
+    container_name: mountain
+    image: mountain
+    restart: unless-stopped
+    volumes:
+      - ./serve:/serve
+    ports:
+      - "7002:8080"
+    environment:
+      - SERVE_PATH=/serve
+  watchtower:
+    image: containrrr/watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_LABEL_ENABLE=true
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+    command: --interval 30

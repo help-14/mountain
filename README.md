@@ -11,5 +11,6 @@ Web-based file browser
 ## Special thanks:
 
 - Freepik for the logo
+- ThibaultJanBeyer for DragSelect
 - Alpine.js
 - Bootstrap

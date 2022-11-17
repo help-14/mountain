@@ -14,6 +14,8 @@ func main() {
 	defaultPath := os.Getenv("SERVE_PATH")
 	if len(defaultPath) == 0 {
 		defaultPath = "/"
+	} else {
+		os.MkdirAll(defaultPath, 0666)
 	}
 
 	router.GET("/api/get", routes.GetDir)
