@@ -9,11 +9,13 @@
         <i class="fa fa-solid fa-i-cursor" x-transition></i>
     </button>
     <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops" data-bs-toggle="modal"
-        data-bs-target="#destinationModal" @click="modalSelectFolder.ops='copy';modalGoTo(path)" title="Copy selected">
+        data-bs-target="#destinationModal"
+        @click="modalSelectFolder.ops='copy';if(!modalSelectFolder.path) modalGoTo(path)" title="Copy selected">
         <i class="fa fa-solid fa-copy" x-transition></i>
     </button>
     <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops" data-bs-toggle="modal"
-        data-bs-target="#destinationModal" @click="modalSelectFolder.ops='move';modalGoTo(path)" title="Move selected">
+        data-bs-target="#destinationModal"
+        @click="modalSelectFolder.ops='move';if(!modalSelectFolder.path) modalGoTo(path)" title="Move selected">
         <i class="fa fa-solid fa-share" x-transition></i>
     </button>
     <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops text-danger" data-bs-toggle="modal"

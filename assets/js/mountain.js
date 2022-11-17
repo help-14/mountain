@@ -37,12 +37,11 @@ function updateDragSelect() {
         multiSelectKeys: ['Shift']
     });
     ds.subscribe('callback', ({ items, event }) => {
-        setTimeout(() => {
-            items.forEach(i => {
-                i.querySelector('input.select')?.click()
-                i.style.zIndex = "1";
-            })
-        }, 10)
+        console.log(items)
+        items.forEach(i => {
+            i.querySelector('input.select')?.click()
+            i.style.zIndex = "1";
+        })
     })
 }
 
@@ -152,7 +151,7 @@ function sort(arr, config) {
 
 function goto(path) {
     hideToast()
-    //ds.stop();
+    ds?.stop();
     get(`/api/get?path=${path}`)
         .then(data => {
             this.emptyFolder = data.length === 0
@@ -169,10 +168,7 @@ function goto(path) {
             this.path = path
             parent.location.hash = path
 
-            let breadcrumbs = [{
-                name: '<i class="fa fa-solid fa-home"></i>',
-                path: '/'
-            }]
+            let breadcrumbs = []
             let splitted = path.split('/')
             for (let i = 1; i < splitted.length; i++) {
                 const name = splitted[i]
@@ -185,7 +181,12 @@ function goto(path) {
             }
             this.breadcrumbs = breadcrumbs
         })
-        .finally(() => updateDragSelect())
+        .finally(() => {
+            if (ds)
+                ds.start()
+            else
+                updateDragSelect()
+        })
 }
 
 function modalGoTo(path = '/') {
