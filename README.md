@@ -5,8 +5,15 @@ Web-based file browser
 ## Features:
 
 - Easy to setup and use
-- Support common operation and bulk operation
+- Support common operation: copy / rename / move / upload / download
+- Support sort file, group view
 - Lightweight, fast, reliable
+
+## How to use:
+
+- Download [docker-compose.yml](./blob/main/docker-compose.yml)
+- Type in terminal `docker compose up -d`
+- You can comment out watchtowner part if you already have one
 
 ## Special thanks:
 

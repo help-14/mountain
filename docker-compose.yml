@@ -1,6 +1,6 @@
 services:
   mountain:
-    container_name: mountain
+    container_name: help14/mountain
     image: mountain
     restart: unless-stopped
     volumes:
