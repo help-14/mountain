@@ -109,6 +109,7 @@ func Rename(c *gin.Context) {
 		current := body[i]
 		err := utils.Rename(current.From, current.To)
 		if err != nil {
+			fmt.Println(err.Error())
 			errList = append(errList, current.From)
 		}
 	}

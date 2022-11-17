@@ -37,7 +37,6 @@ function updateDragSelect() {
         multiSelectKeys: ['Shift']
     });
     ds.subscribe('callback', ({ items, event }) => {
-        console.log(items)
         items.forEach(i => {
             i.querySelector('input.select')?.click()
             i.style.zIndex = "1";
@@ -195,10 +194,7 @@ function modalGoTo(path = '/') {
             this.modalSelectFolder.files = sort(data, this.config.sort)
             this.modalSelectFolder.path = path
 
-            let breadcrumbs = [{
-                name: '<i class="fa fa-solid fa-home"></i>',
-                path: '/'
-            }]
+            let breadcrumbs = []
             let splitted = path.split('/')
             for (let i = 1; i < splitted.length; i++) {
                 const name = splitted[i]
