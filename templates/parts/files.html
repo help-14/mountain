@@ -12,8 +12,8 @@
                         <div class="col-8 fs-6 text-start text-wrap text-break align-middle align-self-center"
                             x-text="file.name"></div>
                     </div>
-                    <input type="button"
-                        @click="if(!multipleSelect && !momentaryMultipleSelect){select('none');} file.selected=!file.selected;showOps()"
+                    <input class="select" type="button" @click="file.selected=true;showOps()" style="display: none;" />
+                    <input class="deselect" type="button" @click="file.selected=false;showOps()"
                         style="display: none;" />
                 </button>
             </div>

@@ -18,19 +18,30 @@ function hideModal() {
     document.querySelector('.modal.show button.btn-close')?.click()
 }
 
+function updateSelected() {
+    const files = document.querySelectorAll('button.selectable')
+    files.forEach(b => {
+        if (b.classList.contains('ds-selected'))
+            b.querySelector('.select').click()
+        else
+            b.querySelector('.deselect').click()
+    })
+}
+
 function updateDragSelect() {
     ds = new DragSelect({
-        selectables: document.querySelectorAll('.selectable'),
-        area: document.getElementById('dragArea')
+        selectables: document.querySelectorAll('button.selectable'),
+        area: document.getElementById('dragArea'),
+        multiSelectMode: true,
+        multiSelectKeys: ['Shift']
     });
     ds.subscribe('callback', ({ items, event }) => {
-        document.querySelector('#enableMomentaryMultipleSelect').click()
         setTimeout(() => {
+            console.log(items)
             items.forEach(i => {
-                i.querySelector('input')?.click()
+                i.querySelector('input.select')?.click()
                 i.style.zIndex = "1";
             })
-            setTimeout(() => document.querySelector('#disableMomentaryMultipleSelect').click(), 50)
         }, 10)
     })
 }
@@ -141,6 +152,7 @@ function sort(arr, config) {
 
 function goto(path) {
     hideToast()
+    //ds.stop();
     get(`/api/get?path=${path}`)
         .then(data => {
             this.emptyFolder = data.length === 0
@@ -209,15 +221,16 @@ function select(type) {
     if (modalOpened()) return
     switch (type) {
         case 'all':
-            this.files.forEach(element => element.selected = true)
+            ds.getSelectables().forEach(e => ds.addSelection(e, false))
             break
         case 'none':
-            this.files.forEach(element => element.selected = false)
+            ds.clearSelection(false)
             break
         case 'invert':
-            this.files.forEach(element => element.selected = !element.selected)
+            ds.getSelectables().forEach(e => ds.toggleSelection(e, false))
             break
     }
+    updateSelected()
     this.showOps()
 }
 
@@ -406,8 +419,6 @@ function startInstance() {
         files: [],
         breadcrumbs: [],
         path: '',
-        multipleSelect: false,
-        momentaryMultipleSelect: false,
         emptyFolder: false,
         opsToolbar: false,
         showDownload: false,
