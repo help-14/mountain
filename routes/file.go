@@ -79,7 +79,7 @@ func Copy(c *gin.Context) {
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
 		current := body[i]
-		_, err := utils.Copy(current.From, current.To)
+		err := utils.CopyDirectory(current.From, current.To)
 		if err != nil {
 			fmt.Println(err.Error())
 			errList = append(errList, current.From)
@@ -94,7 +94,28 @@ func Copy(c *gin.Context) {
 }
 
 func Move(c *gin.Context) {
-	Rename(c)
+	body := []FromToBody{}
+	if err := c.BindJSON(&body); err != nil {
+		InvalidRequest(c)
+		return
+	}
+
+	errList := []string{}
+	for i := 0; i < len(body); i++ {
+		current := body[i]
+		err := utils.Move(current.From, current.To)
+		if err != nil {
+			fmt.Println(err.Error())
+			errList = append(errList, current.From)
+		}
+	}
+
+	if len(errList) == 0 {
+		c.JSON(http.StatusOK, nil)
+	} else {
+		fmt.Println(errList)
+		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be move.")
+	}
 }
 
 func Rename(c *gin.Context) {
