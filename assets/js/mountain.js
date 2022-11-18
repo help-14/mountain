@@ -215,8 +215,6 @@ function modalGoTo(path = '/') {
                     path: splitted.slice(0, i + 1).join('/')
                 })
             }
-            if (breadcrumbs.length > 0)
-                breadcrumbs[0].name = `<i class="fa fa-solid fa-home"></i>  ${breadcrumbs[0].name}`
             this.modalSelectFolder.breadcrumbs = breadcrumbs
         })
 }

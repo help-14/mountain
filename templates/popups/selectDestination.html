@@ -7,11 +7,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="row bg-light ms-0 me-0" style="padding-left: 1px;">
-                <nav aria-label="breadcrumb">
+                <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
                     <ol class="breadcrumb m-2">
                         <template x-for="(bc, index) in modalSelectFolder.breadcrumbs">
                             <li class="breadcrumb-item cursor-pointer" aria-current="page"
-                                x-on:click="modalGoTo(bc.path)" x-html="bc.name"></li>
+                                x-on:click="modalGoTo(bc.path)" x-html="bc.name" style="cursor: pointer;"></li>
                         </template>
                     </ol>
                 </nav>
