@@ -2,6 +2,8 @@
 
 Web-based file browser
 
+![Mountain](https://i.imgur.com/575GGwG.png)
+
 ## Features:
 
 - Easy to setup and use
