@@ -150,7 +150,10 @@ function sort(arr, config) {
 
 function goto(path) {
     hideToast()
-    ds?.stop();
+    if (ds) {
+        ds.removeSelectables(ds.getSelectables(), true)
+        ds.stop()
+    }
     get(`/api/get?path=${path}`)
         .then(data => {
             this.emptyFolder = data.length === 0
@@ -183,10 +186,15 @@ function goto(path) {
             this.breadcrumbs = breadcrumbs
         })
         .finally(() => {
-            if (ds)
-                ds.start()
+            if (ds) {
+                setTimeout(() => {
+                    const elements = document.querySelectorAll('button.selectable')
+                    ds.addSelectables(elements, false)
+                    ds.start()
+                }, 200)
+            }
             else
-                updateDragSelect()
+                setTimeout(updateDragSelect(), 200)
         })
 }
 
@@ -222,15 +230,15 @@ function select(type) {
     if (modalOpened()) return
     switch (type) {
         case 'all':
-            ds.getSelectables().forEach(e => ds.addSelection(e, false))
+            if (ds) ds.getSelectables().forEach(e => ds.addSelection(e, false))
             this.files.forEach(f => f.selected = true)
             break
         case 'none':
-            ds.clearSelection(false)
+            if (ds) ds.clearSelection(false)
             this.files.forEach(f => f.selected = false)
             break
         case 'invert':
-            ds.getSelectables().forEach(e => ds.toggleSelection(e, false))
+            if (ds) ds.getSelectables().forEach(e => ds.toggleSelection(e, false))
             break
     }
     this.showOps()
