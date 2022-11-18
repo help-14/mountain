@@ -3,7 +3,7 @@ services:
     container_name: mountain
     image: help14/mountain
     restart: unless-stopped
-    user: root
+    #user: root    # optional, if you have permission problem
     volumes:
       - ./serve:/serve
     ports:
