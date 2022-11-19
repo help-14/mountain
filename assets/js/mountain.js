@@ -221,7 +221,6 @@ function modalGoTo(path = '/') {
 
 function showOps() {
     this.opsToolbar = this.files.some(f => f.selected)
-    this.showDownload = this.opsToolbar && !this.files.some(f => f.selected && f.directory)
 }
 
 function select(type) {
@@ -429,7 +428,6 @@ function startInstance() {
         path: '',
         emptyFolder: false,
         opsToolbar: false,
-        showDownload: false,
         modalSelectFolder: {
             ops: '',
             files: [],
