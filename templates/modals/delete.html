@@ -3,23 +3,26 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete files</h5>
+                <h5 class="modal-title" x-text="$t('modals.delete.title')"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row fs-6 m-1">Those files will be deleted and can't be restore, are you really REALLY sure?
-                </div>
+                <div class="row fs-6 m-1" x-text="$t('modals.delete.description')"></div>
                 <div class="row">
                     <template x-for="file in files.filter(f=>f.selected)">
                         <div class="col-6 mt-3">
-                            <div x-text="`${file.directory ? '📁' : '📄'} ${file.name}`"></div>
+                            <div
+                                x-text="`${$t(file.directory ? 'files.icons.folder' : 'files.icons.file')} ${file.name}`">
+                            </div>
                         </div>
                     </template>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger" @click="deleteSelected()">Delete</button>
+                <button type="button" x-text="$t('modals.close')" class="btn btn-secondary"
+                    data-bs-dismiss="modal"></button>
+                <button type="submit" x-text="$t('modals.delete.submit')" class="btn btn-danger"
+                    @click="deleteSelected()"></button>
             </div>
         </div>
     </div>

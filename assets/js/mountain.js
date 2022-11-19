@@ -65,7 +65,7 @@ function showToast(message, title) {
         toastContainer.innerHTML += `
         <div id="t${id}" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                <strong class="me-auto">${title ?? 'Something went wrong'}</strong>
+                <strong class="me-auto">${title ?? $t(toast.title)}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">${message}</div>
@@ -182,7 +182,7 @@ function goto(path) {
                 })
             }
             if (breadcrumbs.length > 0)
-                breadcrumbs[0].name = `<i class="fa fa-solid fa-home"></i>  ${breadcrumbs[0].name}`
+                breadcrumbs[0].name = `${$t('files.icons.home')} ${breadcrumbs[0].name}`
             this.breadcrumbs = breadcrumbs
         })
         .finally(() => {
@@ -281,7 +281,7 @@ function upload() {
                 if (result.ok)
                     setTimeout(async () => showToast(await result.text(), "Upload completed"), 10);
                 else
-                    setTimeout(() => showToast("Some files were not uploaded."), 10);
+                    setTimeout(() => showToast($t('toast.error.upload')), 10);
                 this.goto(this.path)
             })
     };
@@ -325,7 +325,7 @@ function createFile() {
     if (!newFileName || !newFileContent) return
 
     if (newFileName.value.trim().length <= 0) {
-        showToast("File name can't be empty")
+        showToast($t('toast.error.fileNameEmpty'))
         return
     }
 
@@ -350,7 +350,7 @@ function createFolder() {
     if (!newFolderInput) return
     const text = newFolderInput.value
     if (text.length <= 0) {
-        showToast("Folder name can't be empty")
+        showToast($t('toast.error.folderNameEmpty'))
         return
     }
 
@@ -444,4 +444,13 @@ function startInstance() {
 // Reload page on go back
 window.onhashchange = () => {
     if (getHashPath() !== currentPath) window.location.reload();
-};
+}
+
+// AlpineJS i18n
+document.addEventListener('alpine-i18n:ready', async function () {
+    const en = await get('/assets/languages/en.json')
+    const choosen = await get('/assets/languages/vi.json')
+
+    window.AlpineI18n.create('en', { ...en, ...choosen });
+    window.AlpineI18n.fallbackLocale = 'en';
+});

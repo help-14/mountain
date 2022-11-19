@@ -3,14 +3,14 @@
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Shortcuts</h5>
+                <h5 class="modal-title" x-text="$t('header.about.shortcuts')"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col" colspan="2">Select</th>
+                            <th x-text="$t('header.select.title')" scope="col" colspan="2"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -19,27 +19,27 @@
                                 <div class="badge bg-secondary">Ctrl</div>
                                 <div class="badge bg-secondary">A</div>
                             </td>
-                            <td>Select all files</td>
+                            <td x-text="$t('header.select.all')"></td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="badge bg-secondary">Ctrl</div>
                                 <div class="badge bg-secondary">I</div>
                             </td>
-                            <td>Invert selected files</td>
+                            <td x-text="$t('header.select.invert')"></td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="badge bg-secondary">Esc</div>
                             </td>
-                            <td>Select none</td>
+                            <td x-text="$t('header.select.none')"></td>
                         </tr>
                         <tr x-show="false">
                             <td>
                                 <div class="badge bg-secondary">Ctrl</div>
                                 <div class="badge bg-secondary">P</div>
                             </td>
-                            <td>Search</td>
+                            <td x-text="$t('search.title')"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -47,7 +47,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col" colspan="2">Operations</th>
+                            <th scope="col" colspan="2" x-text="$t('modals.shortcuts.operations')"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,49 +56,49 @@
                                 <div class="badge bg-secondary">Ctrl</div>
                                 <div class="badge bg-secondary">R</div>
                             </td>
-                            <td>Rename selected files</td>
+                            <td x-text="$t('modals.rename.title')"></td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="badge bg-secondary">Ctrl</div>
                                 <div class="badge bg-secondary">X</div>
                             </td>
-                            <td>Move selected files</td>
+                            <td x-text="$t('modals.selectDestination.move')"></td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="badge bg-secondary">Ctrl</div>
                                 <div class="badge bg-secondary">C</div>
                             </td>
-                            <td>Copy selected files</td>
+                            <td x-text="$t('modals.selectDestination.copy')"></td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="badge bg-secondary">Backspace</div> /
                                 <div class="badge bg-secondary">Delete</div>
                             </td>
-                            <td>Delete selected files</td>
+                            <td x-text="$t('modals.delete.title')"></td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="badge bg-secondary">Ctrl</div>
                                 <div class="badge bg-secondary">D</div>
                             </td>
-                            <td>Download selected files</td>
+                            <td x-text="$t('controls.download')"></td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="badge bg-secondary">Ctrl</div>
                                 <div class="badge bg-secondary">U</div>
                             </td>
-                            <td>Upload selected files</td>
+                            <td x-text="$t('controls.upload')"></td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="badge bg-secondary">Ctrl</div>
                                 <div class="badge bg-secondary">N</div>
                             </td>
-                            <td>Create new folder</td>
+                            <td x-text="$t('modals.newFolder.title')"></td>
                         </tr>
                         <tr>
                             <td>
@@ -106,7 +106,7 @@
                                 <div class="badge bg-secondary">Shift</div>
                                 <div class="badge bg-secondary">N</div>
                             </td>
-                            <td>Create new file</td>
+                            <td x-text="$t('modals.newFile.title')"></td>
                         </tr>
                     </tbody>
                 </table>

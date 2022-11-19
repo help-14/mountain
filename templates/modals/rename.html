@@ -3,21 +3,23 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Rename files</h5>
+                <h5 x-text="$t('modals.rename.title')" class="modal-title"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <template x-for="file in files.filter(f=>f.selected)">
                     <div class="mb-3 file-item">
-                        <label for="exampleInputEmail1" class="form-label"
-                            x-text="`${file.directory ? '📁' : '📄'} ${file.path}`"></label>
+                        <label class="form-label"
+                            x-text="`${$t(file.directory ? 'files.icons.folder' : 'files.icons.file')} ${file.path}`"></label>
                         <input class="form-control" x-bind:placeholder="file.name" x-bind:value="file.name">
                     </div>
                 </template>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" @click="renameSelected">Save changes</button>
+                <button x-text="$t('modals.close')" type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal"></button>
+                <button x-text="$t('modals.rename.submit')" type="submit" class="btn btn-primary"
+                    @click="renameSelected"></button>
             </div>
         </div>
     </div>

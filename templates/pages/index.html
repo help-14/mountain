@@ -17,7 +17,14 @@
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <link href="/assets/css/theme.css" rel="stylesheet" />
 
-    <script defer src="/assets/js/dragselect.min.js"></script>
+    <script type="module">
+        import AlpineI18n from '/assets/js/alpinejs-i18n.js'
+        document.addEventListener('alpine:init', () => {
+            window.Alpine.plugin(AlpineI18n)
+        })
+    </script>
+
+    <script src="/assets/js/dragselect.min.js"></script>
     <script defer src="/assets/js/persist.min.js"></script>
     <script defer src="/assets/js/alpine.min.js"></script>
     <script src="/assets/js/utils.js"></script>

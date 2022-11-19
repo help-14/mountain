@@ -1,40 +1,48 @@
 {{define "controls"}}
 <div class="col-auto me-auto align-self-end">
     <button x-show="opsToolbar" @click="download()" type="button" class="btn mb-0 btn-light btn-ops"
-        title="Download selected">
+        x-bind:title="$t('controls.download')">
         <i class="fa fa-solid fa-download" x-transition></i>
     </button>
     <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops" data-bs-toggle="modal"
-        data-bs-target="#renameModal" title="Rename selected">
+        data-bs-target="#renameModal" x-bind:title="$t('controls.rename')">
         <i class="fa fa-solid fa-i-cursor" x-transition></i>
     </button>
     <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops" data-bs-toggle="modal"
         data-bs-target="#destinationModal"
-        @click="modalSelectFolder.ops='copy';if(!modalSelectFolder.path) modalGoTo(path)" title="Copy selected">
+        @click="modalSelectFolder.ops='copy';if(!modalSelectFolder.path) modalGoTo(path)"
+        x-bind:title="$t('controls.copy')">
         <i class="fa fa-solid fa-copy" x-transition></i>
     </button>
     <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops" data-bs-toggle="modal"
         data-bs-target="#destinationModal"
-        @click="modalSelectFolder.ops='move';if(!modalSelectFolder.path) modalGoTo(path)" title="Move selected">
+        @click="modalSelectFolder.ops='move';if(!modalSelectFolder.path) modalGoTo(path)"
+        x-bind:title="$t('controls.move')">
         <i class="fa fa-solid fa-share" x-transition></i>
     </button>
     <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops text-danger" data-bs-toggle="modal"
-        data-bs-target="#deleteModal" title="Delete selected">
+        data-bs-target="#deleteModal" x-bind:title="$t('controls.delete')">
         <i class="fa fa-solid fa-trash" x-transition></i>
     </button>
-    <button type="button" class="btn mb-0 btn-light btn-ops" title="Upload" @click="upload()">
+    <button type="button" class="btn mb-0 btn-light btn-ops" x-bind:title="$t('controls.upload')" @click="upload()">
         <i class="fa fa-solid fa-cloud-arrow-up"></i>
     </button>
 </div>
 <div class="col-auto me-auto border-start">
     <div class="dropdown">
         <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-            title="Create new ...">
+            x-bind:title="$t('controls.create')">
             <i class="fa fa-solid fa-plus"></i>
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#newFolderModal">📁 Folder</a></li>
-            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#newFileModal">📄 Text file</a></li>
+            <li>
+                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#newFolderModal"
+                    x-html="$t('controls.newFolder')"></a>
+            </li>
+            <li>
+                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#newFileModal"
+                    x-html="$t('controls.newFile')"></a>
+            </li>
         </ul>
     </div>
 </div>

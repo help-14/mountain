@@ -8,7 +8,7 @@
                     @dblclick="if(file.directory){goto(file.path);}">
                     <div class="row p-1 d-flex">
                         <div class="col-3 align-middle fs-2 align-self-center"
-                            x-text="`${file.directory ? '📁' : '📄'}`"></div>
+                            x-text="$t(file.directory ? 'files.icons.folder' : 'files.icons.file')"></div>
                         <div class="col-8 fs-6 text-start text-wrap text-break align-middle align-self-center"
                             x-text="file.name"></div>
                     </div>
@@ -23,8 +23,7 @@
         <div class=" font-medium fs-1 text-xl truncate text-secondary text-center align-self-end">
             <i class="fa fa-regular fa-face-smile-wink"></i>
         </div>
-        <div class="font-medium fs-1 text-xl truncate text-secondary text-center">
-            This folder is empty
+        <div x-html="$t('files.empty')" class="font-medium fs-1 text-xl truncate text-secondary text-center">
         </div>
     </div>
 </div>

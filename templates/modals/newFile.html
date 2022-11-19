@@ -3,23 +3,26 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Create new file</h5>
+                <h5 class="modal-title" x-text="$t('modals.newFile.title')"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label class="form-label">File name</label>
-                    <input id="newFileName" type="text" class="form-control" placeholder="File name..." autofocus>
+                    <label class="form-label" x-text="$t('modals.newFile.name')"></label>
+                    <input id="newFileName" type="text" class="form-control"
+                        x-bind:placeholder="$t('modals.newFile.namePlaceholder')" autofocus>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Content</label>
-                    <textarea id="newFileContent" type="text" class="form-control" placeholder="Some text..."
-                        rows="6"></textarea>
+                    <label class="form-label" x-text="$t('modals.newFile.content')"></label>
+                    <textarea id="newFileContent" type="text" class="form-control"
+                        x-bind:placeholder="$t('modals.newFile.contentPlaceholder')" rows="6"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" @click="createFile()">Create</button>
+                <button x-text="$t('modals.close')" type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal"></button>
+                <button x-text="$t('modals.newFile.submit')" type="submit" class="btn btn-primary"
+                    @click="createFile()"></button>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Choose destination</h5>
+                <h5 x-text="$t('modals.selectDestination.title')" class="modal-title"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="row bg-light ms-0 me-0" style="padding-left: 1px;">
@@ -22,7 +22,8 @@
                     <div class="col-3 d-grid mt-2 mb-2" x-transition>
                         <button type="button" class="btn btn-light" @click="modalGoTo(file.path)">
                             <div class="row p-1 d-flex">
-                                <div class="col-3 align-middle fs-3 align-self-center">📁</div>
+                                <div class="col-3 align-middle fs-3 align-self-center"
+                                    x-text="$t('files.icons.folder')"></div>
                                 <div class="col-8 p-0 ps-2 pe-2 fs-6 text-start text-wrap text-break align-middle align-self-center"
                                     x-text="file.name"></div>
                             </div>
@@ -33,15 +34,15 @@
                     <div class=" font-medium fs-1 text-xl truncate text-secondary text-center align-self-end">
                         <i class="fa fa-regular fa-face-smile-wink"></i>
                     </div>
-                    <div class="font-medium fs-1 text-xl truncate text-secondary text-center">
-                        This folder is empty
-                    </div>
+                    <div x-html="$t('files.empty')"
+                        class="font-medium fs-1 text-xl truncate text-secondary text-center"></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button x-text="$t('modals.close')" type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal"></button>
                 <button type="submit" class="btn btn-primary" @click="copyOrMove(modalSelectFolder.ops)"
-                    x-text="if(modalSelectFolder.ops==='copy') return 'Copy';if(modalSelectFolder.ops==='move') return 'Move';"></button>
+                    x-text="if(modalSelectFolder.ops==='copy') return $t('modals.selectDestination.copy');if(modalSelectFolder.ops==='move') return $t('modals.selectDestination.move');"></button>
             </div>
         </div>
     </div>
