@@ -5,3 +5,4 @@
 - Sort by Name / Date / Type
 - Drag to select
 - Keyboard shortcuts
+- Multi-language support
