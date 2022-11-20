@@ -42,8 +42,10 @@
         navigation: $persist(true),
         preview: $persist(false),
         ext: $persist(true)
-    }
-}, ...startInstance()}" x-init="goto(getStartUrl())" {{template "kbshortcut" .}}>
+    }, 
+    language: $persist('language')
+}, ...startInstance()}" x-init="goto(getStartUrl())" {{template "kbshortcut" .}}
+    onload="document.body.style.opacity='1'">
     <div class="container-fluid ps-0 pe-0">
         {{template "header" .}}
 

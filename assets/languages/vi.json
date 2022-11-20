@@ -1,6 +1,10 @@
 {
     "vi": {
         "header": {
+            "setting": {
+                "title": "Cài đặt",
+                "language": "Ngôn ngữ"
+            },
             "sort": {
                 "title": "Sắp xếp",
                 "name": "Tên",

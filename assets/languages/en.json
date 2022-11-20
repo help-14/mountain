@@ -1,6 +1,14 @@
 {
     "en": {
+        "language": {
+            "en": "English",
+            "vi": "Tiếng Việt"
+        },
         "header": {
+            "setting": {
+                "title": "Setting",
+                "language": "Language"
+            },
             "sort": {
                 "title": "Sort",
                 "name": "Name",

@@ -182,7 +182,7 @@ function goto(path) {
                 })
             }
             if (breadcrumbs.length > 0)
-                breadcrumbs[0].name = `${$t('files.icons.home')} ${breadcrumbs[0].name}`
+                breadcrumbs[0].name = "<i class='fa fa-solid fa-home'></i>"
             this.breadcrumbs = breadcrumbs
         })
         .finally(() => {
@@ -449,8 +449,12 @@ window.onhashchange = () => {
 // AlpineJS i18n
 document.addEventListener('alpine-i18n:ready', async function () {
     const en = await get('/assets/languages/en.json')
-    const choosen = await get('/assets/languages/vi.json')
-
-    window.AlpineI18n.create('en', { ...en, ...choosen });
-    window.AlpineI18n.fallbackLocale = 'en';
+    let selected = document.querySelector('#language')?.value
+    if (!selected || selected.length !== 2) {
+        window.AlpineI18n.create('en', en);
+    } else {
+        const choosen = await get(`/assets/languages/${selected}.json`)
+        window.AlpineI18n.create(selected, { ...en, ...choosen });
+        window.AlpineI18n.fallbackLocale = 'en';
+    }
 });

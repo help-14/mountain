@@ -9,6 +9,26 @@
             </div>
             <div class="col">
                 <div class="d-flex align-items-center">
+
+                    <!-- Setting -->
+
+                    <div class="dropdown ms-2 me-2">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            x-html='`<i class="fa fa-solid fa-gear ms-1 me-1"></i> ${$t("header.setting.title")}`'>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button class="dropdown-item" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#languageModal"
+                                    x-html='`<i class="fa fa-solid fa-language ms-1 me-1"></i> ${$t("header.setting.language")}`'>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Sort  -->
+
                     <div class="dropdown ms-2 me-2">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -57,6 +77,9 @@
                             </li>
                         </ul>
                     </div>
+
+                    <!-- View -->
+
                     <div class="dropdown ms-2 me-2">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -101,6 +124,9 @@
                             </li>
                         </ul>
                     </div>
+
+                    <!-- Select -->
+
                     <div class="dropdown ms-2 me-2">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -124,6 +150,9 @@
                             </li>
                         </ul>
                     </div>
+
+                    <!-- About -->
+
                     <div class="dropdown ms-2 me-2">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false"

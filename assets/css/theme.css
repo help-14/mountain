@@ -69,3 +69,8 @@
 .dropdown-item.active {
     background-color: var(--bs-indigo);
 }
+
+body {
+    opacity: 0;
+    transition: opacity 0.2s;
+}

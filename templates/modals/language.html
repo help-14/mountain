@@ -1,0 +1,20 @@
+{{define "languageModal"}}
+<div class="modal de" id="languageModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" x-text="$t('header.setting.language')"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <button @click="config.language='en';window.location.reload();" x-text="`🇬🇧 ${$t('language.en')}`"
+                        class="btn btn-light"></button>
+                    <button @click="config.language='vi';window.location.reload();" x-text="`🇻🇳 ${$t('language.vi')}`"
+                        class="btn btn-light"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
