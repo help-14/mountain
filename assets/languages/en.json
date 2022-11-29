@@ -53,7 +53,8 @@
             "upload": "Upload",
             "create": "Create new ...",
             "newFolder": "📁 Folder",
-            "newFile": "📄 Text file"
+            "newFile": "📄 Text file",
+            "compress": "Compress"
         },
         "files": {
             "icons": {
@@ -107,6 +108,11 @@
             },
             "shortcuts": {
                 "operations": "Operations"
+            },
+            "compress": {
+                "fileName": "File name",
+                "format": "Format",
+                "submit": "Compress"
             }
         }
     }

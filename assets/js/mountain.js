@@ -258,9 +258,28 @@ function fetchFile(url) {
     }
 }
 
+function generateCompressName() {
+    let selected = this.files.filter(f => f.selected).map(f => f.name)
+    const dom = document.querySelector('#compressFileName')
+    if (dom)
+        dom.value = selected.length === 1 ? selected[0] : this.path.split('/').pop() || new Date().getTime()
+}
+
+async function compressSelected() {
+    let selected = this.files.filter(f => f.selected)
+    if (selected.length === 0)
+        return
+    await post(`/api/compress`, {
+        name: '',
+        path: '',
+        type: '',
+        files: selected.map(f => f.path)
+    })
+    this.goto(currentPath)
+}
+
 function download() {
     let selected = this.files.filter(f => f.selected).map(f => f.name)
-    console.log(selected)
     if (selected.length === 0)
         return
     let data = selected.map(n => joinPath(currentPath, n))
@@ -435,7 +454,7 @@ function startInstance() {
             path: '',
         },
         getStartUrl, goto, modalGoTo, showOps, select,
-        download, upload, modalOpened,
+        download, upload, modalOpened, generateCompressName,
         showSearch, showDeleteModal, showRenameModal, showOpsModal,
         createFolder, createFile, deleteSelected, renameSelected, copyOrMove
     }

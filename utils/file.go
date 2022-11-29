@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/help-14/mountain/response"
 	cp "github.com/otiai10/copy"
@@ -190,4 +191,12 @@ func Rename(src, dst string) error {
 
 func Delete(path string) error {
 	return os.RemoveAll(path)
+}
+
+// check for path traversal and correct forward slashes
+func ValidRelPath(p string) bool {
+	if p == "" || strings.Contains(p, `\`) || strings.HasPrefix(p, "/") || strings.Contains(p, "../") {
+		return false
+	}
+	return true
 }

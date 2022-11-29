@@ -20,8 +20,12 @@
         x-bind:title="$t('controls.move')">
         <i class="fa fa-solid fa-share" x-transition></i>
     </button>
+    <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops" data-bs-toggle="modal"
+        @click="generateCompressName()" data-bs-target="#compressModal">
+        <i class="fa fa-regular fa-file-zipper" x-transition></i>
+    </button>
     <button x-show="opsToolbar" type="button" class="btn mb-0 btn-light btn-ops text-danger" data-bs-toggle="modal"
-        data-bs-target="#deleteModal" x-bind:title="$t('controls.delete')">
+        x-bind:title="$t('controls.compress')" data-bs-target="#deleteModal" x-bind:title="$t('controls.delete')">
         <i class="fa fa-solid fa-trash" x-transition></i>
     </button>
     <button type="button" class="btn mb-0 btn-light btn-ops" x-bind:title="$t('controls.upload')" @click="upload()">
