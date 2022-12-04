@@ -62,7 +62,6 @@ func CompressZip(output *os.File, files []string) error {
 				}
 				arPath := strings.ReplaceAll(path, dir, "")
 				arPath = strings.TrimPrefix(arPath, "/")
-				fmt.Println(arPath)
 				f, err := w.Create(arPath)
 				if err != nil {
 					return err
@@ -85,7 +84,6 @@ func CompressZip(output *os.File, files []string) error {
 			dir := filepath.Dir(path)
 			arPath := strings.ReplaceAll(path, dir, "")
 			arPath = strings.TrimPrefix(arPath, "/")
-			fmt.Println(arPath)
 			f, err := w.Create(arPath)
 			if err != nil {
 				return err
