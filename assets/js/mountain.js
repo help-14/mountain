@@ -259,23 +259,10 @@ function fetchFile(url) {
 }
 
 function generateCompressName() {
-    let selected = this.files.filter(f => f.selected).map(f => f.name)
+    const selected = this.files.filter(f => f.selected).map(f => f.name)
     const dom = document.querySelector('#compressFileName')
     if (dom)
         dom.value = selected.length === 1 ? selected[0] : this.path.split('/').pop() || new Date().getTime()
-}
-
-async function compressSelected() {
-    let selected = this.files.filter(f => f.selected)
-    if (selected.length === 0)
-        return
-    await post(`/api/compress`, {
-        name: '',
-        path: '',
-        type: '',
-        files: selected.map(f => f.path)
-    })
-    this.goto(currentPath)
 }
 
 function download() {
@@ -417,6 +404,20 @@ function renameSelected() {
         .finally(() => enabled('#renameModal button[type="submit"]', true))
 }
 
+function compressSelected() {
+    const selected = this.files.filter(f => f.selected)
+    if (selected.length === 0)
+        return
+    const name = document.querySelector('#compressFileName')?.value ?? new Date().getTime()
+    const type = document.querySelector('#compressTypeSelect')?.value ?? 'zip'
+    post(`/api/compress`, {
+        name,
+        path: this.path,
+        type: type,
+        files: selected.map(f => f.path)
+    }).then(() => this.goto(this.path)).finally(() => hideModal())
+}
+
 function copyOrMove(ops) {
     let selected = this.files.filter(f => f.selected).map(f => f.name)
     if (selected.length === 0) {
@@ -456,7 +457,7 @@ function startInstance() {
         getStartUrl, goto, modalGoTo, showOps, select,
         download, upload, modalOpened, generateCompressName,
         showSearch, showDeleteModal, showRenameModal, showOpsModal,
-        createFolder, createFile, deleteSelected, renameSelected, copyOrMove
+        createFolder, createFile, deleteSelected, renameSelected, copyOrMove, compressSelected
     }
 }
 

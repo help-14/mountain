@@ -7,63 +7,13 @@ import (
 	"compress/gzip"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
 )
 
 type addToArchiveFunc func(path string) (io.Writer, error)
-
-func baseCompressFn(files []string, addFn addToArchiveFunc) error {
-	for i := 0; i < len(files); i++ {
-		path := files[i]
-		stat, startErr := os.Stat(path)
-		if startErr != nil {
-			return startErr
-		}
-
-		addFileFn := func(filePath string, info os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
-			if info.IsDir() {
-				return nil
-			}
-			arPath := strings.ReplaceAll(filePath, path, "")
-			arPath = strings.TrimPrefix(arPath, "/")
-
-			file, err := os.Open(filePath)
-			if err != nil {
-				return err
-			}
-
-			f1, err := addFn(arPath)
-			if err != nil {
-				return err
-			}
-
-			copied, err := io.Copy(f1, file)
-			if err != nil {
-				fmt.Print(copied)
-				return err
-			}
-			return nil
-		}
-
-		if stat.IsDir() {
-			err := filepath.Walk(path, addFileFn)
-			if err != nil {
-				return err
-			}
-		} else {
-			err := addFileFn(path, stat, nil)
-			if err != nil {
-				return err
-			}
-		}
-	}
-	return nil
-}
 
 func Compress(folder string, fileName string, format string, files []string) error {
 	archive, err := os.Create(filepath.Join(folder, fileName+"."+format))
@@ -92,12 +42,65 @@ func Uncompress(archive string, output string) error {
 }
 
 func CompressZip(output *os.File, files []string) error {
-	writer := zip.NewWriter(output)
-	defer writer.Close()
+	w := zip.NewWriter(output)
+	defer w.Close()
 
-	return baseCompressFn(files, func(filePath string) (io.Writer, error) {
-		return writer.Create(filePath)
-	})
+	for i := 0; i < len(files); i++ {
+		stat, err := os.Stat(files[i])
+		if err != nil {
+			return err
+		}
+
+		if stat.IsDir() {
+			dir := files[i]
+			err := filepath.Walk(dir, func(path string, info fs.FileInfo, err error) error {
+				if info.IsDir() {
+					return nil
+				}
+				if err != nil {
+					return err
+				}
+				arPath := strings.ReplaceAll(path, dir, "")
+				arPath = strings.TrimPrefix(arPath, "/")
+				fmt.Println(arPath)
+				f, err := w.Create(arPath)
+				if err != nil {
+					return err
+				}
+				in, err := os.Open(path)
+				if err != nil {
+					return err
+				}
+				_, err = io.Copy(f, in)
+				if err != nil {
+					return err
+				}
+				return nil
+			})
+			if err != nil {
+				return err
+			}
+		} else {
+			path := files[i]
+			dir := filepath.Dir(path)
+			arPath := strings.ReplaceAll(path, dir, "")
+			arPath = strings.TrimPrefix(arPath, "/")
+			fmt.Println(arPath)
+			f, err := w.Create(arPath)
+			if err != nil {
+				return err
+			}
+			in, err := os.Open(path)
+			if err != nil {
+				return err
+			}
+			_, err = io.Copy(f, in)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
 
 func CompressTarGz(output *os.File, files []string) error {

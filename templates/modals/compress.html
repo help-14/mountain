@@ -12,7 +12,7 @@
                     <input class="form-control" id="compressFileName">
                 </div>
                 <label class="form-label mt-3" x-text="$t('modals.compress.format')"></label>
-                <select class="form-select" x-bind:aria-label="$t('modals.compress.format')">
+                <select id="compressTypeSelect" class="form-select" x-bind:aria-label="$t('modals.compress.format')">
                     <option value="zip" selected>Zip (.zip)</option>
                     <option value="tar.gz">Tar & Gzip (.tar.gz)</option>
                 </select>
