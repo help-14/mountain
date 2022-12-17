@@ -165,3 +165,26 @@ func Delete(c *gin.Context) {
 		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be deleted.")
 	}
 }
+
+type CompressBody struct {
+	Path  string   `json:"path"`
+	Name  string   `json:"name"`
+	Type  string   `json:"type"`
+	Files []string `json:"files"`
+}
+
+func Compress(c *gin.Context) {
+	body := CompressBody{}
+	if err := c.BindJSON(&body); err != nil {
+		InvalidRequest(c)
+		return
+	}
+
+	err := utils.Compress(body.Path, body.Name, body.Type, body.Files)
+	if err != nil {
+		ReturnError(c, 500, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, nil)
+}

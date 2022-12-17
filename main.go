@@ -24,6 +24,7 @@ func main() {
 	router.POST("/api/move", routes.Move)
 	router.POST("/api/rename", routes.Rename)
 	router.POST("/api/delete", routes.Delete)
+	router.POST("/api/compress", routes.Compress)
 
 	router.GET("/api/download", routes.DownloadFile)
 	router.POST("/api/upload", routes.UploadFile)

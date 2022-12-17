@@ -1,5 +1,6 @@
 var currentPath = ''
 var ds = null
+const isTouchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
 
 function getHashPath() {
     return decodeURI(parent.location.hash.substring(1))
@@ -236,6 +237,7 @@ function select(type) {
             break
         case 'invert':
             if (ds) ds.getSelectables().forEach(e => ds.toggleSelection(e, false))
+            this.files.forEach(f => f.selected = !f.selected)
             break
     }
     this.showOps()
@@ -258,9 +260,15 @@ function fetchFile(url) {
     }
 }
 
+function generateCompressName() {
+    const selected = this.files.filter(f => f.selected).map(f => f.name)
+    const dom = document.querySelector('#compressFileName')
+    if (dom)
+        dom.value = selected.length === 1 ? selected[0] : this.path.split('/').pop() || new Date().getTime()
+}
+
 function download() {
     let selected = this.files.filter(f => f.selected).map(f => f.name)
-    console.log(selected)
     if (selected.length === 0)
         return
     let data = selected.map(n => joinPath(currentPath, n))
@@ -398,6 +406,20 @@ function renameSelected() {
         .finally(() => enabled('#renameModal button[type="submit"]', true))
 }
 
+function compressSelected() {
+    const selected = this.files.filter(f => f.selected)
+    if (selected.length === 0)
+        return
+    const name = document.querySelector('#compressFileName')?.value ?? new Date().getTime()
+    const type = document.querySelector('#compressTypeSelect')?.value ?? 'zip'
+    post(`/api/compress`, {
+        name,
+        path: this.path,
+        type: type,
+        files: selected.map(f => f.path)
+    }).then(() => this.goto(this.path)).finally(() => hideModal())
+}
+
 function copyOrMove(ops) {
     let selected = this.files.filter(f => f.selected).map(f => f.name)
     if (selected.length === 0) {
@@ -435,9 +457,9 @@ function startInstance() {
             path: '',
         },
         getStartUrl, goto, modalGoTo, showOps, select,
-        download, upload, modalOpened,
+        download, upload, modalOpened, generateCompressName,
         showSearch, showDeleteModal, showRenameModal, showOpsModal,
-        createFolder, createFile, deleteSelected, renameSelected, copyOrMove
+        createFolder, createFile, deleteSelected, renameSelected, copyOrMove, compressSelected
     }
 }
 
