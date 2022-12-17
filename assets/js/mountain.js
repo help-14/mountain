@@ -1,5 +1,6 @@
 var currentPath = ''
 var ds = null
+const isTouchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
 
 function getHashPath() {
     return decodeURI(parent.location.hash.substring(1))
@@ -236,6 +237,7 @@ function select(type) {
             break
         case 'invert':
             if (ds) ds.getSelectables().forEach(e => ds.toggleSelection(e, false))
+            this.files.forEach(f => f.selected = !f.selected)
             break
     }
     this.showOps()
