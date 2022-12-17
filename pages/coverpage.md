@@ -5,4 +5,4 @@
 > Web-based file manager
 
 [GitHub](https://github.com/help-14/mountain)
-[Live Demo](https://mountain-demo.help14.com/)
+[Live Demo](https://mountain-demo.azurewebsites.net/)
