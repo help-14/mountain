@@ -1,6 +1,6 @@
 # Mountain ⛰️
 
-Web-based file browser. [Take a look at the live demo](https://mountain-demo.help14.com/).
+Web-based file browser. [Take a look at the live demo](https://mountain-demo.azurewebsites.net).
 
 ![Mountain](https://i.imgur.com/575GGwG.png)
 
