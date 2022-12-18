@@ -4,7 +4,6 @@ import (
 	"archive/zip"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -12,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/help-14/mountain/log"
 )
 
 func DownloadFile(c *gin.Context) {
@@ -26,6 +26,8 @@ func DownloadFile(c *gin.Context) {
 		ReturnError(c, http.StatusInternalServerError, err)
 		return
 	}
+
+	log.Info("Request to download from " + escapePath)
 
 	stat, err := os.Stat(escapePath)
 	if err != nil {
@@ -61,7 +63,7 @@ func DownloadFile(c *gin.Context) {
 				return nil
 			})
 		if err != nil {
-			log.Println(err)
+			log.Error(err.Error())
 		}
 
 		ar.Close()
@@ -78,11 +80,11 @@ func UploadFile(c *gin.Context) {
 	form, _ := c.MultipartForm()
 	path := form.Value["path"][0]
 	files := form.File["files"]
-	log.Println(form.File)
+	log.Info("Request to upload to " + path)
 
 	for _, file := range files {
-		log.Println(file.Filename)
 		c.SaveUploadedFile(file, filepath.Join(path, file.Filename))
+		log.Info("\t" + file.Filename + " uploaded!")
 	}
 	c.String(http.StatusOK, fmt.Sprintf("%d files uploaded!", len(files)))
 }

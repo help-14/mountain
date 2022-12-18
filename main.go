@@ -5,10 +5,12 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/help-14/mountain/log"
 	routes "github.com/help-14/mountain/routes"
 )
 
 func main() {
+	log.Setup()
 	router := gin.Default()
 
 	defaultPath := os.Getenv("SERVE_PATH")

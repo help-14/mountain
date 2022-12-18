@@ -244,7 +244,6 @@ function select(type) {
 }
 
 function fetchFile(url) {
-    console.log(url)
     try {
         var a = document.createElement("a");
         a.href = url;

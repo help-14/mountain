@@ -1,20 +1,23 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/help-14/mountain/log"
 	"github.com/help-14/mountain/utils"
 )
 
 func GetDir(c *gin.Context) {
 	path := c.DefaultQuery("path", "/")
 	directory := c.Query("directory")
-	files, err := utils.ReadDir(path, directory == "true")
 
+	log.Info("Request to get files in " + directory + " from " + path)
+
+	files, err := utils.ReadDir(path, directory == "true")
 	if err != nil {
 		ReturnError(c, http.StatusInternalServerError, err)
 		return
@@ -43,6 +46,12 @@ func Create(c *gin.Context) {
 	if len(body.Path) == 0 {
 		ReturnErrorMessage(c, http.StatusBadRequest, "Invalid path")
 		return
+	}
+
+	if body.Directory {
+		log.Info("Request to create directory " + body.Name + " in " + body.Path)
+	} else {
+		log.Info("Request to create file " + body.Name + " in " + body.Path)
 	}
 
 	destination := filepath.Join(body.Path, body.Name)
@@ -79,9 +88,11 @@ func Copy(c *gin.Context) {
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
 		current := body[i]
+		log.Info("Request to copy from " + current.From + " to " + current.To)
+
 		err := utils.Copy(current.From, current.To)
 		if err != nil {
-			fmt.Println(err.Error())
+			log.Error(err.Error())
 			errList = append(errList, current.From)
 		}
 	}
@@ -103,9 +114,11 @@ func Move(c *gin.Context) {
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
 		current := body[i]
+		log.Info("Request to move from " + current.From + " to " + current.To)
+
 		err := utils.Move(current.From, current.To)
 		if err != nil {
-			fmt.Println(err.Error())
+			log.Error(err.Error())
 			errList = append(errList, current.From)
 		}
 	}
@@ -113,7 +126,6 @@ func Move(c *gin.Context) {
 	if len(errList) == 0 {
 		c.JSON(http.StatusOK, nil)
 	} else {
-		fmt.Println(errList)
 		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be move.")
 	}
 }
@@ -128,9 +140,11 @@ func Rename(c *gin.Context) {
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
 		current := body[i]
+		log.Info("Request to rename from " + current.From + " to " + current.To)
+
 		err := utils.Rename(current.From, current.To)
 		if err != nil {
-			fmt.Println(err.Error())
+			log.Error(err.Error())
 			errList = append(errList, current.From)
 		}
 	}
@@ -138,7 +152,6 @@ func Rename(c *gin.Context) {
 	if len(errList) == 0 {
 		c.JSON(http.StatusOK, nil)
 	} else {
-		fmt.Println(errList)
 		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be move.")
 	}
 }
@@ -152,8 +165,10 @@ func Delete(c *gin.Context) {
 
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
+		log.Info("Request to delete " + body[i])
 		err := utils.Delete(body[i])
 		if err != nil {
+			log.Error(err.Error())
 			errList = append(errList, body[i])
 		}
 	}
@@ -161,7 +176,6 @@ func Delete(c *gin.Context) {
 	if len(errList) == 0 {
 		c.JSON(http.StatusOK, nil)
 	} else {
-		fmt.Println(errList)
 		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be deleted.")
 	}
 }
@@ -179,6 +193,7 @@ func Compress(c *gin.Context) {
 		InvalidRequest(c)
 		return
 	}
+	log.Info("Request to compress " + strings.Join(body.Files, ", ") + " from " + body.Path)
 
 	err := utils.Compress(body.Path, body.Name, body.Type, body.Files)
 	if err != nil {
