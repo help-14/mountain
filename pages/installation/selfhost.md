@@ -1,4 +1,4 @@
-# Installation
+# Self-host Installation
 
 - Download [docker-compose.yml](https://github.com/help-14/mountain/blob/main/blob/main/docker-compose.yml)
 - Type in terminal `docker compose up -d`
@@ -10,14 +10,17 @@ services:
     container_name: mountain
     image: help14/mountain
     restart: unless-stopped
-    user: root # optional, if you have permission problem
+    #user: root # optional, if you have permission problem
     volumes:
       - ./serve:/serve
+      - ./data:/data
     ports:
       - "7002:8080"
     environment:
       - SERVE_PATH=/serve
-  watchtower:
+      - LOG_PATH=/data/log.txt # optional, can comment this
+
+  watchtower: # only needed to update if you haven't had one
     image: containrrr/watchtower
     restart: unless-stopped
     volumes:
@@ -28,4 +31,5 @@ services:
       - WATCHTOWER_LABEL_ENABLE=true
       - WATCHTOWER_INCLUDE_RESTARTING=true
     command: --interval 30
+
 ```
