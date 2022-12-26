@@ -45,6 +45,14 @@ function updateDragSelect() {
     })
 }
 
+function utf8_to_b64(str) {
+    return window.btoa(encodeURIComponent(str));
+}
+
+function b64_to_utf8(str) {
+    return decodeURIComponent(window.atob(str));
+}
+
 async function handleFetch(response) {
     const data = await response.json()
     if (response.ok) {
@@ -271,7 +279,7 @@ function download() {
     if (selected.length === 0)
         return
     let data = selected.map(n => joinPath(currentPath, n))
-    data.forEach(url => fetchFile(`/api/download?path=${url}`))
+    data.forEach(url => fetchFile(`/api/download?path=${utf8_to_b64(url)}`))
 }
 
 function upload() {

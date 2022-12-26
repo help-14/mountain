@@ -2,6 +2,7 @@ package routes
 
 import (
 	"archive/zip"
+	"encoding/base64"
 	"fmt"
 	"io"
 	"net/http"
@@ -21,7 +22,13 @@ func DownloadFile(c *gin.Context) {
 		return
 	}
 
-	escapePath, err := url.QueryUnescape(path)
+	escapeByte, err := base64.StdEncoding.DecodeString(path)
+	if err != nil {
+		ReturnError(c, http.StatusInternalServerError, err)
+		return
+	}
+
+	escapePath, err := url.QueryUnescape(string(escapeByte))
 	if err != nil {
 		ReturnError(c, http.StatusInternalServerError, err)
 		return
