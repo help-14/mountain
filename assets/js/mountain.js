@@ -2,6 +2,14 @@ var currentPath = ''
 var ds = null
 const isTouchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
 
+function utf8_to_b64(str) {
+    return window.btoa(encodeURIComponent(str));
+}
+
+function b64_to_utf8(str) {
+    return decodeURIComponent(window.atob(str));
+}
+
 function getHashPath() {
     return decodeURI(parent.location.hash.substring(1))
 }
@@ -43,14 +51,6 @@ function updateDragSelect() {
             i.style.zIndex = "1";
         })
     })
-}
-
-function utf8_to_b64(str) {
-    return window.btoa(encodeURIComponent(str));
-}
-
-function b64_to_utf8(str) {
-    return decodeURIComponent(window.atob(str));
 }
 
 async function handleFetch(response) {
@@ -163,7 +163,7 @@ function goto(path) {
         ds.removeSelectables(ds.getSelectables(), true)
         ds.stop()
     }
-    get(`/api/get?path=${path}`)
+    get(`/api/get?path=${utf8_to_b64(path)}`)
         .then(data => {
             this.emptyFolder = data.length === 0
             this.files = sort(data.map(a => {
@@ -208,7 +208,7 @@ function goto(path) {
 }
 
 function modalGoTo(path = '/') {
-    get(`/api/get?directory=true&path=${path}`)
+    get(`/api/get?directory=true&path=${utf8_to_b64(path)}`)
         .then(data => {
             this.modalSelectFolder.files = sort(data, this.config.sort)
             this.modalSelectFolder.path = path

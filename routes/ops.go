@@ -2,17 +2,16 @@ package routes
 
 import (
 	"archive/zip"
-	"encoding/base64"
 	"fmt"
 	"io"
 	"net/http"
-	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/help-14/mountain/log"
+	"github.com/help-14/mountain/utils"
 )
 
 func DownloadFile(c *gin.Context) {
@@ -22,13 +21,7 @@ func DownloadFile(c *gin.Context) {
 		return
 	}
 
-	escapeByte, err := base64.StdEncoding.DecodeString(path)
-	if err != nil {
-		ReturnError(c, http.StatusInternalServerError, err)
-		return
-	}
-
-	escapePath, err := url.QueryUnescape(string(escapeByte))
+	escapePath, err := utils.DecodeBase64(path)
 	if err != nil {
 		ReturnError(c, http.StatusInternalServerError, err)
 		return
