@@ -10,7 +10,6 @@ services:
     ports:
       - "7002:8080"
     environment:
-      - PORT=8080
       - SERVE_PATH=/serve
       - LOG_PATH=/data/log.txt # optional, can comment this
 

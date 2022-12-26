@@ -12,7 +12,13 @@ import (
 )
 
 func GetDir(c *gin.Context) {
-	path := c.DefaultQuery("path", "/")
+	rawPath := c.DefaultQuery("path", "/")
+	path, err := utils.DecodeBase64(rawPath)
+	if err != nil {
+		ReturnError(c, http.StatusInternalServerError, err)
+		return
+	}
+
 	directory := c.Query("directory")
 
 	log.Info("Request to get files in " + directory + " from " + path)
