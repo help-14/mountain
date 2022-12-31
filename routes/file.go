@@ -60,7 +60,7 @@ func Create(c *gin.Context) {
 		log.Info("Request to create file " + body.Name + " in " + body.Path)
 	}
 
-	destination := filepath.Join(body.Path, body.Name)
+	destination := filepath.Join(body.Path, utils.NormalizeFileName(body.Name))
 	err := os.MkdirAll(filepath.Join(body.Path), os.ModePerm)
 	if err != nil {
 		ReturnError(c, http.StatusInternalServerError, err)
