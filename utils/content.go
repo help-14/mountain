@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/base64"
 	"net/url"
+	"strings"
 )
 
 func DecodeBase64(input string) (string, error) {
@@ -17,4 +18,14 @@ func DecodeBase64(input string) (string, error) {
 	}
 
 	return decodeStr, nil
+}
+
+var illegalFileNameCharacters = []string{"#", "%", "&", "{", "}", "\\", ">", "<", "*", "?", "/", "$", "!", "'", "\"", ":", "@", "+", "`", "|", "="}
+
+func NormalizeFileName(fileName string) string {
+	var result = fileName
+	for i := 0; i < len(illegalFileNameCharacters); i++ {
+		result = strings.ReplaceAll(result, illegalFileNameCharacters[i], "_")
+	}
+	return result
 }
