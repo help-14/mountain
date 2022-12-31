@@ -26,7 +26,9 @@
                 "title": "Chọn",
                 "all": "Chọn tất cả",
                 "none": "Bỏ chọn tất cả",
-                "invert": "Đảo ngược lựa chọn"
+                "invert": "Đảo ngược lựa chọn",
+                "clickSelect": "Click để chọn",
+                "clickBrowse": "Click để mở"
             },
             "about": {
                 "title": "Giới thiệu",

@@ -5,13 +5,16 @@
             <div class="col-xl-3 col-sm-6 d-grid mt-2 mb-2" x-transition>
                 <button type="button" class="btn btn-light selectable"
                     :class="{'btn-light': !file.selected, 'btn-primary': file.selected}"
-                    @dblclick="if(file.directory){goto(file.path);}">
+                    @dblclick="if(file.directory){goto(file.path)}">
                     <div class="row p-1 d-flex">
                         <div class="col-3 align-middle fs-2 align-self-center"
                             x-text="$t(file.directory ? 'files.icons.folder' : 'files.icons.file')"></div>
                         <div class="col-8 fs-6 text-start text-wrap text-break align-middle align-self-center"
                             x-text="file.name"></div>
                     </div>
+                    <input class="goto" type="button"
+                        :class="{'enable': file.directory && config.select.click==='browse'}" @click="goto(file.path)"
+                        style="display: none;" />
                     <input class="select" type="button" @click="file.selected=true;showOps()" style="display: none;" />
                     <input class="deselect" type="button" @click="file.selected=false;showOps()"
                         style="display: none;" />

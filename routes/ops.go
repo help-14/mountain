@@ -70,7 +70,7 @@ func DownloadFile(c *gin.Context) {
 	} else {
 		c.Header("Content-Description", "File Transfer")
 		c.Header("Content-Transfer-Encoding", "binary")
-		c.Header("Content-Disposition", "attachment; filename="+stat.Name())
+		c.Header("Content-Disposition", "attachment; filename="+utils.NormalizeFileName(stat.Name()))
 		c.Header("Content-Type", "application/octet-stream")
 		c.File(escapePath)
 	}
@@ -83,7 +83,7 @@ func UploadFile(c *gin.Context) {
 	log.Info("Request to upload to " + path)
 
 	for _, file := range files {
-		c.SaveUploadedFile(file, filepath.Join(path, file.Filename))
+		c.SaveUploadedFile(file, filepath.Join(path, utils.NormalizeFileName(file.Filename)))
 		log.Info("\t" + file.Filename + " uploaded!")
 	}
 	c.String(http.StatusOK, fmt.Sprintf("%d files uploaded!", len(files)))

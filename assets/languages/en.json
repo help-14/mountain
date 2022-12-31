@@ -30,7 +30,9 @@
                 "title": "Select",
                 "all": "Select all",
                 "none": "Select none",
-                "invert": "Invert selected"
+                "invert": "Invert selected",
+                "clickSelect": "Click to select",
+                "clickBrowse": "Click to open"
             },
             "about": {
                 "title": "About",

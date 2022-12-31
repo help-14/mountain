@@ -43,6 +43,9 @@
         preview: $persist(false),
         ext: $persist(true)
     }, 
+    select: {
+        click: $persist(isTouchDevice() ? 'browse' : 'select')
+    },
     language: $persist('language')
 }, ...startInstance()}" x-init="goto(getStartUrl())" {{template "kbshortcut" .}}
     onload="document.body.style.opacity='1'">

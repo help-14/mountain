@@ -1,6 +1,9 @@
 var currentPath = ''
 var ds = null
-const isTouchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+
+function isTouchDevice() {
+    return (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+}
 
 function utf8_to_b64(str) {
     return window.btoa(encodeURIComponent(str));
@@ -46,6 +49,11 @@ function updateDragSelect() {
         multiSelectKeys: ['Shift']
     });
     ds.subscribe('callback', ({ items, event }) => {
+        var goToEnable = items[0].querySelector('input.goto.enable')
+        if (goToEnable) {
+            goToEnable.click()
+            return
+        }
         items.forEach(i => {
             i.querySelector('input.select')?.click()
             i.style.zIndex = "1";
@@ -230,6 +238,11 @@ function modalGoTo(path = '/') {
 
 function showOps() {
     this.opsToolbar = this.files.some(f => f.selected)
+}
+
+function clickMode(type) {
+    //browse | select
+    this.config.select.click = type
 }
 
 function select(type) {
@@ -463,7 +476,7 @@ function startInstance() {
             breadcrumbs: [],
             path: '',
         },
-        getStartUrl, goto, modalGoTo, showOps, select,
+        getStartUrl, goto, modalGoTo, showOps, select, clickMode,
         download, upload, modalOpened, generateCompressName,
         showSearch, showDeleteModal, showRenameModal, showOpsModal,
         createFolder, createFile, deleteSelected, renameSelected, copyOrMove, compressSelected
