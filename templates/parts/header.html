@@ -13,9 +13,13 @@
                     <!-- Sort  -->
 
                     <div class="dropdown ms-2 me-2">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false"
+                        <button class="btn btn-primary dropdown-toggle d-none d-md-block" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
                             x-html="`<i class='fa fa-solid fa-sort ms-1 me-1'></i> ${$t('header.sort.title')}`">
+                        </button>
+                        <button class="btn btn-primary dropdown-toggle d-md-none" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            x-html="`<i class='fa fa-solid fa-sort ms-1 me-1'></i>`">
                         </button>
                         <ul class="dropdown-menu">
                             <li>
@@ -64,9 +68,13 @@
                     <!-- View -->
 
                     <div class="dropdown ms-2 me-2">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false"
+                        <button class="btn btn-primary dropdown-toggle d-none d-md-block" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
                             x-html="`<i class='fa fa-solid fa-eye ms-1 me-1'></i> ${$t('header.view.title')}`">
+                        </button>
+                        <button class="btn btn-primary dropdown-toggle d-md-none" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            x-html="`<i class='fa fa-solid fa-eye ms-1 me-1'></i>`">
                         </button>
                         <ul class="dropdown-menu">
                             <li x-show="false">
@@ -111,9 +119,13 @@
                     <!-- Select -->
 
                     <div class="dropdown ms-2 me-2">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false"
+                        <button class="btn btn-primary dropdown-toggle d-none d-md-block" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
                             x-html='`<i class="fa fa-solid fa-object-group ms-1 me-1"></i> ${$t("header.select.title")}`'>
+                        </button>
+                        <button class="btn btn-primary dropdown-toggle d-md-none" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            x-html='`<i class="fa fa-solid fa-object-group ms-1 me-1"></i>`'>
                         </button>
                         <ul class="dropdown-menu">
                             <li>
@@ -162,9 +174,13 @@
                     <!-- Setting -->
 
                     <div class="dropdown ms-2 me-2">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false"
+                        <button class="btn btn-primary dropdown-toggle d-none d-md-block" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
                             x-html='`<i class="fa fa-solid fa-gear ms-1 me-1"></i> ${$t("header.setting.title")}`'>
+                        </button>
+                        <button class="btn btn-primary dropdown-toggle d-md-none" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            x-html='`<i class="fa fa-solid fa-gear ms-1 me-1"></i>`'>
                         </button>
                         <ul class="dropdown-menu">
                             <li>
@@ -178,10 +194,14 @@
 
                     <!-- About -->
 
-                    <div class="dropdown ms-2 me-2 d-none d-md-block">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false"
+                    <div class="dropdown ms-2 me-2">
+                        <button class="btn btn-primary dropdown-toggle d-none d-md-block" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
                             x-html='`<i class="fa fa-solid fa-info ms-1 me-1"></i> ${$t("header.about.title")}`'>
+                        </button>
+                        <button class="btn btn-primary dropdown-toggle d-md-none" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            x-html='`<i class="fa fa-solid fa-info ms-1 me-1"></i>`'>
                         </button>
                         <ul class="dropdown-menu">
                             <li>

@@ -6,6 +6,11 @@ function isTouchDevice() {
     return (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
 }
 
+function isSmallScreen() {
+    var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    return vw < 768
+}
+
 function utf8_to_b64(str) {
     return window.btoa(encodeURIComponent(str));
 }
