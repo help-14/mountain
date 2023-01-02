@@ -1,5 +1,6 @@
 var currentPath = ''
 var ds = null
+var newItemSelected = null
 
 function isTouchDevice() {
     return (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
@@ -48,11 +49,24 @@ function updateDragSelect() {
         draggability: false,
         multiSelectKeys: ['Shift']
     });
-    ds.subscribe('callback', ({ items, event }) => {
-        var goToEnable = items[0].querySelector('input.goto.enable')
-        if (goToEnable) {
-            goToEnable.click()
-            return
+    ds.subscribe('elementselect', ({ items, item }) => {
+        newItemSelected = item
+    })
+    ds.subscribe('callback', ({ items, event, item }) => {
+        if (newItemSelected === null) {
+            var deselectConfig = document.querySelector('#emptyClickDeselect.active')
+            if (deselectConfig) {
+                document.querySelector('#selectNone')?.click()
+                return
+            }
+        }
+        newItemSelected = null
+        if (items.length === 1) {
+            var goToEnable = items[0].querySelector('input.goto.enable')
+            if (goToEnable) {
+                goToEnable.click()
+                return
+            }
         }
         items.forEach(i => {
             i.querySelector('input.select')?.click()

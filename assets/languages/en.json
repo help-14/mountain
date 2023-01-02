@@ -29,10 +29,11 @@
             "select": {
                 "title": "Select",
                 "all": "Select all",
-                "none": "Select none",
+                "none": "Select nothing",
                 "invert": "Invert selected",
                 "clickSelect": "Click to select",
-                "clickBrowse": "Click to open"
+                "clickBrowse": "Click to open",
+                "outsideDeselect": "Click outside to select nothing"
             },
             "about": {
                 "title": "About",

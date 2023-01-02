@@ -134,6 +134,24 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li>
+                                <button class="dropdown-item" type="button" @click="select('all')"
+                                    x-html='`<i class="fa fa-solid fa-border-all ms-1 me-1"></i> ${$t("header.select.all")}`'>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="selectNone" class="dropdown-item" type="button" @click="select('none')"
+                                    x-html='`<i class="fa fa-solid fa-border-none ms-1 me-1"></i> ${$t("header.select.none")}`'>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" type="button" @click="select('invert')"
+                                    x-html='`<i class="fa fa-solid fa-border-top-left ms-1 me-1"></i> ${$t("header.select.invert")}`'>
+                                </button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
                                 <button class="dropdown-item" type="button" @click="clickMode('browse')"
                                     :class="{active:config.select.click==='browse'}"
                                     x-html='`<i class="fa fa-regular fa-folder-open ms-1 me-1"></i> ${$t("header.select.clickBrowse")}`'>
@@ -149,18 +167,10 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <button class="dropdown-item" type="button" @click="select('all')"
-                                    x-html='`<i class="fa fa-solid fa-border-all ms-1 me-1"></i> ${$t("header.select.all")}`'>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="dropdown-item" type="button" @click="select('none')"
-                                    x-html='`<i class="fa fa-solid fa-border-none ms-1 me-1"></i> ${$t("header.select.none")}`'>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="dropdown-item" type="button" @click="select('invert')"
-                                    x-html='`<i class="fa fa-solid fa-border-top-left ms-1 me-1"></i> ${$t("header.select.invert")}`'>
+                                <button id="emptyClickDeselect" class="dropdown-item" type="button"
+                                    @click="config.select.deselectOnTapOutside=!config.select.deselectOnTapOutside"
+                                    :class="{active:config.select.deselectOnTapOutside}"
+                                    x-html='`<i class="fa fa-regular fa-hand-point-up ms-1 me-1"></i> ${$t("header.select.outsideDeselect")}`'>
                                 </button>
                             </li>
                         </ul>

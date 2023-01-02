@@ -44,7 +44,8 @@
         ext: $persist(true)
     }, 
     select: {
-        click: $persist(isTouchDevice() ? 'browse' : 'select')
+        click: $persist(isTouchDevice() ? 'browse' : 'select'),
+        deselectOnTapOutside: $persist(false)
     },
     language: $persist('language')
 }, ...startInstance()}" x-init="goto(getStartUrl())" {{template "kbshortcut" .}}
