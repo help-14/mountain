@@ -28,7 +28,8 @@
                 "none": "Bỏ chọn tất cả",
                 "invert": "Đảo ngược lựa chọn",
                 "clickSelect": "Click để chọn",
-                "clickBrowse": "Click để mở"
+                "clickBrowse": "Click để mở",
+                "outsideDeselect": "Click bên ngoài để bỏ chọn tất cả"
             },
             "about": {
                 "title": "Giới thiệu",

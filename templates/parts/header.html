@@ -2,30 +2,13 @@
 <header class="navbar navbar-expand-lg navbar-dark bd-navbar sticky-top bg-primary">
     <div class="container-xxl pe-0">
         <div class="row w-100">
-            <div class="col-auto">
+            <div class="col-auto d-none d-md-block">
                 <a href="https://mountain.help14.com" class="navbar-brand p-0 me-0 me-lg-2">
                     <img src="/assets/img/mountain.png" style="height: 32px" />
                 </a>
             </div>
             <div class="col">
                 <div class="d-flex align-items-center">
-
-                    <!-- Setting -->
-
-                    <div class="dropdown ms-2 me-2">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            x-html='`<i class="fa fa-solid fa-gear ms-1 me-1"></i> ${$t("header.setting.title")}`'>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#languageModal"
-                                    x-html='`<i class="fa fa-solid fa-language ms-1 me-1"></i> ${$t("header.setting.language")}`'>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
 
                     <!-- Sort  -->
 
@@ -134,6 +117,24 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li>
+                                <button class="dropdown-item" type="button" @click="select('all')"
+                                    x-html='`<i class="fa fa-solid fa-border-all ms-1 me-1"></i> ${$t("header.select.all")}`'>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="selectNone" class="dropdown-item" type="button" @click="select('none')"
+                                    x-html='`<i class="fa fa-solid fa-border-none ms-1 me-1"></i> ${$t("header.select.none")}`'>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" type="button" @click="select('invert')"
+                                    x-html='`<i class="fa fa-solid fa-border-top-left ms-1 me-1"></i> ${$t("header.select.invert")}`'>
+                                </button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
                                 <button class="dropdown-item" type="button" @click="clickMode('browse')"
                                     :class="{active:config.select.click==='browse'}"
                                     x-html='`<i class="fa fa-regular fa-folder-open ms-1 me-1"></i> ${$t("header.select.clickBrowse")}`'>
@@ -149,18 +150,27 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <button class="dropdown-item" type="button" @click="select('all')"
-                                    x-html='`<i class="fa fa-solid fa-border-all ms-1 me-1"></i> ${$t("header.select.all")}`'>
+                                <button id="emptyClickDeselect" class="dropdown-item" type="button"
+                                    @click="config.select.deselectOnTapOutside=!config.select.deselectOnTapOutside"
+                                    :class="{active:config.select.deselectOnTapOutside}"
+                                    x-html='`<i class="fa fa-regular fa-hand-point-up ms-1 me-1"></i> ${$t("header.select.outsideDeselect")}`'>
                                 </button>
                             </li>
+                        </ul>
+                    </div>
+
+                    <!-- Setting -->
+
+                    <div class="dropdown ms-2 me-2">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            x-html='`<i class="fa fa-solid fa-gear ms-1 me-1"></i> ${$t("header.setting.title")}`'>
+                        </button>
+                        <ul class="dropdown-menu">
                             <li>
-                                <button class="dropdown-item" type="button" @click="select('none')"
-                                    x-html='`<i class="fa fa-solid fa-border-none ms-1 me-1"></i> ${$t("header.select.none")}`'>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="dropdown-item" type="button" @click="select('invert')"
-                                    x-html='`<i class="fa fa-solid fa-border-top-left ms-1 me-1"></i> ${$t("header.select.invert")}`'>
+                                <button class="dropdown-item" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#languageModal"
+                                    x-html='`<i class="fa fa-solid fa-language ms-1 me-1"></i> ${$t("header.setting.language")}`'>
                                 </button>
                             </li>
                         </ul>
@@ -168,7 +178,7 @@
 
                     <!-- About -->
 
-                    <div class="dropdown ms-2 me-2">
+                    <div class="dropdown ms-2 me-2 d-none d-md-block">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false"
                             x-html='`<i class="fa fa-solid fa-info ms-1 me-1"></i> ${$t("header.about.title")}`'>
