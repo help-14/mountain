@@ -1,11 +1,9 @@
-package log
+package utils
 
 import (
 	"log"
 	"os"
 	"path"
-
-	"github.com/help-14/mountain/utils"
 )
 
 var (
@@ -15,7 +13,7 @@ var (
 	DebugLogger   *log.Logger
 )
 
-func Setup() {
+func SetupLogger() {
 	logFilePath := os.Getenv("LOG_PATH")
 	if len(logFilePath) <= 0 {
 		logFilePath = path.Join(os.TempDir(), "ocean.log")
@@ -34,28 +32,28 @@ func Setup() {
 	}
 }
 
-func Debug(v ...any) {
+func LogDebug(v ...any) {
 	log.Println(v...)
-	if utils.IsDebugging() {
+	if IsDebugging() {
 		DebugLogger.Println(v...)
 	}
 }
 
-func Info(v ...any) {
+func LogInfo(v ...any) {
 	log.Println(v...)
 	if InfoLogger != nil {
 		InfoLogger.Println(v...)
 	}
 }
 
-func Warning(v ...any) {
+func LogWarning(v ...any) {
 	log.Println(v...)
 	if WarningLogger != nil {
 		WarningLogger.Println(v...)
 	}
 }
 
-func Error(v ...any) {
+func LogError(v ...any) {
 	log.Println(v...)
 	if ErrorLogger != nil {
 		ErrorLogger.Println(v...)
