@@ -8,6 +8,15 @@ import (
 	cp "github.com/otiai10/copy"
 )
 
+func SetupServePath() {
+	defaultPath := os.Getenv("SERVE_PATH")
+	if len(defaultPath) == 0 {
+		defaultPath = "/"
+	} else {
+		os.MkdirAll(defaultPath, 0666)
+	}
+}
+
 func Exists(filePath string) bool {
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		return false
