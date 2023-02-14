@@ -459,6 +459,37 @@ function compressSelected() {
     }).then(() => this.goto(this.path)).finally(() => hideModal())
 }
 
+function preview(file) {
+    const imageFormats = ['gif', 'jpg', 'jpeg', 'png', 'apng', 'avif', 'webp', 'svg', 'jfif', 'pjpeg', 'pjp', 'bmp', 'ico', 'cur', 'tif', 'tiff']
+    const videoFormats = ['mp4', 'ogg', 'webm', 'ogv', 'ogm']
+    const audioFormats = ['wav', 'mp3', 'aac', 'aacp', 'flac']
+    const textFormats = ['txt', 'md', 'html', 'htm', 'js', 'jsx', 'ejs', 'css', 'scss']
+
+    const ext = file.ext.replace('.', '').toLowerCase()
+    const title = document.querySelector('#previewModal h5')
+    if (title) title.innerText = file.name
+    const body = document.querySelector('#previewModalBody')
+    if (body) { body.innerHTML = '' }
+    else { return }
+
+    if (imageFormats.includes(ext)) {
+        body.innerHTML = `<img src=''>`
+        return
+    }
+    if (videoFormats.includes(ext)) {
+        body.innerHTML = `<video controls><source src="movie.mp4" type="video/mp4">Your browser does not support the video tag.</video>`
+        return
+    }
+    if (audioFormats.includes(ext)) {
+        body.innerHTML = `<audio controls><source src="movie.mp4" type="audio/mp4">Your browser does not support the audio tag.</audio>`
+        return
+    }
+    if (textFormats.includes(ext)) {
+        body.innerHTML = `<textarea disabled></textarea>`
+        return
+    }
+}
+
 function copyOrMove(ops) {
     let selected = this.files.filter(f => f.selected).map(f => f.name)
     if (selected.length === 0) {
@@ -496,7 +527,7 @@ function startInstance() {
             path: '',
         },
         getStartUrl, goto, modalGoTo, showOps, select, clickMode,
-        download, upload, modalOpened, generateCompressName,
+        download, upload, modalOpened, generateCompressName, preview,
         showSearch, showDeleteModal, showRenameModal, showOpsModal,
         createFolder, createFile, deleteSelected, renameSelected, copyOrMove, compressSelected
     }
