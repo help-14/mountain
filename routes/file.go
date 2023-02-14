@@ -1,13 +1,14 @@
 package routes
 
 import (
+	"io/fs"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/help-14/mountain/log"
 	"github.com/help-14/mountain/utils"
 )
 
@@ -21,9 +22,9 @@ func GetDir(c *gin.Context) {
 
 	directory := c.Query("directory")
 
-	log.Info("Request to get files in " + directory + " from " + path)
+	utils.LogInfo("Request to get files in " + directory + " from " + path)
 
-	files, err := utils.ReadDir(path, directory == "true")
+	files, err := ReadDir(path, directory == "true")
 	if err != nil {
 		ReturnError(c, http.StatusInternalServerError, err)
 		return
@@ -55,9 +56,9 @@ func Create(c *gin.Context) {
 	}
 
 	if body.Directory {
-		log.Info("Request to create directory " + body.Name + " in " + body.Path)
+		utils.LogInfo("Request to create directory " + body.Name + " in " + body.Path)
 	} else {
-		log.Info("Request to create file " + body.Name + " in " + body.Path)
+		utils.LogInfo("Request to create file " + body.Name + " in " + body.Path)
 	}
 
 	destination := filepath.Join(body.Path, utils.NormalizeFileName(body.Name))
@@ -94,11 +95,11 @@ func Copy(c *gin.Context) {
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
 		current := body[i]
-		log.Info("Request to copy from " + current.From + " to " + current.To)
+		utils.LogInfo("Request to copy from " + current.From + " to " + current.To)
 
 		err := utils.Copy(current.From, current.To)
 		if err != nil {
-			log.Error(err.Error())
+			utils.LogError(err.Error())
 			errList = append(errList, current.From)
 		}
 	}
@@ -120,11 +121,11 @@ func Move(c *gin.Context) {
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
 		current := body[i]
-		log.Info("Request to move from " + current.From + " to " + current.To)
+		utils.LogInfo("Request to move from " + current.From + " to " + current.To)
 
 		err := utils.Move(current.From, current.To)
 		if err != nil {
-			log.Error(err.Error())
+			utils.LogError(err.Error())
 			errList = append(errList, current.From)
 		}
 	}
@@ -146,11 +147,11 @@ func Rename(c *gin.Context) {
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
 		current := body[i]
-		log.Info("Request to rename from " + current.From + " to " + current.To)
+		utils.LogInfo("Request to rename from " + current.From + " to " + current.To)
 
 		err := utils.Rename(current.From, current.To)
 		if err != nil {
-			log.Error(err.Error())
+			utils.LogError(err.Error())
 			errList = append(errList, current.From)
 		}
 	}
@@ -171,10 +172,10 @@ func Delete(c *gin.Context) {
 
 	errList := []string{}
 	for i := 0; i < len(body); i++ {
-		log.Info("Request to delete " + body[i])
+		utils.LogInfo("Request to delete " + body[i])
 		err := utils.Delete(body[i])
 		if err != nil {
-			log.Error(err.Error())
+			utils.LogError(err.Error())
 			errList = append(errList, body[i])
 		}
 	}
@@ -199,7 +200,7 @@ func Compress(c *gin.Context) {
 		InvalidRequest(c)
 		return
 	}
-	log.Info("Request to compress " + strings.Join(body.Files, ", ") + " from " + body.Path)
+	utils.LogInfo("Request to compress " + strings.Join(body.Files, ", ") + " from " + body.Path)
 
 	err := utils.Compress(body.Path, body.Name, body.Type, body.Files)
 	if err != nil {
@@ -208,4 +209,51 @@ func Compress(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, nil)
+}
+
+func ConvertFileResponse(path string, file fs.FileInfo) FileResponse {
+	var res FileResponse
+
+	res.Name = file.Name()
+	res.ModTime = file.ModTime()
+	res.Path = filepath.ToSlash(filepath.Join(path, file.Name()))
+
+	// Resolve symlink and check IsDir?
+	resolvedLink, err := os.Readlink(res.Path)
+	if err == nil {
+		stat, startErr := os.Stat("/" + resolvedLink)
+		if startErr == nil {
+			res.IsSymLink = true
+			res.IsDir = stat.IsDir()
+		} else {
+			res.IsDir = file.IsDir()
+		}
+	} else {
+		res.IsDir = file.IsDir()
+	}
+
+	if !res.IsDir {
+		res.Extension = filepath.Ext(res.Name)
+		res.Size = file.Size()
+	}
+
+	return res
+}
+
+func ReadDir(path string, dirOnly bool) ([]FileResponse, error) {
+	result := []FileResponse{}
+
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		return result, err
+	}
+
+	for _, file := range files {
+		if dirOnly && !file.IsDir() {
+			continue
+		}
+		result = append(result, ConvertFileResponse(path, file))
+	}
+
+	return result, nil
 }
