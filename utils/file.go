@@ -1,61 +1,20 @@
 package utils
 
 import (
-	"io/fs"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/help-14/mountain/response"
 	cp "github.com/otiai10/copy"
 )
 
-func ConvertFileResponse(path string, file fs.FileInfo) response.FileResponse {
-	var res response.FileResponse
-
-	res.Name = file.Name()
-	res.ModTime = file.ModTime()
-	res.Path = filepath.ToSlash(filepath.Join(path, file.Name()))
-
-	// Resolve symlink and check IsDir?
-	resolvedLink, err := os.Readlink(res.Path)
-	if err == nil {
-		stat, startErr := os.Stat("/" + resolvedLink)
-		if startErr == nil {
-			res.IsSymLink = true
-			res.IsDir = stat.IsDir()
-		} else {
-			res.IsDir = file.IsDir()
-		}
+func SetupServePath() {
+	defaultPath := os.Getenv("SERVE_PATH")
+	if len(defaultPath) == 0 {
+		defaultPath = "/"
 	} else {
-		res.IsDir = file.IsDir()
+		os.MkdirAll(defaultPath, 0666)
 	}
-
-	if !res.IsDir {
-		res.Extension = filepath.Ext(res.Name)
-		res.Size = file.Size()
-	}
-
-	return res
-}
-
-func ReadDir(path string, dirOnly bool) ([]response.FileResponse, error) {
-	result := []response.FileResponse{}
-
-	files, err := ioutil.ReadDir(path)
-	if err != nil {
-		return result, err
-	}
-
-	for _, file := range files {
-		if dirOnly && !file.IsDir() {
-			continue
-		}
-		result = append(result, ConvertFileResponse(path, file))
-	}
-
-	return result, nil
 }
 
 func Exists(filePath string) bool {

@@ -1,4 +1,4 @@
-package response
+package routes
 
 import "time"
 
@@ -10,4 +10,8 @@ type FileResponse struct {
 	IsDir     bool      `json:"directory"`
 	IsSymLink bool      `json:"symlink"`
 	ModTime   time.Time `json:"modified"`
+}
+
+type ErrorResponse struct {
+	Error string `json:"error"`
 }
