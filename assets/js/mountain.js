@@ -80,6 +80,12 @@ function updateDragSelect() {
     })
 }
 
+function combinePath(...paths) {
+    return paths.map(function (i) {
+        return i.replace(/(^\/|\/$)/, '');
+    }).join('/');
+}
+
 async function handleFetch(response) {
     const data = await response.json()
     if (response.ok) {
@@ -463,31 +469,37 @@ function preview(file) {
     const imageFormats = ['gif', 'jpg', 'jpeg', 'png', 'apng', 'avif', 'webp', 'svg', 'jfif', 'pjpeg', 'pjp', 'bmp', 'ico', 'cur', 'tif', 'tiff']
     const videoFormats = ['mp4', 'ogg', 'webm', 'ogv', 'ogm']
     const audioFormats = ['wav', 'mp3', 'aac', 'aacp', 'flac']
-    const textFormats = ['txt', 'md', 'html', 'htm', 'js', 'jsx', 'ejs', 'css', 'scss']
+    const textFormats = ['txt', 'md', 'json', 'html', 'htm', 'js', 'jsx', 'ejs', 'css', 'scss']
 
+    console.log(file)
     const ext = file.ext.replace('.', '').toLowerCase()
     const title = document.querySelector('#previewModal h5')
     if (title) title.innerText = file.name
     const body = document.querySelector('#previewModalBody')
-    if (body) { body.innerHTML = '' }
-    else { return }
+    if (!body || modalOpened()) return
 
+    body.innerHTML = ''
+    const fileServePath = combinePath('/serve', file.path)
     if (imageFormats.includes(ext)) {
-        body.innerHTML = `<img src=''>`
+        body.innerHTML = `<img src='${fileServePath}'>`
+    }
+    else if (videoFormats.includes(ext)) {
+        body.innerHTML = `<video controls><source src="${fileServePath}" type="video/mp4">Your browser does not support the video tag.</video>`
+    }
+    else if (audioFormats.includes(ext)) {
+        body.innerHTML = `<audio controls><source src="${fileServePath}" type="audio/mp4">Your browser does not support the audio tag.</audio>`
+    }
+    else if (textFormats.includes(ext)) {
+        fetch(fileServePath).then((response) => response.text().then(text => {
+            body.innerHTML = `<textarea disabled>${text}</textarea>`
+        }));
+    }
+    else {
         return
     }
-    if (videoFormats.includes(ext)) {
-        body.innerHTML = `<video controls><source src="movie.mp4" type="video/mp4">Your browser does not support the video tag.</video>`
-        return
-    }
-    if (audioFormats.includes(ext)) {
-        body.innerHTML = `<audio controls><source src="movie.mp4" type="audio/mp4">Your browser does not support the audio tag.</audio>`
-        return
-    }
-    if (textFormats.includes(ext)) {
-        body.innerHTML = `<textarea disabled></textarea>`
-        return
-    }
+
+    const dom = document.querySelector('#previewModal')
+    if (dom) new bootstrap.Modal(dom).show()
 }
 
 function copyOrMove(ops) {

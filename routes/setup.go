@@ -8,6 +8,11 @@ import (
 )
 
 func SetupHttpRoutes(router *gin.Engine) {
+	defaultPath := os.Getenv("SERVE_PATH")
+	if len(defaultPath) == 0 {
+		defaultPath = "/"
+	}
+
 	router.GET("/api/get", GetDir)
 	router.POST("/api/create", Create)
 	router.POST("/api/copy", Copy)
@@ -21,10 +26,11 @@ func SetupHttpRoutes(router *gin.Engine) {
 	router.POST("/api/search", SearchFile)
 
 	router.Static("/assets", "./assets")
+	router.Static("/serve", defaultPath)
+
 	router.LoadHTMLGlob("templates/**/*")
 
 	router.GET("/", func(c *gin.Context) {
-		defaultPath := os.Getenv("SERVE_PATH")
 		c.HTML(http.StatusOK, "index.html", gin.H{
 			"title":       "Mountain",
 			"defaultPath": defaultPath,
