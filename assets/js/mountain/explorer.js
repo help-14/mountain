@@ -188,7 +188,7 @@ function createFile() {
     if (!newFileName || !newFileContent) return
 
     if (newFileName.value.trim().length <= 0) {
-        showToast($t('toast.error.fileNameEmpty'))
+        showToast($AlpineI18n.t('toast.error.fileNameEmpty'))
         return
     }
 
@@ -213,7 +213,7 @@ function createFolder() {
     if (!newFolderInput) return
     const text = newFolderInput.value
     if (text.length <= 0) {
-        showToast($t('toast.error.folderNameEmpty'))
+        showToast($AlpineI18n.t('toast.error.folderNameEmpty'))
         return
     }
 

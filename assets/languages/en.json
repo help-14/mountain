@@ -74,8 +74,12 @@
                 "upload": "Some files were not uploaded.",
                 "fileNameEmpty": "File name can't be empty",
                 "folderNameEmpty": "Folder name can't be empty"
-            },
-            "uploading": "Uploading"
+            }
+        },
+        "upload": {
+            "uploading": "Uploading",
+            "completed": "Upload completed",
+            "completedMessage": "{0} files uploaded!"
         },
         "modals": {
             "close": "Close",
