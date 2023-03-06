@@ -2,7 +2,7 @@ name: release build
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   docker:

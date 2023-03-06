@@ -1,41 +1,3 @@
-var currentPath = ''
-var ds = null
-var newItemSelected = null
-
-function isTouchDevice() {
-    return (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
-}
-
-function isSmallScreen() {
-    var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-    return vw < 768
-}
-
-function utf8_to_b64(str) {
-    return window.btoa(encodeURIComponent(str));
-}
-
-function b64_to_utf8(str) {
-    return decodeURIComponent(window.atob(str));
-}
-
-function getHashPath() {
-    return decodeURI(parent.location.hash.substring(1))
-}
-
-function hideToast() {
-    const toastContainer = document.querySelector('.toast-container')
-    if (toastContainer) toastContainer.innerHTML = ''
-}
-
-function modalOpened() {
-    return document.querySelector('.modal.show') ? true : false
-}
-
-function hideModal() {
-    document.querySelector('.modal.show button.btn-close')?.click()
-}
-
 function updateSelected() {
     const files = document.querySelectorAll('button.selectable')
     files.forEach(b => {
@@ -78,62 +40,6 @@ function updateDragSelect() {
             i.style.zIndex = "1";
         })
     })
-}
-
-function combinePath(...paths) {
-    return paths.map(function (i) {
-        return i.replace(/(^\/|\/$)/, '');
-    }).join('/');
-}
-
-async function handleFetch(response) {
-    const data = await response.json()
-    if (response.ok) {
-        return data
-    } else {
-        const errText = data?.error || await response.text()
-        setTimeout(() => showToast(errText), 10); //something prevent toast to show up, setTimeout fixed it
-        throw new Error(errText)
-    }
-}
-
-const get = (url) => fetch(url).then(handleFetch)
-const post = (url, data) => fetch(url, { method: 'POST', cache: 'no-cache', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(handleFetch)
-
-function showToast(message, title) {
-    const toastContainer = document.querySelector('.toast-container')
-    if (toastContainer) {
-        const id = Date.now().toString()
-        toastContainer.innerHTML += `
-        <div id="t${id}" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="me-auto">${title ?? $t(toast.title)}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">${message}</div>
-        </div>`
-        setTimeout(() => {
-            document.querySelector(`.toast-container #t${id}`)?.remove()
-        }, 4000);
-    } else {
-        alert(message)
-    }
-}
-
-function enabled(element, state) {
-    const e = document.querySelector(element)
-    if (e) {
-        if (state)
-            e.removeAttribute("disabled");
-        else
-            e.setAttribute("disabled", true);
-    }
-}
-
-function getStartUrl() {
-    if (parent.location.hash.length <= 2)
-        return document.querySelector('#defaultPath').value
-    return getHashPath()
 }
 
 function sort(arr, config) {
@@ -190,6 +96,7 @@ function sort(arr, config) {
     return result
 }
 
+
 function goto(path) {
     hideToast()
     if (ds) {
@@ -240,27 +147,6 @@ function goto(path) {
         })
 }
 
-function modalGoTo(path = '/') {
-    get(`/api/get?directory=true&path=${utf8_to_b64(path)}`)
-        .then(data => {
-            this.modalSelectFolder.files = sort(data, this.config.sort)
-            this.modalSelectFolder.path = path
-
-            let breadcrumbs = []
-            let splitted = path.split('/')
-            for (let i = 1; i < splitted.length; i++) {
-                const name = splitted[i]
-                if (name.length === 0) continue
-
-                breadcrumbs.push({
-                    name: splitted[i],
-                    path: splitted.slice(0, i + 1).join('/')
-                })
-            }
-            this.modalSelectFolder.breadcrumbs = breadcrumbs
-        })
-}
-
 function showOps() {
     this.opsToolbar = this.files.some(f => f.selected)
 }
@@ -289,87 +175,11 @@ function select(type) {
     this.showOps()
 }
 
-function fetchFile(url) {
-    try {
-        var a = document.createElement("a");
-        a.href = url;
-        a.target = '_blank'
-        fileName = url.split("/").pop();
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
-    } catch (err) {
-        showToast(err.message)
-    }
-}
-
 function generateCompressName() {
     const selected = this.files.filter(f => f.selected).map(f => f.name)
     const dom = document.querySelector('#compressFileName')
     if (dom)
         dom.value = selected.length === 1 ? selected[0] : this.path.split('/').pop() || new Date().getTime()
-}
-
-function download() {
-    let selected = this.files.filter(f => f.selected).map(f => f.name)
-    if (selected.length === 0)
-        return
-    let data = selected.map(n => joinPath(currentPath, n))
-    data.forEach(url => fetchFile(`/api/download?path=${utf8_to_b64(url)}`))
-}
-
-function upload() {
-    let input = document.createElement('input');
-    input.type = "file"
-    input.setAttribute('multiple', 'multiple')
-    input.onchange = _ => {
-        let files = Array.from(input.files);
-        const formData = new FormData();
-        formData.append('path', currentPath)
-        files.forEach(f => formData.append('files', f))
-        fetch(`/api/upload`, { method: "POST", body: formData })
-            .then(async (result) => {
-                if (result.ok)
-                    setTimeout(async () => showToast(await result.text(), "Upload completed"), 10);
-                else
-                    setTimeout(() => showToast($t('toast.error.upload')), 10);
-                this.goto(this.path)
-            })
-    };
-    input.click();
-}
-
-function showDeleteModal() {
-    if (modalOpened()) return
-    if (this.files.some(f => f.selected)) {
-        const dom = document.querySelector('#deleteModal')
-        if (dom) new bootstrap.Modal(dom).show()
-    }
-}
-
-function showRenameModal() {
-    if (modalOpened()) return
-    if (this.files.some(f => f.selected)) {
-        const dom = document.querySelector('#renameModal')
-        if (dom) new bootstrap.Modal(dom).show()
-    }
-}
-
-function showOpsModal(ops) {
-    if (modalOpened()) return
-    this.modalSelectFolder.ops = ops
-    this.modalGoTo(this.path)
-    if (this.files.some(f => f.selected)) {
-        const dom = document.querySelector('#destinationModal')
-        if (dom) new bootstrap.Modal(dom).show()
-    }
-}
-
-function showSearch() {
-    if (!modalOpened())
-        document.querySelector('#searchBox')?.focus()
 }
 
 function createFile() {
@@ -465,43 +275,6 @@ function compressSelected() {
     }).then(() => this.goto(this.path)).finally(() => hideModal())
 }
 
-function preview(file) {
-    const imageFormats = ['gif', 'jpg', 'jpeg', 'png', 'apng', 'avif', 'webp', 'svg', 'jfif', 'pjpeg', 'pjp', 'bmp', 'ico', 'cur', 'tif', 'tiff']
-    const videoFormats = ['mp4', 'ogg', 'webm', 'ogv', 'ogm']
-    const audioFormats = ['wav', 'mp3', 'aac', 'aacp', 'flac']
-    const textFormats = ['txt', 'md', 'json', 'html', 'htm', 'js', 'jsx', 'ejs', 'css', 'scss']
-
-    console.log(file)
-    const ext = file.ext.replace('.', '').toLowerCase()
-    const title = document.querySelector('#previewModal h5')
-    if (title) title.innerText = file.name
-    const body = document.querySelector('#previewModalBody')
-    if (!body || modalOpened()) return
-
-    body.innerHTML = ''
-    const fileServePath = combinePath('/serve', file.path)
-    if (imageFormats.includes(ext)) {
-        body.innerHTML = `<img src='${fileServePath}'>`
-    }
-    else if (videoFormats.includes(ext)) {
-        body.innerHTML = `<video controls><source src="${fileServePath}" type="video/mp4">Your browser does not support the video tag.</video>`
-    }
-    else if (audioFormats.includes(ext)) {
-        body.innerHTML = `<audio controls><source src="${fileServePath}" type="audio/mp4">Your browser does not support the audio tag.</audio>`
-    }
-    else if (textFormats.includes(ext)) {
-        fetch(fileServePath).then((response) => response.text().then(text => {
-            body.innerHTML = `<textarea disabled>${text}</textarea>`
-        }));
-    }
-    else {
-        return
-    }
-
-    const dom = document.querySelector('#previewModal')
-    if (dom) new bootstrap.Modal(dom).show()
-}
-
 function copyOrMove(ops) {
     let selected = this.files.filter(f => f.selected).map(f => f.name)
     if (selected.length === 0) {
@@ -525,40 +298,7 @@ function copyOrMove(ops) {
         .finally(() => enabled('#destinationModal button[type="submit"]', true))
 }
 
-function startInstance() {
-    return {
-        files: [],
-        breadcrumbs: [],
-        path: '',
-        emptyFolder: false,
-        opsToolbar: false,
-        modalSelectFolder: {
-            ops: '',
-            files: [],
-            breadcrumbs: [],
-            path: '',
-        },
-        getStartUrl, goto, modalGoTo, showOps, select, clickMode,
-        download, upload, modalOpened, generateCompressName, preview,
-        showSearch, showDeleteModal, showRenameModal, showOpsModal,
-        createFolder, createFile, deleteSelected, renameSelected, copyOrMove, compressSelected
-    }
-}
-
 // Reload page on go back
 window.onhashchange = () => {
     if (getHashPath() !== currentPath) window.location.reload();
 }
-
-// AlpineJS i18n
-document.addEventListener('alpine-i18n:ready', async function () {
-    const en = await get('/assets/languages/en.json')
-    let selected = document.querySelector('#language')?.value
-    if (!selected || selected.length !== 2) {
-        window.AlpineI18n.create('en', en);
-    } else {
-        const choosen = await get(`/assets/languages/${selected}.json`)
-        window.AlpineI18n.create(selected, { ...en, ...choosen });
-        window.AlpineI18n.fallbackLocale = 'en';
-    }
-});
