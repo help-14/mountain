@@ -12,6 +12,46 @@ import (
 	"github.com/help-14/mountain/utils"
 )
 
+type IoOperation int
+type IoOperationStatus int
+
+const (
+	CopyOperation IoOperation = iota
+	MoveOperation
+	RenameOperation
+	DeleteOperation
+	CompressOperation
+)
+
+const (
+	IoOperationStatus_Pending IoOperationStatus = iota
+	IoOperationStatus_Processing
+	IoOperationStatus_Completed
+	IoOperationStatus_Failed
+)
+
+type IoTask struct {
+	From      string
+	To        string
+	Path      string
+	Operation IoOperation
+	Error     error
+	Status    IoOperationStatus
+}
+
+var PendingIoTasks []IoTask
+
+func CreateIoTask(operation IoOperation, from string, to string, path string) IoTask {
+	return IoTask{
+		From:      from,
+		To:        to,
+		Path:      path,
+		Operation: operation,
+		Error:     nil,
+		Status:    IoOperationStatus_Pending,
+	}
+}
+
 func GetDir(c *gin.Context) {
 	rawPath := c.DefaultQuery("path", "/")
 	path, err := utils.DecodeBase64(rawPath)
@@ -92,23 +132,15 @@ func Copy(c *gin.Context) {
 		return
 	}
 
-	errList := []string{}
+	var tasks []IoTask
 	for i := 0; i < len(body); i++ {
 		current := body[i]
-		utils.LogInfo("Request to copy from " + current.From + " to " + current.To)
-
-		err := utils.Copy(current.From, current.To)
-		if err != nil {
-			utils.LogError(err.Error())
-			errList = append(errList, current.From)
-		}
+		tasks = append(tasks, CreateIoTask(CopyOperation, current.From, current.To, ""))
 	}
 
-	if len(errList) == 0 {
-		c.JSON(http.StatusOK, nil)
-	} else {
-		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be copy.")
-	}
+	PendingIoTasks = append(PendingIoTasks, tasks...)
+	CheckPendingIoTask()
+	c.JSON(http.StatusOK, nil)
 }
 
 func Move(c *gin.Context) {
@@ -118,23 +150,15 @@ func Move(c *gin.Context) {
 		return
 	}
 
-	errList := []string{}
+	var tasks []IoTask
 	for i := 0; i < len(body); i++ {
 		current := body[i]
-		utils.LogInfo("Request to move from " + current.From + " to " + current.To)
-
-		err := utils.Move(current.From, current.To)
-		if err != nil {
-			utils.LogError(err.Error())
-			errList = append(errList, current.From)
-		}
+		tasks = append(tasks, CreateIoTask(MoveOperation, current.From, current.To, ""))
 	}
 
-	if len(errList) == 0 {
-		c.JSON(http.StatusOK, nil)
-	} else {
-		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be move.")
-	}
+	PendingIoTasks = append(PendingIoTasks, tasks...)
+	CheckPendingIoTask()
+	c.JSON(http.StatusOK, nil)
 }
 
 func Rename(c *gin.Context) {
@@ -144,23 +168,15 @@ func Rename(c *gin.Context) {
 		return
 	}
 
-	errList := []string{}
+	var tasks []IoTask
 	for i := 0; i < len(body); i++ {
 		current := body[i]
-		utils.LogInfo("Request to rename from " + current.From + " to " + current.To)
-
-		err := utils.Rename(current.From, current.To)
-		if err != nil {
-			utils.LogError(err.Error())
-			errList = append(errList, current.From)
-		}
+		tasks = append(tasks, CreateIoTask(RenameOperation, current.From, current.To, ""))
 	}
 
-	if len(errList) == 0 {
-		c.JSON(http.StatusOK, nil)
-	} else {
-		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be move.")
-	}
+	PendingIoTasks = append(PendingIoTasks, tasks...)
+	CheckPendingIoTask()
+	c.JSON(http.StatusOK, nil)
 }
 
 func Delete(c *gin.Context) {
@@ -170,21 +186,14 @@ func Delete(c *gin.Context) {
 		return
 	}
 
-	errList := []string{}
+	var tasks []IoTask
 	for i := 0; i < len(body); i++ {
-		utils.LogInfo("Request to delete " + body[i])
-		err := utils.Delete(body[i])
-		if err != nil {
-			utils.LogError(err.Error())
-			errList = append(errList, body[i])
-		}
+		tasks = append(tasks, CreateIoTask(DeleteOperation, "nil", "", body[i]))
 	}
 
-	if len(errList) == 0 {
-		c.JSON(http.StatusOK, nil)
-	} else {
-		ReturnErrorMessage(c, http.StatusInternalServerError, "Some files can't be deleted.")
-	}
+	PendingIoTasks = append(PendingIoTasks, tasks...)
+	CheckPendingIoTask()
+	c.JSON(http.StatusOK, nil)
 }
 
 type CompressBody struct {
@@ -256,4 +265,47 @@ func ReadDir(path string, dirOnly bool) ([]FileResponse, error) {
 	}
 
 	return result, nil
+}
+
+func CheckPendingIoTask() {
+	for i := 0; i < len(PendingIoTasks); i++ {
+		current := &PendingIoTasks[i]
+		if current.Status == IoOperationStatus_Pending {
+			current.Status = IoOperationStatus_Processing
+			go RunPendingIoTask(current)
+			return
+		}
+	}
+
+	utils.LogInfo("No more IO task to run")
+	PendingIoTasks = []IoTask{}
+}
+
+func RunPendingIoTask(task *IoTask) {
+	var err error
+
+	switch task.Operation {
+	case CopyOperation:
+		utils.LogInfo("Run task copy from " + task.From + " to " + task.To)
+		err = utils.Copy(task.From, task.To)
+	case MoveOperation:
+		utils.LogInfo("Run task move from " + task.From + " to " + task.To)
+		err = utils.Move(task.From, task.To)
+	case RenameOperation:
+		utils.LogInfo("Run task rename from " + task.From + " to " + task.To)
+		err = utils.Rename(task.From, task.To)
+	case DeleteOperation:
+		utils.LogInfo("Run task  delete " + task.Path)
+		err = utils.Delete(task.Path)
+	}
+
+	if err == nil {
+		task.Status = IoOperationStatus_Completed
+	} else {
+		task.Status = IoOperationStatus_Failed
+		task.Error = err
+		utils.LogError(err)
+	}
+
+	CheckPendingIoTask()
 }
