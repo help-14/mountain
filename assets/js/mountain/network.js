@@ -71,7 +71,7 @@ function doUpload() {
             else {
                 pendingUploads.push({ ...task })
                 task.complete = true
-                setTimeout(() => showToast($AlpineI18n.t('toast.error.upload') + `: ${task.file}`), 10);
+                setTimeout(() => showToast(AlpineI18n.t('toast.error.upload') + `: ${task.file}`), 10);
             }
 
             if (currentPath === this.path)
