@@ -69,8 +69,12 @@
                 "upload": "Некоторые файлы не были загружены.",
                 "fileNameEmpty": "Имя файла не может быть пустым",
                 "folderNameEmpty": "Имя папки не может быть пустым"
-            },
-            "uploading": "Загрузка"
+            }
+        },
+        "upload": {
+            "uploading": "Загрузка",
+            "completed": "Upload completed",
+            "completedMessage": "Загружено {0} файлов!"
         },
         "modals": {
             "close": "Закрыть",

@@ -54,7 +54,7 @@ function doUpload() {
     updateUploadToast()
     const task = pendingUploads.find(u => u.complete === false);
     if (!task) {
-        setTimeout(async () => showToast('', `Upload completed`), 10);
+        showToast(AlpineI18n.t('upload.completedMessage').replace('{0}', pendingUploads.length), AlpineI18n.t('upload.completed'))
         pendingUploads = []
         updateUploadToast()
         return
@@ -71,7 +71,7 @@ function doUpload() {
             else {
                 pendingUploads.push({ ...task })
                 task.complete = true
-                setTimeout(() => showToast($t('toast.error.upload') + `: ${task.file}`), 10);
+                setTimeout(() => showToast($AlpineI18n.t('toast.error.upload') + `: ${task.file}`), 10);
             }
 
             if (currentPath === this.path)

@@ -69,8 +69,12 @@
                 "upload": "Một số file tải lên không thành công",
                 "fileNameEmpty": "Tên file không thể để trống",
                 "folderNameEmpty": "Tên thư mục không thể để trống"
-            },
-            "uploading": "Đang tải lên"
+            }
+        },
+        "upload": {
+            "uploading": "Đang tải lên",
+            "completed": "Tải lên hoàn tất",
+            "completedMessage": "Hoàn thành tải lên {0} file!"
         },
         "modals": {
             "close": "Đóng",

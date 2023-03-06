@@ -19,8 +19,8 @@ function showToast(message, title) {
         toastContainer.innerHTML += `
         <div id="t${id}" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                <strong class="me-auto">${title ?? $t(toast.title)}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                <strong class="me-auto">${title ?? AlpineI18n.t('toast.title')}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
             </div>
             <div class="toast-body">${message}</div>
         </div>`
@@ -41,12 +41,12 @@ function updateUploadToast() {
         toastContainer.innerHTML += `
             <div id="upload" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
-                    <strong class="me-auto" x-text="$t('toast.uploading')"></strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <strong class="me-auto" x-text="$t('upload.uploading')"></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
                 </div>
                 <div class="toast-body">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>`
@@ -91,11 +91,6 @@ function modalGoTo(path = '/') {
 }
 
 function preview(file) {
-    const imageFormats = ['gif', 'jpg', 'jpeg', 'png', 'apng', 'avif', 'webp', 'svg', 'jfif', 'pjpeg', 'pjp', 'bmp', 'ico', 'cur', 'tif', 'tiff']
-    const videoFormats = ['mp4', 'ogg', 'webm', 'ogv', 'ogm']
-    const audioFormats = ['wav', 'mp3', 'aac', 'aacp', 'flac']
-    const textFormats = ['txt', 'md', 'json', 'html', 'htm', 'js', 'jsx', 'ejs', 'css', 'scss', 'pem']
-
     const ext = file.ext.replace('.', '').toLowerCase()
     const title = document.querySelector('#previewModal h5')
     if (title) title.innerText = file.name
@@ -119,6 +114,7 @@ function preview(file) {
         }));
     }
     else {
+        window.open(fileServePath, '_blank')
         return
     }
 

@@ -2,6 +2,11 @@ var currentPath = ''
 var ds = null
 var newItemSelected = null
 
+const imageFormats = ['gif', 'jpg', 'jpeg', 'png', 'apng', 'avif', 'webp', 'svg', 'jfif', 'pjpeg', 'pjp', 'bmp', 'ico', 'cur', 'tif', 'tiff']
+const videoFormats = ['mp4', 'ogg', 'webm', 'ogv', 'ogm']
+const audioFormats = ['wav', 'mp3', 'aac', 'aacp', 'flac']
+const textFormats = ['txt', 'md', 'json', 'html', 'htm', 'js', 'jsx', 'ejs', 'css', 'scss', 'pem']
+
 function isTouchDevice() {
     return (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
 }
