@@ -77,6 +77,6 @@ function doUpload() {
             if (currentPath === this.path)
                 this.goto(this.path)
 
-            setTimeout(() => doUpload(), 1000);
+            doUpload()
         })
 }

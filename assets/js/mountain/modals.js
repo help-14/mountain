@@ -41,7 +41,7 @@ function updateUploadToast() {
         toastContainer.innerHTML += `
             <div id="upload" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
-                    <strong class="me-auto"></strong>
+                    <strong class="me-auto" x-text="$t('toast.uploading')"></strong>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
@@ -58,13 +58,13 @@ function updateUploadToast() {
         return
     }
 
-    const title = uploadToast.querySelector('strong')
+    //const title = uploadToast.querySelector('strong')
     const progressBar = uploadToast.querySelector('.progress .progress-bar')
 
     const completed = pendingUploads.filter(u => u.complete).length
     const val = Math.round(completed * 100 / pendingUploads.length)
 
-    title.innerText = 'Uploading' + ` ${completed}/${pendingUploads.length}` //$t('toast.uploading')
+    //title.innerText = `${completed}/${pendingUploads.length}`
     progressBar.style.width = `${val}%`
     progressBar.setAttribute('aria-valuenow', val)
 }
