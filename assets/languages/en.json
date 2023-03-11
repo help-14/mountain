@@ -42,6 +42,9 @@
                 "documentation": "Documentation",
                 "premium": "Premium",
                 "update": "Check for update"
+            },
+            "tasks": {
+                "title": "Running tasks"
             }
         },
         "search": {

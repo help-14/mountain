@@ -12,6 +12,7 @@ func main() {
 
 	router := gin.Default()
 	routes.SetupHttpRoutes(router)
-	routes.SetupWebSocket(router)
+	go routes.SetupWebSocket()
+
 	router.Run(":8080")
 }

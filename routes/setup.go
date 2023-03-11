@@ -36,4 +36,5 @@ func SetupHttpRoutes(router *gin.Engine) {
 			"defaultPath": defaultPath,
 		})
 	})
+
 }

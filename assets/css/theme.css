@@ -74,3 +74,18 @@ body {
     opacity: 0;
     transition: opacity 0.2s;
 }
+
+.jiggle {
+    animation: jiggling 0.3s infinite ease-in;
+    animation-direction: alternate;
+}
+
+@keyframes jiggling {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(30deg);
+    }
+}
