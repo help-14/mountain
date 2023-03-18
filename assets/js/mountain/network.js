@@ -80,3 +80,34 @@ function doUpload() {
             doUpload()
         })
 }
+
+const doGetLanguage = (lang) => get(`/assets/languages/${lang}.json`)
+const doGetIoTasks = () => get("/api/queue/io")
+
+const goGetDirectoriesFromPath = (path) => get(`/api/get?directory=true&path=${utf8_to_b64(path)}`)
+const doGetFilesFromPath = (path) => get(`/api/get?path=${utf8_to_b64(path)}`)
+
+const doCreateFile = (path, name, content) => post(`/api/create`, {
+    path,
+    name,
+    content,
+    directory: false
+})
+const doCreateFolder = (path, name) => post(`/api/create`, {
+    path,
+    name,
+    directory: true,
+    content: ''
+})
+
+const doDeleteFiles = (paths) => post(`/api/delete`, paths)
+const doRenameFiles = (data) => post(`/api/rename`, data)
+const doCopyFiles = (data) => post(`/api/copy`, data)
+const doMoveFiles = (data) => post(`/api/move`, data)
+
+const doCompressFiles = (name, path, type, files) => post(`/api/compress`, {
+    name,
+    path,
+    type,
+    files
+})

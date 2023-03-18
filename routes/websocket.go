@@ -53,6 +53,15 @@ var manager = ClientManager{
 	clients:    make(map[*Client]bool),
 }
 
+func SendWs(data any) {
+	json, err := json.Marshal(data)
+	if err != nil {
+		utils.LogError(err)
+		return
+	}
+	manager.send(json, nil)
+}
+
 func NewUuid() string {
 	newUUID, err := exec.Command("uuidgen").Output()
 	if err != nil {
@@ -70,22 +79,23 @@ func (manager *ClientManager) start() {
 			//Set the client connection to true
 			manager.clients[conn] = true
 			//Format the message of returning to the successful connection JSON
-			jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected. ", ServerIP: LocalIp(), SenderIP: conn.socket.RemoteAddr().String()})
+			//jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected. ", ServerIP: LocalIp(), SenderIP: conn.socket.RemoteAddr().String()})
 			//Call the client's send method and send messages
-			manager.send(jsonMessage, conn)
+			//manager.send(jsonMessage, conn)
 			//If the connection is disconnected
 		case conn := <-manager.unregister:
 			//Determine the state of the connection, if it is true, turn off Send and delete the value of connecting client
 			if _, ok := manager.clients[conn]; ok {
 				close(conn.send)
 				delete(manager.clients, conn)
-				jsonMessage, _ := json.Marshal(&Message{Content: "/A socket has disconnected. ", ServerIP: LocalIp(), SenderIP: conn.socket.RemoteAddr().String()})
-				manager.send(jsonMessage, conn)
+				//jsonMessage, _ := json.Marshal(&Message{Content: "/A socket has disconnected. ", ServerIP: LocalIp(), SenderIP: conn.socket.RemoteAddr().String()})
+				//manager.send(jsonMessage, conn)
 			}
 			//broadcast
 		case message := <-manager.broadcast:
 			//Traversing the client that has been connected, send the message to them
 			for conn := range manager.clients {
+				//TODO skip the sender from re-receiving
 				select {
 				case conn.send <- message:
 				default:

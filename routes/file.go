@@ -12,34 +12,34 @@ import (
 	"github.com/help-14/mountain/utils"
 )
 
-type IoOperation int
-type IoOperationStatus int
+type IoOperation string
+type IoOperationStatus string
 
 const (
-	CopyOperation IoOperation = iota
-	MoveOperation
-	RenameOperation
-	DeleteOperation
-	CompressOperation
+	CopyOperation     IoOperation = "copy"
+	MoveOperation     IoOperation = "move"
+	RenameOperation   IoOperation = "rename"
+	DeleteOperation   IoOperation = "delete"
+	CompressOperation IoOperation = "compress"
 )
 
 const (
-	IoOperationStatus_Pending IoOperationStatus = iota
-	IoOperationStatus_Processing
-	IoOperationStatus_Completed
-	IoOperationStatus_Failed
+	IoOperationStatus_Pending    IoOperationStatus = "pending"
+	IoOperationStatus_Processing IoOperationStatus = "processing"
+	IoOperationStatus_Completed  IoOperationStatus = "completed"
+	IoOperationStatus_Failed     IoOperationStatus = "failed"
 )
 
 type IoTask struct {
-	From      string
-	To        string
-	Path      string
-	Operation IoOperation
-	Error     error
-	Status    IoOperationStatus
+	From      string            `json:"from"`
+	To        string            `json:"to"`
+	Path      string            `json:"path"`
+	Operation IoOperation       `json:"operation"`
+	Error     error             `json:"error"`
+	Status    IoOperationStatus `json:"status"`
 }
 
-var PendingIoTasks []IoTask
+var PendingIoTasks []IoTask = []IoTask{}
 
 func CreateIoTask(operation IoOperation, from string, to string, path string) IoTask {
 	return IoTask{
@@ -138,7 +138,7 @@ func Copy(c *gin.Context) {
 		tasks = append(tasks, CreateIoTask(CopyOperation, current.From, current.To, ""))
 	}
 
-	PendingIoTasks = append(PendingIoTasks, tasks...)
+	AddIoTask(tasks)
 	CheckPendingIoTask()
 	c.JSON(http.StatusOK, nil)
 }
@@ -156,7 +156,7 @@ func Move(c *gin.Context) {
 		tasks = append(tasks, CreateIoTask(MoveOperation, current.From, current.To, ""))
 	}
 
-	PendingIoTasks = append(PendingIoTasks, tasks...)
+	AddIoTask(tasks)
 	CheckPendingIoTask()
 	c.JSON(http.StatusOK, nil)
 }
@@ -174,7 +174,7 @@ func Rename(c *gin.Context) {
 		tasks = append(tasks, CreateIoTask(RenameOperation, current.From, current.To, ""))
 	}
 
-	PendingIoTasks = append(PendingIoTasks, tasks...)
+	AddIoTask(tasks)
 	CheckPendingIoTask()
 	c.JSON(http.StatusOK, nil)
 }
@@ -191,7 +191,7 @@ func Delete(c *gin.Context) {
 		tasks = append(tasks, CreateIoTask(DeleteOperation, "nil", "", body[i]))
 	}
 
-	PendingIoTasks = append(PendingIoTasks, tasks...)
+	AddIoTask(tasks)
 	CheckPendingIoTask()
 	c.JSON(http.StatusOK, nil)
 }
@@ -267,11 +267,19 @@ func ReadDir(path string, dirOnly bool) ([]FileResponse, error) {
 	return result, nil
 }
 
+func AddIoTask(tasks []IoTask) {
+	PendingIoTasks = append(PendingIoTasks, tasks...)
+	for i := 0; i < len(tasks); i++ {
+		SendWs(tasks[i])
+	}
+}
+
 func CheckPendingIoTask() {
 	for i := 0; i < len(PendingIoTasks); i++ {
 		current := &PendingIoTasks[i]
 		if current.Status == IoOperationStatus_Pending {
 			current.Status = IoOperationStatus_Processing
+			SendWs(current)
 			go RunPendingIoTask(current)
 			return
 		}
@@ -306,6 +314,7 @@ func RunPendingIoTask(task *IoTask) {
 		task.Error = err
 		utils.LogError(err)
 	}
+	SendWs(task)
 
 	CheckPendingIoTask()
 }

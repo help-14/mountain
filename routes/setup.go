@@ -25,6 +25,8 @@ func SetupHttpRoutes(router *gin.Engine) {
 	router.POST("/api/upload", UploadFile)
 	router.POST("/api/search", SearchFile)
 
+	router.GET("/api/queue/io", QueueIoTask)
+
 	router.Static("/assets", "./assets")
 	router.Static("/serve", defaultPath)
 
