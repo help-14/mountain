@@ -151,3 +151,7 @@ function showSearch() {
     if (!modalOpened())
         document.querySelector('#searchBox')?.focus()
 }
+
+function showTasks() {
+    doGetIoTasks().then(data => { this.tasks = data })
+}

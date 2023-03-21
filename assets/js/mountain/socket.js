@@ -28,4 +28,4 @@ function SendSocket(data) {
         ws.send(JSON.stringify(data))
 }
 
-SetupWebsocket()
+//SetupWebsocket()

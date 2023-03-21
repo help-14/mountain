@@ -247,9 +247,50 @@
                         <input id="searchBox" type="text" class="form-control"
                             x-bind:placeholder='$t("search.placeholder")'>
                     </div>
-                    <button class="btn btn-primary d-none d-md-block" type="button"
-                        x-html="`<i class='fa fa-solid fa-hammer ms-1 me-1 jiggle'></i> ${$t('header.tasks.title')}`">
-                    </button>
+                    <div class="dropdown ms-2 me-2">
+                        <button class="btn btn-primary dropdown-toggle d-none d-md-block" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" @click="showTasks()"
+                            x-html="`<i class='fa fa-solid fa-hammer ms-1 me-1 no-jiggle'></i> ${$t('header.tasks.title')}`">
+                        </button>
+                        <button class="btn btn-primary dropdown-toggle d-md-none" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" @click="showTasks()"
+                            x-html="`<i class='fa fa-solid fa-hammer ms-1 me-1'></i>`">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <template x-for="task in tasks">
+                                <li>
+                                    <button class="dropdown-item" type="button">
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                <i class="fa-solid fa-play text-primary"
+                                                    x-show="task.status==='processing'"></i>
+                                                <i class="fa-solid fa-pause" x-show="task.status==='pending'"></i>
+                                                <i class="fa-solid fa-check text-success"
+                                                    x-show="task.status==='completed'"></i>
+                                                <i class="fa-solid fa-x text-danger"
+                                                    x-show="task.status==='failed'"></i>
+                                            </div>
+                                            <div class="col-auto ps-0">
+                                                <p class="mb-0 ms-0" x-text="$t(`controls.${task.operation}`)"></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="mb-0 text-break text-secondary fst-italic" x-text="task.from"
+                                                    x-show="task.operation==='rename'">
+                                                </p>
+                                                <p class="mb-0 text-break text-secondary fst-italic" x-text="task.to"
+                                                    x-show="task.operation==='copy'||task.operation==='move'">
+                                                </p>
+                                                <p class="mb-0 text-break text-secondary fst-italic" x-text="task.path"
+                                                    x-show="task.operation==='delete'||task.operation==='compress'"></p>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
