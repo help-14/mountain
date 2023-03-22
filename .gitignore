@@ -16,3 +16,6 @@
 
 .DS_Store
 serve/
+
+node_modules
+dist

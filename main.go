@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/help-14/mountain/routes"
-	"github.com/help-14/mountain/utils"
+	"github.com/help-14/mountain/server/routes"
+	"github.com/help-14/mountain/server/utils"
 )
 
 func main() {
