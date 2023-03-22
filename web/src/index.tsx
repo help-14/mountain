@@ -1,5 +1,6 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
+import { HopeProvider, HopeThemeConfig } from '@hope-ui/solid'
 
 import './index.css';
 import App from './App';
@@ -12,4 +13,18 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <App />, root!);
+const config: HopeThemeConfig = {
+  lightTheme: {
+    colors: {
+      primary9: "salmon"
+    }
+  }
+}
+
+render(() => {
+  return (
+    <HopeProvider config={config}>
+      <App />
+    </HopeProvider>
+  )
+}, root!);
