@@ -37,6 +37,9 @@
                 "documentation": "Hướng dẫn sử dụng",
                 "premium": "Bản cao cấp",
                 "update": "Kiểm tra bản mới"
+            },
+            "tasks": {
+                "title": "Đang chạy"
             }
         },
         "search": {
@@ -118,6 +121,14 @@
                 "format": "Định dạng nén",
                 "submit": "Nén lại"
             }
+        },
+        "tasks": {
+            "none": "Không có nhiệm vụ nào!",
+            "rename": "Đổi tên:",
+            "copy": "Sao chép từ:",
+            "move": "Di chuyển từ:",
+            "delete": "Xoá tất cả tại:",
+            "compress": "Nén lại:"
         }
     }
 }

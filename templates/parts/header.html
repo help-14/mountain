@@ -257,7 +257,9 @@
                             x-html="`<i class='fa fa-solid fa-hammer ms-1 me-1'></i>`">
                         </button>
                         <ul class="dropdown-menu">
-                            <template x-for="task in tasks">
+                            <button class="dropdown-item text-secondary" type="button" x-html="$t('tasks.none')"
+                                x-show="tasks.length==0"></button>
+                            <template x-for="task in tasks" x-show="tasks.length>0">
                                 <li>
                                     <button class="dropdown-item" type="button">
                                         <div class="row">

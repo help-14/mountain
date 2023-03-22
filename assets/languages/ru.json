@@ -37,6 +37,9 @@
                 "documentation": "Документация",
                 "premium": "Премиум",
                 "update": "Проверить обновления"
+            },
+            "tasks": {
+                "title": "Running tasks"
             }
         },
         "search": {
@@ -118,6 +121,14 @@
                 "format": "Формат",
                 "submit": "Сжать"
             }
+        },
+        "tasks": {
+            "none": "All task are completed!",
+            "rename": "Rename:",
+            "copy": "Copy from:",
+            "move": "Move from:",
+            "delete": "Delete everything in:",
+            "compress": "Compress:"
         }
     }
 }

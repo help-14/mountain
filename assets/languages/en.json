@@ -126,6 +126,14 @@
                 "format": "Format",
                 "submit": "Compress"
             }
+        },
+        "tasks": {
+            "none": "All task are completed!",
+            "rename": "Rename:",
+            "copy": "Copy from:",
+            "move": "Move from:",
+            "delete": "Delete everything in:",
+            "compress": "Compress:"
         }
     }
 }
