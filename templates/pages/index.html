@@ -19,10 +19,26 @@
 
     <script defer type="module">
         import AlpineI18n from '/assets/js/alpinejs-i18n.js'
+        import { InitComponents } from '/assets/components/index.js'
+
         document.addEventListener('alpine:init', () => {
             window.Alpine.plugin(AlpineI18n)
         })
+
+        document.addEventListener('alpine-i18n:ready', async function () {
+            const en = await doGetLanguage('en')
+            let selected = document.querySelector('#language')?.value
+            if (!selected || selected.length !== 2) {
+                window.AlpineI18n.create('en', en);
+            } else {
+                const choosen = await doGetLanguage(selected)
+                window.AlpineI18n.create(selected, { ...en, ...choosen });
+                window.AlpineI18n.fallbackLocale = 'en';
+            }
+            InitComponents()
+        });
     </script>
+
 
     <script src="/assets/js/dragselect.min.js"></script>
     <script defer src="/assets/js/persist.min.js"></script>
@@ -34,6 +50,8 @@
     <script src="/assets/js/mountain/network.js"></script>
     <script src="/assets/js/mountain/explorer.js"></script>
     <script src="/assets/js/mountain/alpine.js"></script>
+    <script src="/assets/js/mountain/socket.js"></script>
+
 </head>
 
 <body class="g-sidenav-show bg-gray-100" x-data="{ config: {

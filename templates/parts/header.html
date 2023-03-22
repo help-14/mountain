@@ -238,14 +238,60 @@
                     </div>
                 </div>
             </div>
-            <div class="col-auto" x-show="false">
+            <div class="col-auto">
                 <div class="d-flex align-items-center justify-content-end">
-                    <div class="input-group">
+                    <div class="input-group" x-show="false">
                         <span class="input-group-text text-body">
                             <i class="fas fa-search" aria-hidden="true"></i>
                         </span>
                         <input id="searchBox" type="text" class="form-control"
                             x-bind:placeholder='$t("search.placeholder")'>
+                    </div>
+                    <div class="dropdown ms-2 me-2">
+                        <button class="btn btn-primary dropdown-toggle d-none d-md-block" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" @click="showTasks()"
+                            x-html="`<i class='fa fa-solid fa-hammer ms-1 me-1 no-jiggle'></i> ${$t('header.tasks.title')}`">
+                        </button>
+                        <button class="btn btn-primary dropdown-toggle d-md-none" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" @click="showTasks()"
+                            x-html="`<i class='fa fa-solid fa-hammer ms-1 me-1'></i>`">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <button class="dropdown-item text-secondary" type="button" x-html="$t('tasks.none')"
+                                x-show="tasks.length==0"></button>
+                            <template x-for="task in tasks" x-show="tasks.length>0">
+                                <li>
+                                    <button class="dropdown-item" type="button">
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                <i class="fa-solid fa-play text-primary"
+                                                    x-show="task.status==='processing'"></i>
+                                                <i class="fa-solid fa-pause" x-show="task.status==='pending'"></i>
+                                                <i class="fa-solid fa-check text-success"
+                                                    x-show="task.status==='completed'"></i>
+                                                <i class="fa-solid fa-x text-danger"
+                                                    x-show="task.status==='failed'"></i>
+                                            </div>
+                                            <div class="col-auto ps-0">
+                                                <p class="mb-0 ms-0" x-text="$t(`controls.${task.operation}`)"></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="mb-0 text-break text-secondary fst-italic" x-text="task.from"
+                                                    x-show="task.operation==='rename'">
+                                                </p>
+                                                <p class="mb-0 text-break text-secondary fst-italic" x-text="task.to"
+                                                    x-show="task.operation==='copy'||task.operation==='move'">
+                                                </p>
+                                                <p class="mb-0 text-break text-secondary fst-italic" x-text="task.path"
+                                                    x-show="task.operation==='delete'||task.operation==='compress'"></p>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </li>
+                            </template>
+                        </ul>
                     </div>
                 </div>
             </div>

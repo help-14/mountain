@@ -70,24 +70,23 @@ function updateUploadToast() {
 }
 
 function modalGoTo(path = '/') {
-    get(`/api/get?directory=true&path=${utf8_to_b64(path)}`)
-        .then(data => {
-            this.modalSelectFolder.files = sort(data, this.config.sort)
-            this.modalSelectFolder.path = path
+    goGetDirectoriesFromPath(path).then(data => {
+        this.modalSelectFolder.files = sort(data, this.config.sort)
+        this.modalSelectFolder.path = path
 
-            let breadcrumbs = []
-            let splitted = path.split('/')
-            for (let i = 1; i < splitted.length; i++) {
-                const name = splitted[i]
-                if (name.length === 0) continue
+        let breadcrumbs = []
+        let splitted = path.split('/')
+        for (let i = 1; i < splitted.length; i++) {
+            const name = splitted[i]
+            if (name.length === 0) continue
 
-                breadcrumbs.push({
-                    name: splitted[i],
-                    path: splitted.slice(0, i + 1).join('/')
-                })
-            }
-            this.modalSelectFolder.breadcrumbs = breadcrumbs
-        })
+            breadcrumbs.push({
+                name: splitted[i],
+                path: splitted.slice(0, i + 1).join('/')
+            })
+        }
+        this.modalSelectFolder.breadcrumbs = breadcrumbs
+    })
 }
 
 function preview(file) {
@@ -151,4 +150,8 @@ function showOpsModal(ops) {
 function showSearch() {
     if (!modalOpened())
         document.querySelector('#searchBox')?.focus()
+}
+
+function showTasks() {
+    doGetIoTasks().then(data => { this.tasks = data })
 }

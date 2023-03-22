@@ -103,7 +103,7 @@ function goto(path) {
         ds.removeSelectables(ds.getSelectables(), true)
         ds.stop()
     }
-    get(`/api/get?path=${utf8_to_b64(path)}`)
+    doGetFilesFromPath(path)
         .then(data => {
             this.emptyFolder = data.length === 0
             this.files = sort(data.map(a => {
@@ -188,17 +188,12 @@ function createFile() {
     if (!newFileName || !newFileContent) return
 
     if (newFileName.value.trim().length <= 0) {
-        showToast($AlpineI18n.t('toast.error.fileNameEmpty'))
+        showToast(AlpineI18n.t('toast.error.fileNameEmpty'))
         return
     }
 
     enabled('#newFileModal button[type="submit"]', false)
-    post(`/api/create`, {
-        path: this.path,
-        name: newFileName.value.trim(),
-        directory: false,
-        content: newFileContent.value.trim()
-    })
+    doCreateFile(this.path, newFileName.value.trim(), newFileContent.value.trim())
         .then(data => {
             this.goto(currentPath)
             newFileName.value = ''
@@ -213,17 +208,12 @@ function createFolder() {
     if (!newFolderInput) return
     const text = newFolderInput.value
     if (text.length <= 0) {
-        showToast($AlpineI18n.t('toast.error.folderNameEmpty'))
+        showToast(AlpineI18n.t('toast.error.folderNameEmpty'))
         return
     }
 
     enabled('#newFolderModal button[type="submit"]', false)
-    post(`/api/create`, {
-        path: this.path,
-        name: text,
-        directory: true,
-        content: ''
-    })
+    doCreateFolder(this.path, text)
         .then(data => {
             this.goto(currentPath)
             newFolderInput.value = ''
@@ -235,7 +225,7 @@ function createFolder() {
 async function deleteSelected() {
     const selected = this.files.filter(f => f.selected).map(f => f.path)
     hideModal()
-    await post(`/api/delete`, selected)
+    await doDeleteFiles(selected)
     this.goto(currentPath)
 }
 
@@ -253,7 +243,7 @@ function renameSelected() {
     })
 
     enabled('#renameModal button[type="submit"]', false)
-    post(`/api/rename`, data)
+    doRenameFiles(data)
         .then(data => {
             this.goto(currentPath)
             hideModal()
@@ -267,12 +257,10 @@ function compressSelected() {
         return
     const name = document.querySelector('#compressFileName')?.value ?? new Date().getTime()
     const type = document.querySelector('#compressTypeSelect')?.value ?? 'zip'
-    post(`/api/compress`, {
-        name,
-        path: this.path,
-        type: type,
-        files: selected.map(f => f.path)
-    }).then(() => this.goto(this.path)).finally(() => hideModal())
+
+    doCompressFiles(name, this.path, type, selected.map(f => f.path))
+        .then(() => this.goto(this.path))
+        .finally(() => hideModal())
 }
 
 function copyOrMove(ops) {
@@ -290,7 +278,11 @@ function copyOrMove(ops) {
     })
 
     enabled('#destinationModal button[type="submit"]', false)
-    post(`/api/${ops}`, data)
+        (ops === 'copy'
+            ? doCopyFiles(data)
+            : ops === 'move'
+                ? doMoveFiles(data)
+                : {})
         .then(data => {
             this.goto(currentPath)
             hideModal()
