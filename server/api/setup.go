@@ -1,17 +1,10 @@
-package routes
+package api
 
 import (
-	"net/http"
-	"os"
-
 	"github.com/gin-gonic/gin"
 )
 
-func SetupHttpRoutes(router *gin.Engine) {
-	defaultPath := os.Getenv("SERVE_PATH")
-	if len(defaultPath) == 0 {
-		defaultPath = "/"
-	}
+func SetupApi(router *gin.Engine) {
 
 	router.GET("/api/get", GetDir)
 	router.POST("/api/create", Create)
@@ -26,17 +19,4 @@ func SetupHttpRoutes(router *gin.Engine) {
 	router.POST("/api/search", SearchFile)
 
 	router.GET("/api/queue/io", QueueIoTask)
-
-	router.Static("/assets", "./assets")
-	router.Static("/serve", defaultPath)
-
-	router.LoadHTMLGlob("templates/**/*")
-
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title":       "Mountain",
-			"defaultPath": defaultPath,
-		})
-	})
-
 }

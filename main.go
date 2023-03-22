@@ -2,7 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/help-14/mountain/server/routes"
+	"github.com/help-14/mountain/server/api"
+	"github.com/help-14/mountain/server/static"
 	"github.com/help-14/mountain/server/utils"
 )
 
@@ -11,8 +12,9 @@ func main() {
 	utils.SetupServePath()
 
 	router := gin.Default()
-	routes.SetupHttpRoutes(router)
-	go routes.SetupWebSocket()
+	go api.SetupWebSocket()
+	api.SetupApi(router)
+	static.SetupStaticFiles(router)
 
 	router.Run(":8080")
 }
