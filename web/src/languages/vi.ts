@@ -13,6 +13,8 @@ export const vi = {
       asc: "Tăng dần",
       des: "Giảm dần",
       group: "Nhóm theo dạng file",
+      by: "Theo",
+      on:"Thứ tự"
     },
     view: {
       title: "Hiển thị",
@@ -21,6 +23,8 @@ export const vi = {
       navigation: "Bảng điều hướng",
       preview: "Bảng xem nhanh",
       extension: "Định dạng file",
+      as: "Dạng",
+      display: "Hiển thị"
     },
     select: {
       title: "Chọn",

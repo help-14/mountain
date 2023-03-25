@@ -13,6 +13,8 @@ export const en = {
       asc: "Ascending",
       des: "Descending",
       group: "Group by type",
+      by: "By",
+      on:"On"
     },
     view: {
       title: "View",
@@ -21,6 +23,8 @@ export const en = {
       navigation: "Navigation panel",
       preview: "Preview panel",
       extension: "Name extension",
+      as: "As",
+      display: "Display"
     },
     select: {
       title: "Select",

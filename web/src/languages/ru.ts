@@ -13,6 +13,8 @@ export const ru = {
       asc: 'По возрастанию',
       des: 'По убыванию',
       group: 'Группировать по типу',
+      by: "By",
+      on:"On"
     },
     view: {
       title: 'Вид',
@@ -21,6 +23,8 @@ export const ru = {
       navigation: 'Панель навигации',
       preview: 'Панель предпросмотра',
       extension: 'Расширение',
+      as: "As",
+      display: "Display"
     },
     select: {
       title: 'Выбрать',
