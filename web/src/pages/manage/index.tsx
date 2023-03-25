@@ -2,10 +2,10 @@
 import { render } from 'solid-js/web'
 import { HopeProvider, HopeThemeConfig } from '@hope-ui/solid'
 
-import './index.css'
-import App from '../components/App'
-import I18nProvider from '../components/I18nProvider'
-import { languageData } from '../languages'
+import './css/index.css'
+import App from './App'
+import I18nProvider from '../../components/I18nProvider'
+import { languageData } from '../../languages'
 
 const root = document.getElementById('root')
 

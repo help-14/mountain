@@ -5,15 +5,17 @@ import {
   MenuTrigger,
   MenuContent,
   MenuItem,
-  Text,
+  Switch,
+  Flex,
   Box,
   MenuGroup,
   MenuLabel,
   Divider,
+  Spacer,
 } from '@hope-ui/solid'
 import { useI18n } from '@solid-primitives/i18n'
 import { Component } from 'solid-js'
-import { IconCaretDown } from './icons/IconCaretDown'
+import { IconCaretDown } from '../../components/icons/IconCaretDown'
 import {
   faSort,
   faGear,
@@ -38,17 +40,17 @@ import {
   faKeyboard,
   faWrench,
 } from '@fortawesome/free-solid-svg-icons'
-import IconLabel from './IconLabel'
+import IconLabel from '../../components/IconLabel'
 
 const HeaderMenu: Component = () => {
-  const [t, { add, locale, dict }] = useI18n()
+  const [t] = useI18n()
 
   return (
-    <Box pos="fixed" w="100%" zIndex={2}>
+    <Box w="100%" zIndex={10} bg="$accent9" color="white" padding="$2">
       <HStack spacing="$4">
         {/* Sort */}
         <Menu>
-          <MenuTrigger as={Button} variant="subtle" colorScheme="neutral" rightIcon={<IconCaretDown boxSize="$6" />}>
+          <MenuTrigger as={Button} variant="solid" colorScheme="accent" rightIcon={<IconCaretDown boxSize="$6" />}>
             <IconLabel icon={faSort} label={t('header.sort.title')} />
           </MenuTrigger>
           <MenuContent>
@@ -79,7 +81,7 @@ const HeaderMenu: Component = () => {
 
         {/* View */}
         <Menu>
-          <MenuTrigger as={Button} variant="subtle" colorScheme="neutral" rightIcon={<IconCaretDown boxSize="$6" />}>
+          <MenuTrigger as={Button} variant="solid" colorScheme="accent" rightIcon={<IconCaretDown boxSize="$6" />}>
             <IconLabel icon={faEye} label={t('header.view.title')} />
           </MenuTrigger>
           <MenuContent>
@@ -96,13 +98,25 @@ const HeaderMenu: Component = () => {
             <MenuGroup>
               <MenuLabel>{t('header.view.display')}</MenuLabel>
               <MenuItem>
-                <IconLabel icon={faFolderTree} label={t('header.view.navigation')} />
+                <Flex>
+                  <IconLabel icon={faFolderTree} label={t('header.view.navigation')} />
+                  <Spacer />
+                  <Switch variant="outline"></Switch>
+                </Flex>
               </MenuItem>
               <MenuItem>
-                <IconLabel icon={faMagnifyingGlass} label={t('header.view.preview')} />
+                <Flex>
+                  <IconLabel icon={faMagnifyingGlass} label={t('header.view.preview')} />
+                  <Spacer />
+                  <Switch variant="outline"></Switch>
+                </Flex>
               </MenuItem>
               <MenuItem>
-                <IconLabel icon={faFileCode} label={t('header.view.extension')} />
+                <Flex>
+                  <IconLabel icon={faFileCode} label={t('header.view.extension')} />
+                  <Spacer />
+                  <Switch variant="outline"></Switch>
+                </Flex>
               </MenuItem>
             </MenuGroup>
           </MenuContent>
@@ -110,7 +124,7 @@ const HeaderMenu: Component = () => {
 
         {/* Select */}
         <Menu>
-          <MenuTrigger as={Button} variant="subtle" colorScheme="neutral" rightIcon={<IconCaretDown boxSize="$6" />}>
+          <MenuTrigger as={Button} variant="solid" colorScheme="accent" rightIcon={<IconCaretDown boxSize="$6" />}>
             <IconLabel icon={faObjectGroup} label={t('header.select.title')} />
           </MenuTrigger>
           <MenuContent>
@@ -128,7 +142,7 @@ const HeaderMenu: Component = () => {
 
         {/* Setting */}
         <Menu>
-          <MenuTrigger as={Button} variant="subtle" colorScheme="neutral" rightIcon={<IconCaretDown boxSize="$6" />}>
+          <MenuTrigger as={Button} variant="solid" colorScheme="accent" rightIcon={<IconCaretDown boxSize="$6" />}>
             <IconLabel icon={faGear} label={t('header.setting.title')} />
           </MenuTrigger>
           <MenuContent>
@@ -143,7 +157,7 @@ const HeaderMenu: Component = () => {
 
         {/* About */}
         <Menu>
-          <MenuTrigger as={Button} variant="subtle" colorScheme="neutral" rightIcon={<IconCaretDown boxSize="$6" />}>
+          <MenuTrigger as={Button} variant="solid" colorScheme="accent" rightIcon={<IconCaretDown boxSize="$6" />}>
             <IconLabel icon={faInfo} label={t('header.about.title')} />
           </MenuTrigger>
           <MenuContent>
