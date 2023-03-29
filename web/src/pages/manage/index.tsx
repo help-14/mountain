@@ -1,34 +1,20 @@
-/* @refresh reload */
-import { render } from 'solid-js/web'
-import { HopeProvider, HopeThemeConfig } from '@hope-ui/solid'
+import type { Component } from 'solid-js'
+import { Box, Flex } from '@hope-ui/solid'
+import { useI18n } from '@solid-primitives/i18n'
+import HeaderMenu from './HeaderMenu'
+import NavigationPanel from './NavigationPanel'
+import ListingPanel from './ListingPanel'
 
-import './css/index.css'
-import App from './App'
-import I18nProvider from '../../components/I18nProvider'
-import { languageData } from '../../languages'
-
-const root = document.getElementById('root')
-
-if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
-  throw new Error(
-    'Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got mispelled?'
-  )
-}
-
-const config: HopeThemeConfig = {
-  lightTheme: {
-    colors: {
-      primary9: 'salmon',
-    },
-  },
-}
-
-render(() => {
+const ManagePage: Component = () => {
   return (
-    <HopeProvider config={config}>
-      <I18nProvider dict={languageData} locale="en">
-        <App />
-      </I18nProvider>
-    </HopeProvider>
+    <Box>
+      <HeaderMenu />
+      <Flex w="$full" height="calc(100vh - 64px)">
+        <NavigationPanel />
+        <ListingPanel />
+      </Flex>
+    </Box>
   )
-}, root!)
+}
+
+export default ManagePage
