@@ -2,11 +2,10 @@
 import { render } from 'solid-js/web'
 import { HopeProvider, HopeThemeConfig } from '@hope-ui/solid'
 
-import './css/index.css'
-import ManagePage from './manage'
+import { ManagePage } from './manage'
 import I18nProvider from '../components/I18nProvider'
 import { languageData } from '../languages'
-import { Route, Router } from '@solidjs/router'
+import { Route, Router, Routes } from '@solidjs/router'
 import SettingPage from './setting'
 
 const root = document.getElementById('root')
@@ -30,8 +29,10 @@ render(() => {
     <HopeProvider config={config}>
       <I18nProvider dict={languageData} locale="en">
         <Router>
-          <Route path="/setting" component={SettingPage} />
-          <Route path="/" component={ManagePage} />
+          <Routes>
+            <Route path="/" component={ManagePage} />
+            <Route path="/setting" component={SettingPage} />
+          </Routes>
         </Router>
       </I18nProvider>
     </HopeProvider>

@@ -1,11 +1,11 @@
 import type { Component } from 'solid-js'
 import { Box, Flex } from '@hope-ui/solid'
-import { useI18n } from '@solid-primitives/i18n'
 import HeaderMenu from './HeaderMenu'
 import NavigationPanel from './NavigationPanel'
 import ListingPanel from './ListingPanel'
+import './css/index.css'
 
-const ManagePage: Component = () => {
+export const ManagePage: Component = () => {
   return (
     <Box>
       <HeaderMenu />
@@ -16,5 +16,3 @@ const ManagePage: Component = () => {
     </Box>
   )
 }
-
-export default ManagePage
