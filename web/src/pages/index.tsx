@@ -5,8 +5,8 @@ import { HopeProvider, HopeThemeConfig } from '@hope-ui/solid'
 import { ManagePage } from './manage'
 import I18nProvider from '../components/I18nProvider'
 import { languageData } from '../languages'
-import { Route, Router, Routes } from '@solidjs/router'
 import SettingPage from './setting'
+import Div100vh from 'solidjs-div-100vh'
 
 const root = document.getElementById('root')
 
@@ -28,12 +28,9 @@ render(() => {
   return (
     <HopeProvider config={config}>
       <I18nProvider dict={languageData} locale="en">
-        <Router>
-          <Routes>
-            <Route path="/" component={ManagePage} />
-            <Route path="/setting" component={SettingPage} />
-          </Routes>
-        </Router>
+        <Div100vh>
+          <ManagePage />
+        </Div100vh>
       </I18nProvider>
     </HopeProvider>
   )
