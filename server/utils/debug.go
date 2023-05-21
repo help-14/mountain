@@ -3,12 +3,17 @@ package utils
 import (
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/mitchellh/go-ps"
 )
 
 var debuggerCount int = 0
 
 func IsDebugging() bool {
+	if gin.IsDebugging() {
+		return true
+	}
+
 	if debuggerCount != 0 {
 		return debuggerCount > 0
 	}

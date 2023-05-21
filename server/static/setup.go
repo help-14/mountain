@@ -16,9 +16,13 @@ func SetupStaticFiles(router *gin.Engine) {
 
 	if _, err := os.Stat("/web/assets"); err == nil {
 		router.Static("/assets", "./web/assets")
+		router.LoadHTMLGlob("web/*.html")
+	} else {
+		router.Static("/assets", "./web/dist/assets")
+		router.Static("/src", "./web/dist")
+		router.LoadHTMLGlob("web/dist/*.html")
 	}
 
-	router.LoadHTMLGlob("web/*.html")
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})

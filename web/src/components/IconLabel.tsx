@@ -1,16 +1,14 @@
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { HStack, Text } from '@hope-ui/solid'
-import Fa from 'solid-fa'
-import { Component } from 'solid-js'
+import { Component, JSX } from 'solid-js'
 
 const IconLabel: Component<{
-  icon: IconDefinition
+  icon: JSX.Element
   label: string
-}> = props => {
+}> = ({ icon, label }) => {
   return (
     <HStack spacing="$3">
-      <Fa icon={props.icon} />
-      <Text>{props.label}</Text>
+      {icon}
+      <Text>{label}</Text>
     </HStack>
   )
 }

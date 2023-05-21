@@ -15,11 +15,11 @@
     "vite-plugin-solid": "^2.5.0"
   },
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@hope-ui/solid": "^0.6.7",
     "@solid-primitives/i18n": "^1.2.3",
     "@stitches/core": "^1.2.8",
     "solid-fa": "^0.1.0",
+    "solid-icons": "^1.0.4",
     "solid-js": "^1.6.10",
     "solid-transition-group": "^0.0.10",
     "solidjs-div-100vh": "^1.0.1"
