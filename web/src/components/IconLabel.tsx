@@ -1,4 +1,3 @@
-import { HStack, Text } from '@hope-ui/solid'
 import { Component, JSX } from 'solid-js'
 
 const IconLabel: Component<{
@@ -6,10 +5,10 @@ const IconLabel: Component<{
   label: string
 }> = ({ icon, label }) => {
   return (
-    <HStack spacing="$3">
+    <div class="flex flex-row content-center items-center">
       {icon}
-      <Text>{label}</Text>
-    </HStack>
+      <p class="ml-3">{label}</p>
+    </div>
   )
 }
 

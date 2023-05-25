@@ -1,4 +1,3 @@
-import { Box, SimpleGrid, Stack, Text } from '@hope-ui/solid'
 import { Component, For, createEffect, createSignal } from 'solid-js'
 import { doGetFilesFromPath } from '../../utils/network'
 import ItemDisplay from '../../components/ItemDisplay/component'
@@ -12,11 +11,11 @@ const ListingPanel: Component<{}> = props => {
   })
 
   return (
-    <Box h="$full" w="$full" bg="$neutral2" class="item">
-      <SimpleGrid minChildWidth="250px" gap="10px">
+    <div class="container">
+      <div class="grid grid-flow-col auto-cols-max">
         <For each={files()}>{file => <ItemDisplay info={file} />}</For>
-      </SimpleGrid>
-    </Box>
+      </div>
+    </div>
   )
 }
 

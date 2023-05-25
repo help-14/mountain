@@ -63,7 +63,6 @@ import {
   SiXaml,
 } from 'solid-icons/si'
 import { FaRegularFile, FaSolidCode, FaSolidFile, FaSolidFolder } from 'solid-icons/fa'
-import { Box, Center } from '@hope-ui/solid'
 
 const iconSize = '1.3em'
 const fileSize = '3em'
@@ -340,12 +339,10 @@ const FileExtensionIcon: Component<{
 
   if (icon === null) return fileIcon
   return (
-    <Box>
-      <Center>
-        {fileIcon}
-        <div style={{ position: 'absolute' }}>{icon}</div>
-      </Center>
-    </Box>
+    <div>
+      {fileIcon}
+      <div style={{ position: 'absolute' }}>{icon}</div>
+    </div>
   )
 }
 
