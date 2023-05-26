@@ -28,13 +28,13 @@ import {
 import HStack from '../../components/HStack'
 import MenuTrigger from '../../components/MenuTrigger'
 import MenuLabel from '../../components/MenuLabel'
-import MenuSpacer from '../../components/MenuSpacer'
+import MenuSwitch from '../../components/MenuSwitch'
 
 const HeaderMenu: Component = () => {
   const [t] = useI18n()
 
   return (
-    <div class="z-10 bg-gray-800 text-white uk-padding-small w-full">
+    <div class="z-10 text-white uk-padding-small w-full">
       <HStack>
         {/* Sort */}
         <MenuTrigger title={<IconLabel icon={<FaSolidSort />} label={t('header.sort.title')} />}>
@@ -49,23 +49,30 @@ const HeaderMenu: Component = () => {
           <MenuLabel>{t('header.view.as')}</MenuLabel>
           <IconLabel icon={<FaSolidList />} label={t('header.view.list')} />
           <IconLabel icon={<FaSolidGrip />} label={t('header.view.tiles')} />
-          <MenuSpacer />
           <MenuLabel>{t('header.view.display')}</MenuLabel>
-          <Flex>
-            <IconLabel icon={<FaSolidFolderTree />} label={t('header.view.navigation')} />
-            <Spacer />
-            <Switch variant="outline"></Switch>
-          </Flex>
-          <Flex>
-            <IconLabel icon={<FaSolidMagnifyingGlass />} label={t('header.view.preview')} />
-            <Spacer />
-            <Switch variant="outline"></Switch>
-          </Flex>
-          <Flex>
-            <IconLabel icon={<FaSolidFileCode />} label={t('header.view.extension')} />
-            <Spacer />
-            <Switch variant="outline"></Switch>
-          </Flex>
+          <MenuSwitch icon={<FaSolidFolderTree />} label={t('header.view.navigation')} />
+          <MenuSwitch icon={<FaSolidMagnifyingGlass />} label={t('header.view.preview')} />
+          <MenuSwitch icon={<FaSolidFileCode />} label={t('header.view.extension')} />
+        </MenuTrigger>
+
+        {/* Select */}
+        <MenuTrigger title={<IconLabel icon={<FaSolidObjectGroup />} label={t('header.select.title')} />}>
+          <IconLabel icon={<FaSolidBorderAll />} label={t('header.select.all')} />
+          <IconLabel icon={<FaSolidBorderNone />} label={t('header.select.all')} />
+          <IconLabel icon={<FaSolidBorderTopLeft />} label={t('header.select.invert')} />
+        </MenuTrigger>
+
+        {/* Setting */}
+        <MenuTrigger title={<IconLabel icon={<FaSolidGear />} label={t('header.setting.title')} />}>
+          <IconLabel icon={<FaSolidLanguage />} label={t('header.setting.language')} />
+          <IconLabel icon={<FaSolidGear />} label={t('header.setting.title')} />
+        </MenuTrigger>
+
+        {/* About */}
+        <MenuTrigger title={<IconLabel icon={<FaSolidInfo />} label={t('header.about.title')} />}>
+          <IconLabel icon={<FaSolidKeyboard />} label={t('header.about.shortcuts')} />
+          <IconLabel icon={<FaSolidBookOpen />} label={t('header.about.documentation')} />
+          <IconLabel icon={<FaSolidWrench />} label={t('header.about.update')} />
         </MenuTrigger>
       </HStack>
     </div>
@@ -73,56 +80,3 @@ const HeaderMenu: Component = () => {
 }
 
 export default HeaderMenu
-
-// {/* Select */}
-// <Menu>
-//   <MenuTrigger as={Button} variant="solid" colorScheme="accent" rightIcon={<IconCaretDown boxSize="$6" />}>
-//     <IconLabel icon={<FaSolidObjectGroup />} label={t('header.select.title')} />
-//   </MenuTrigger>
-//   <MenuContent>
-//     <MenuItem>
-//       <IconLabel icon={<FaSolidBorderAll />} label={t('header.select.all')} />
-//     </MenuItem>
-//     <MenuItem>
-//       <IconLabel icon={<FaSolidBorderNone />} label={t('header.select.all')} />
-//     </MenuItem>
-//     <MenuItem>
-//       <IconLabel icon={<FaSolidBorderTopLeft />} label={t('header.select.invert')} />
-//     </MenuItem>
-//   </MenuContent>
-// </Menu>
-
-// {/* Setting */}
-// <Menu>
-//   <MenuTrigger as={Button} variant="solid" colorScheme="accent" rightIcon={<IconCaretDown boxSize="$6" />}>
-//     <IconLabel icon={<FaSolidGear />} label={t('header.setting.title')} />
-//   </MenuTrigger>
-//   <MenuContent>
-//     <MenuItem>
-//       <IconLabel icon={<FaSolidLanguage />} label={t('header.setting.language')} />
-//     </MenuItem>
-//     <MenuItem>
-//       <IconLabel icon={<FaSolidGear />} label={t('header.setting.title')} />
-//     </MenuItem>
-//   </MenuContent>
-// </Menu>
-
-// {/* About */}
-// <Menu>
-//   <MenuTrigger as={Button} variant="solid" colorScheme="accent" rightIcon={<IconCaretDown boxSize="$6" />}>
-//     <IconLabel icon={<FaSolidInfo />} label={t('header.about.title')} />
-//   </MenuTrigger>
-//   <MenuContent>
-//     <MenuItem>
-//       <IconLabel icon={<FaSolidKeyboard />} label={t('header.about.shortcuts')} />
-//     </MenuItem>
-//     <MenuItem>
-//       <IconLabel icon={<FaSolidBookOpen />} label={t('header.about.documentation')} />
-//     </MenuItem>
-//     <Divider />
-//     <MenuItem>
-//       <IconLabel icon={<FaSolidWrench />} label={t('header.about.update')} />
-//     </MenuItem>
-//   </MenuContent>
-// </Menu>
-//  */}

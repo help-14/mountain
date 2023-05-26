@@ -339,9 +339,9 @@ const FileExtensionIcon: Component<{
 
   if (icon === null) return fileIcon
   return (
-    <div>
+    <div class="items-center justify-center flex">
       {fileIcon}
-      <div style={{ position: 'absolute' }}>{icon}</div>
+      <div class="absolute">{icon}</div>
     </div>
   )
 }

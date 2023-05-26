@@ -1,7 +1,7 @@
-import { Component, JSX } from 'solid-js'
+import { Component, JSXElement } from 'solid-js'
 
 const IconLabel: Component<{
-  icon: JSX.Element
+  icon: JSXElement
   label: string
 }> = ({ icon, label }) => {
   return (
