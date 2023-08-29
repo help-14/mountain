@@ -6,7 +6,7 @@ import './css/index.css'
 
 export const ManagePage: Component = () => {
   return (
-    <div class="h-full w-100 bg-gray-900">
+    <div class="h-full w-100 bg-500">
       <button
         data-drawer-target="sidebar"
         data-drawer-toggle="sidebar"
@@ -27,7 +27,7 @@ export const ManagePage: Component = () => {
         </svg>
       </button>
 
-      <div class="fixed top-0 left-0 right-0 z-50 bg-gray-800">
+      <div class="fixed top-0 left-0 right-0 z-50 bg-900">
         <HeaderMenu />
       </div>
 
@@ -35,12 +35,12 @@ export const ManagePage: Component = () => {
         id="sidebar"
         class="fixed top-10 left-0 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-500">
           <NavigationPanel />
         </div>
       </aside>
 
-      <div class="p-4 pt-10 sm:ml-64 dark:bg-gray-950">
+      <div class="p-4 pt-10 h-full sm:ml-64">
         <ListingPanel />
       </div>
     </div>

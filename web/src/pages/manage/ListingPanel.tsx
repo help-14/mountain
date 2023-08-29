@@ -11,7 +11,7 @@ const ListingPanel: Component<{}> = props => {
   })
 
   return (
-    <div class="grid grid-flow-row-dense grid-cols-5 gap-2.5">
+    <div class="grid grid-flow-row-dense grid-cols-5 gap-2 p-5">
       <For each={files()}>{file => <ItemDisplay info={file} />}</For>
     </div>
   )

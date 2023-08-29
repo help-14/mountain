@@ -71,50 +71,50 @@ const getIcon = (ext: string) => {
   switch (ext.toLowerCase()) {
     case 'exe':
     case 'dll':
-      return <SiWindows size={iconSize} color="#0078D6" />
+      return <SiWindows size={iconSize} fill="#0078D6" />
     case 'bat':
     case 'ps':
-      return <SiPowershell size={iconSize} color="#5391FE" />
+      return <SiPowershell size={iconSize} fill="#5391FE" />
 
     case 'pst':
-      return <SiMicrosoftoutlook size={iconSize} color="#0078D4" />
+      return <SiMicrosoftoutlook size={iconSize} fill="#0078D4" />
     case 'db':
     case 'sqlite':
     case 'accdb':
-      return <SiMicrosoftaccess size={iconSize} color="#A4373A" />
+      return <SiMicrosoftaccess size={iconSize} fill="#A4373A" />
 
     case 'htm':
     case 'html':
     case 'xhtml':
-      return <SiHtml5 size={iconSize} color="#E34F26" />
+      return <SiHtml5 size={iconSize} fill="#E34F26" />
 
     case 'css':
-      return <SiCss3 size={iconSize} color="#1572B6" />
+      return <SiCss3 size={iconSize} fill="#1572B6" />
 
     case 'wat':
     case 'wasm':
-      return <SiWebassembly size={iconSize} color="#654FF0" />
+      return <SiWebassembly size={iconSize} fill="#654FF0" />
 
     case 'xsp':
     case 'htc':
     case 'hta':
-      return <SiFirefox size={iconSize} color="#FF7139" />
+      return <SiFirefox size={iconSize} fill="#FF7139" />
 
     case 'vscode':
-      return <SiVisualstudiocode size={iconSize} color="#007ACC" />
+      return <SiVisualstudiocode size={iconSize} fill="#007ACC" />
 
     case 'doc':
     case 'docx':
     case 'rtf':
     case 'txt':
-      return <SiMicrosoftword size={iconSize} color="#2B579A" />
+      return <SiMicrosoftword size={iconSize} fill="#2B579A" />
     case 'xlsx':
     case 'xls':
     case 'csv':
-      return <SiMicrosoftexcel size={iconSize} color="#217346" />
+      return <SiMicrosoftexcel size={iconSize} fill="#217346" />
     case 'pptx':
     case 'ppt':
-      return <SiMicrosoftpowerpoint size={iconSize} color="#B7472A" />
+      return <SiMicrosoftpowerpoint size={iconSize} fill="#B7472A" />
 
     case 'mov':
     case 'mp4':
@@ -127,7 +127,7 @@ const getIcon = (ext: string) => {
     case 'mpeg':
     case 'asf':
     case 'ram':
-      return <SiVlcmediaplayer size={iconSize} color="#FF8800" />
+      return <SiVlcmediaplayer size={iconSize} fill="#FF8800" />
 
     case 'mp3':
     case 'wav':
@@ -142,10 +142,10 @@ const getIcon = (ext: string) => {
     case 'oga':
     case 'mid':
     case 'midi':
-      return <SiApplemusic size={iconSize} color="#FA243C" />
+      return <SiApplemusic size={iconSize} fill="#FA243C" />
 
     case '1pif':
-      return <Si1password size={iconSize} color="#0094F5" />
+      return <Si1password size={iconSize} fill="#0094F5" />
 
     case 'bmp':
     case 'jpeg':
@@ -158,47 +158,47 @@ const getIcon = (ext: string) => {
     case 'rle':
     case 'dib':
     case 'webp':
-      return <SiGooglephotos size={iconSize} color="#4285F4" />
+      return <SiGooglephotos size={iconSize} fill="#4285F4" />
 
     case 'ps':
     case 'eps':
     case 'prn':
     case 'edm':
     case 'edml':
-      return <SiAdobe size={iconSize} color="#FF61F6" />
+      return <SiAdobe size={iconSize} fill="#FF61F6" />
     case 'sesx':
-      return <SiAdobeaudition size={iconSize} color="#9999FF" />
+      return <SiAdobeaudition size={iconSize} fill="#9999FF" />
     case 'psd':
     case 'psb':
     case 'cmyk':
-      return <SiAdobephotoshop size={iconSize} color="#31A8FF" />
+      return <SiAdobephotoshop size={iconSize} fill="#31A8FF" />
     case 'indd':
     case 'idml':
-      return <SiAdobeindesign size={iconSize} color="#FF3366" />
+      return <SiAdobeindesign size={iconSize} fill="#FF3366" />
     case 'ai':
-      return <SiAdobeillustrator size={iconSize} color="#FF9A00" />
+      return <SiAdobeillustrator size={iconSize} fill="#FF9A00" />
     case 'xd':
-      return <SiAdobexd size={iconSize} color="#FF61F6" />
+      return <SiAdobexd size={iconSize} fill="#FF61F6" />
     case 'ttf':
     case 'otf':
-      return <SiAdobefonts size={iconSize} color="#000B1D" />
+      return <SiAdobefonts size={iconSize} fill="#000B1D" />
     case 'pdf':
-      return <SiAdobeacrobatreader size={iconSize} color="#EC1C24" />
+      return <SiAdobeacrobatreader size={iconSize} fill="#EC1C24" />
     case 'dws':
     case 'dwt':
-      return <SiAdobedreamweaver size={iconSize} color="#FF61F6" />
+      return <SiAdobedreamweaver size={iconSize} fill="#FF61F6" />
     case 'lrcat':
     case 'pss':
-      return <SiAdobelightroom size={iconSize} color="#31A8FF" />
+      return <SiAdobelightroom size={iconSize} fill="#31A8FF" />
     case 'prproj':
-      return <SiAdobepremierepro size={iconSize} color="#9999FF" />
+      return <SiAdobepremierepro size={iconSize} fill="#9999FF" />
 
     case 'afphoto':
-      return <SiAffinityphoto size={iconSize} color="#7E4DD2" />
+      return <SiAffinityphoto size={iconSize} fill="#7E4DD2" />
     case 'afdesign':
-      return <SiAffinitydesigner size={iconSize} color="#1B72BE" />
+      return <SiAffinitydesigner size={iconSize} fill="#1B72BE" />
     case 'afpub':
-      return <SiAffinitypublisher size={iconSize} color="#C9284D" />
+      return <SiAffinitypublisher size={iconSize} fill="#C9284D" />
 
     case 'dwg':
     case 'dwt':
@@ -209,37 +209,37 @@ const getIcon = (ext: string) => {
     case 'iam':
     case 'u3d':
     case 'prc':
-      return <SiAutodesk size={iconSize} color="#000000" />
+      return <SiAutodesk size={iconSize} fill="#000000" />
 
     case 'apk':
     case 'xapk':
     case 'aab':
     case 'bundle':
-      return <SiAndroid size={iconSize} color="#3DDC84" />
+      return <SiAndroid size={iconSize} fill="#3DDC84" />
 
     case 'ipa':
-      return <SiIos size={iconSize} color="#000000" />
+      return <SiIos size={iconSize} fill="#000000" />
 
     case 'json':
-      return <VsJson size={iconSize} color="#f39c12" />
+      return <VsJson size={iconSize} fill="#f39c12" />
     case 'xml':
       return <FaSolidCode size={iconSize} />
 
     case 'js':
     case 'jsx':
     case 'es6':
-      return <SiJavascript size={iconSize} color="#F7DF1E" />
+      return <SiJavascript size={iconSize} fill="#F7DF1E" />
     case 'ts':
     case 'tsx':
-      return <SiTypescript size={iconSize} color="#3178C6" />
+      return <SiTypescript size={iconSize} fill="#3178C6" />
     case 'yml':
     case 'yaml':
     case 'md':
-      return <SiMarkdown size={iconSize} color="#000000" />
+      return <SiMarkdown size={iconSize} fill="#000000" />
     case 'anydesk':
-      return <SiAnydesk size={iconSize} color="#EF443B" />
+      return <SiAnydesk size={iconSize} fill="#EF443B" />
     case 'htaccess':
-      return <SiApache size={iconSize} color="#D22128" />
+      return <SiApache size={iconSize} fill="#D22128" />
 
     case 'odt':
     case 'odp':
@@ -251,39 +251,39 @@ const getIcon = (ext: string) => {
     case 'sxc':
     case 'sxd':
     case 'stw':
-      return <SiApacheopenoffice size={iconSize} color="#0E85CD" />
+      return <SiApacheopenoffice size={iconSize} fill="#0E85CD" />
 
     case 'sh':
     case 'bashrc':
-      return <SiGnubash size={iconSize} color="#4EAA25" />
+      return <SiGnubash size={iconSize} fill="#4EAA25" />
     case 'go':
     case 'templ':
     case 'mod':
     case 'sum':
-      return <SiGo size={iconSize} color="#00ADD8" />
+      return <SiGo size={iconSize} fill="#00ADD8" />
     case 'tf':
-      return <SiTensorflow size={iconSize} color="#FF6F00" />
+      return <SiTensorflow size={iconSize} fill="#FF6F00" />
     case 'rb':
-      return <SiRuby size={iconSize} color="#CC342D" />
+      return <SiRuby size={iconSize} fill="#CC342D" />
     case 'rs':
-      return <SiRust size={iconSize} color="#000000" />
+      return <SiRust size={iconSize} fill="#000000" />
     case 'qt':
-      return <SiQt size={iconSize} color="#41CD52" />
+      return <SiQt size={iconSize} fill="#41CD52" />
     case 'py':
-      return <SiPython size={iconSize} color="#3776AB" />
+      return <SiPython size={iconSize} fill="#3776AB" />
     case 'php':
-      return <SiPhp size={iconSize} color="#777BB4" />
+      return <SiPhp size={iconSize} fill="#777BB4" />
     case 'kicad':
-      return <SiKicad size={iconSize} color="#314CB0" />
+      return <SiKicad size={iconSize} fill="#314CB0" />
     case 'godot':
-      return <SiGodotengine size={iconSize} color="#478CBF" />
+      return <SiGodotengine size={iconSize} fill="#478CBF" />
     case 'git':
     case 'gitignore':
-      return <SiGit size={iconSize} color="#F05032" />
+      return <SiGit size={iconSize} fill="#F05032" />
     case 'gimp':
-      return <SiGimp size={iconSize} color="#5C5543" />
+      return <SiGimp size={iconSize} fill="#5C5543" />
     case 'prettierrc':
-      return <SiPrettier size={iconSize} color="#F7B93E" />
+      return <SiPrettier size={iconSize} fill="#F7B93E" />
 
     case 'asmx':
     case 'asp':
@@ -305,22 +305,22 @@ const getIcon = (ext: string) => {
     case 'vdproj':
     case 'vmx':
     case 'vup':
-      return <SiDotnet size={iconSize} color="#FD5F07" />
+      return <SiDotnet size={iconSize} fill="#FD5F07" />
     case 'c':
     case 'h':
       return <SiC />
     case 'cpp':
     case 'vcxproj':
     case 'vcxitems':
-      return <SiCplusplus size={iconSize} color="#00599C" />
+      return <SiCplusplus size={iconSize} fill="#00599C" />
     case 'cs':
     case 'csproj':
-      return <SiCsharp size={iconSize} color="#239120" />
+      return <SiCsharp size={iconSize} fill="#239120" />
     case 'xaml':
-      return <SiXaml size={iconSize} color="#0C54C2" />
+      return <SiXaml size={iconSize} fill="#0C54C2" />
 
     case 'ds_store':
-      return <ImFinder size={iconSize} color="#3498db" />
+      return <ImFinder size={iconSize} fill="#3498db" />
 
     default:
       return null
@@ -331,11 +331,11 @@ const FileExtensionIcon: Component<{
   directory: boolean
   ext: string
 }> = ({ directory, ext }) => {
-  if (directory) return <FaSolidFolder size={fileSize} color="#f1c40f" />
+  if (directory) return <FaSolidFolder size={fileSize} fill="#f7cd00" />
 
   if (ext.startsWith('.')) ext = ext.slice(1)
   const icon = getIcon(ext)
-  const fileIcon = <FaRegularFile size={fileSize} color="#636e72" />
+  const fileIcon = <FaRegularFile size={fileSize} fill="#636e72" />
 
   if (icon === null) return fileIcon
   return (

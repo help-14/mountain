@@ -12,7 +12,7 @@ const MenuTrigger: Component<{ title: JSXElement; children: JSXElement }> = prop
         data-dropdown-toggle={'dd' + id}
         data-dropdown-delay="100"
         data-dropdown-trigger="hover"
-        class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+        class="text-menu bg-900 hover:bg-hover focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"
         type="button">
         {resolvedTitle}{' '}
         <svg
@@ -25,8 +25,10 @@ const MenuTrigger: Component<{ title: JSXElement; children: JSXElement }> = prop
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
         </svg>
       </button>
-      <div id={'dd' + id} class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
-        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby={id}>
+      <div
+        id={'dd' + id}
+        class="z-10 hidden divide-y divide-gray-100 rounded-lg shadow w-48 bg-900 border-2 border-900">
+        <ul class="py-2 text-sm text-menu" aria-labelledby={id}>
           <For each={resolvedChildren.toArray()}>
             {item => {
               if ((item as HTMLElement).tagName === 'P') {
@@ -34,7 +36,7 @@ const MenuTrigger: Component<{ title: JSXElement; children: JSXElement }> = prop
               } else {
                 return (
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    <a href="#" class="block px-4 py-2 hover:bg-hover">
                       {item}
                     </a>
                   </li>
