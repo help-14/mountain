@@ -14,7 +14,7 @@ const MenuTrigger: Component<{ title: JSXElement; children: JSXElement }> = prop
         data-dropdown-trigger="hover"
         class="text-menu bg-900 hover:bg-hover focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"
         type="button">
-        {resolvedTitle}{' '}
+        {resolvedTitle()}{' '}
         <svg
           class="w-4 h-4 ml-2"
           aria-hidden="true"

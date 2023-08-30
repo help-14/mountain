@@ -6,4 +6,5 @@ export type FileInfo = {
   directory: boolean
   symlink: boolean
   modified: number
+  selected: boolean
 }

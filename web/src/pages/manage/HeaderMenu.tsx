@@ -34,6 +34,8 @@ const HeaderMenu: Component = () => {
   return (
     <div class="z-10 p-1 uk-padding-small w-full">
       <HStack>
+        {/* <img src="/src/assets/favicon.ico" /> */}
+
         {/* Sort */}
         <MenuTrigger title={<IconLabel icon={<FaSolidSort fill="#849289" />} label={t('header.sort.title')} />}>
           <MenuLabel>{t('header.sort.by')}</MenuLabel>
@@ -57,7 +59,7 @@ const HeaderMenu: Component = () => {
         <MenuTrigger
           title={<IconLabel icon={<FaSolidObjectGroup fill="#849289" />} label={t('header.select.title')} />}>
           <IconLabel icon={<FaSolidBorderAll fill="#849289" />} label={t('header.select.all')} />
-          <IconLabel icon={<FaSolidBorderNone fill="#849289" />} label={t('header.select.all')} />
+          <IconLabel icon={<FaSolidBorderNone fill="#849289" />} label={t('header.select.none')} />
           <IconLabel icon={<FaSolidBorderTopLeft fill="#849289" />} label={t('header.select.invert')} />
         </MenuTrigger>
 

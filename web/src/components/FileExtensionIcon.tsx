@@ -64,10 +64,7 @@ import {
 } from 'solid-icons/si'
 import { FaRegularFile, FaSolidCode, FaSolidFile, FaSolidFolder } from 'solid-icons/fa'
 
-const iconSize = '1.3em'
-const fileSize = '3em'
-
-const getIcon = (ext: string) => {
+const getIcon = (ext: string, iconSize: string) => {
   switch (ext.toLowerCase()) {
     case 'exe':
     case 'dll':
@@ -330,12 +327,17 @@ const getIcon = (ext: string) => {
 const FileExtensionIcon: Component<{
   directory: boolean
   ext: string
-}> = ({ directory, ext }) => {
-  if (directory) return <FaSolidFolder size={fileSize} fill="#f7cd00" />
+  iconSize?: string
+  fileSize?: string
+}> = ({ directory, ext, iconSize, fileSize }) => {
+  if (!iconSize) iconSize = '1.3em'
+  if (!fileSize) fileSize = '3em'
+
+  if (directory) return <FaSolidFolder size={fileSize} fill="#f7cd00" class="ml-auto" />
 
   if (ext.startsWith('.')) ext = ext.slice(1)
-  const icon = getIcon(ext)
-  const fileIcon = <FaRegularFile size={fileSize} fill="#636e72" />
+  const icon = iconSize === '0' ? null : getIcon(ext, iconSize)
+  const fileIcon = <FaRegularFile size={fileSize} fill="#636e72" class="ml-auto" />
 
   if (icon === null) return fileIcon
   return (
