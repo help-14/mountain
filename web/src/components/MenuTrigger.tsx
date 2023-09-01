@@ -27,16 +27,23 @@ const MenuTrigger: Component<{ title: JSXElement; children: JSXElement }> = prop
       </button>
       <div
         id={'dd' + id}
-        class="z-10 hidden divide-y divide-gray-100 rounded-lg shadow w-48 bg-900 border-2 border-900">
+        class="z-10 hidden divide-y divide-gray-100 rounded-lg shadow w-48 bg-900 border-2 border-500">
         <ul class="py-2 text-sm text-menu" aria-labelledby={id}>
           <For each={resolvedChildren.toArray()}>
             {item => {
-              if ((item as HTMLElement).tagName === 'P') {
+              const tagName = (item as HTMLElement).tagName
+              if (tagName === 'P' || tagName === 'LI') {
                 return item
               } else {
                 return (
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-hover">
+                    <a
+                      data-drawer-target="drawer-language"
+                      data-drawer-show="drawer-language"
+                      aria-controls="drawer-language"
+                      data-drawer-placement="right"
+                      href="#"
+                      class="block px-4 py-2 hover:bg-hover">
                       {item}
                     </a>
                   </li>

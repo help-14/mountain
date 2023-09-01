@@ -1,4 +1,5 @@
 export const en = {
+  flag: '🇬🇧',
   language: 'English',
   header: {
     setting: {
@@ -34,6 +35,8 @@ export const en = {
       clickSelect: 'Click to select',
       clickBrowse: 'Click to open',
       outsideDeselect: 'Click outside to select nothing',
+      mode: 'Selection mode',
+      tools: 'Tools',
     },
     about: {
       title: 'About',

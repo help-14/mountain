@@ -1,43 +1,73 @@
-import { Component, For, Switch, Match, createEffect, createSignal } from 'solid-js'
+import { Component, For, Switch, Match, createEffect, createSignal, Show } from 'solid-js'
 import { doGetFilesFromPath } from '../../utils/network'
 import ItemTileDisplay from '../../components/ItemDisplay/tile'
 import ItemListDisplay from '../../components/ItemDisplay/list'
-import { FileInfo } from '../../types/FileInfo'
+import { FileInfo } from '../../types/fileInfo'
+import { createDropzone } from '@solid-primitives/upload'
+import { FaSolidXmark } from 'solid-icons/fa'
+import selectionModeSignal from '../../signals/selectionMode'
+import viewModeSignal from '../../signals/viewMode'
 
 const ListingPanel: Component<{}> = props => {
   const [files, setFiles] = createSignal([] as FileInfo[])
   const [location, setLocation] = createSignal('/Users/nhan/')
-  const [viewMode, setViewMode] = createSignal('list')
+
+  const [selectionMode, setSelectionMode] = selectionModeSignal
+  const [viewMode, setViewMode] = viewModeSignal
+
+  const { setRef: dropzone, files: droppedFiles } = createDropzone({
+    onDrop: async files => {
+      //await doStuff(2);
+      files.forEach(f => console.log(f))
+    },
+    onDragStart: files => files.forEach(f => console.log(f)),
+    onDragOver: files => console.log('drag over'),
+  })
 
   createEffect(() => {
     doGetFilesFromPath(location()).then(setFiles).catch(console.error)
   })
 
+  const tileView = () => viewMode() === 'tile'
+  const listView = () => viewMode() === 'list'
+
   return (
-    <div>
+    <div ref={dropzone}>
       <Switch>
-        <Match when={viewMode() === 'tile'}>
+        <Match when={tileView()}>
           <div class="flex flex-wrap gap-2 p-5 justify-left">
             <For each={files()}>{file => <ItemTileDisplay info={file} />}</For>
           </div>
         </Match>
-        <Match when={viewMode() === 'list'}>
-          <table class="table-auto w-full">
-            <thead class="text-code">
-              <tr>
-                <th></th>
-                <th></th>
-                <th>Name</th>
-                <th>SymLink</th>
-                <th>Size</th>
-                <th>Extension</th>
-                <th>Modified at</th>
-              </tr>
-            </thead>
-            <tbody>
-              <For each={files()}>{file => <ItemListDisplay info={file} />}</For>
-            </tbody>
-          </table>
+        <Match when={listView()}>
+          <div>
+            <div class="flex flex-row p-3 text-lg bg-900">
+              <div class="basis-10 items-center flex">
+                <Show when={selectionMode()}>
+                  <FaSolidXmark fill="#849289" class="cursor-pointer mx-auto" onclick={() => setSelectionMode(false)} />
+                </Show>
+              </div>
+              <div class="basis-10 "></div>
+              <div class="grow px-3 contents-center self-center">
+                <p class="text-menu font-bold px-5">File name</p>
+              </div>
+              <div class="basis-40 contents-center self-center text-center">
+                <p class="text-menu font-bold px-5">Symlink</p>
+              </div>
+              <div class="basis-1/6 contents-center self-center">
+                <p class="text-menu font-bold px-5">Size</p>
+              </div>
+              <div class="basis-1/6 contents-center self-center">
+                <p class="text-menu font-bold px-5">File extension</p>
+              </div>
+              <div class="basis-1/4 contents-center self-center">
+                <p class="text-menu font-bold px-5">Modified at</p>
+              </div>
+            </div>
+            <For each={files()}>{(file, i) => <ItemListDisplay info={file} bgHighlight={i() % 2 !== 0} />}</For>
+          </div>
+          {/* </tbody>
+          </table> */}
         </Match>
       </Switch>
     </div>

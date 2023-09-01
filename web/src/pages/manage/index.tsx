@@ -3,6 +3,7 @@ import HeaderMenu from './HeaderMenu'
 import NavigationPanel from './NavigationPanel'
 import ListingPanel from './ListingPanel'
 import './css/index.css'
+import LanguageSelector from '../../components/LanguageSelector'
 
 export const ManagePage: Component = () => {
   return (
@@ -27,21 +28,29 @@ export const ManagePage: Component = () => {
         </svg>
       </button>
 
-      <div class="fixed top-0 left-0 right-0 z-50 bg-900">
+      <div class="fixed top-0 left-0 right-0 h-12 z-20 bg-900">
         <HeaderMenu />
       </div>
 
       <aside
         id="sidebar"
-        class="fixed top-10 left-0 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        class="fixed top-10 left-0 w-80 h-screen transition-transform -translate-x-full sm:translate-x-0 border-r-2 border-900 bg-hover"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto">
           <NavigationPanel />
         </div>
       </aside>
 
-      <div class="p-4 pt-10 h-full sm:ml-64">
+      <div class="p-5 py-16 h-full sm:ml-80">
         <ListingPanel />
+      </div>
+
+      <div
+        id="drawer-language"
+        class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
+        tabindex="-1"
+        aria-labelledby="drawer-right-label">
+        <LanguageSelector />
       </div>
     </div>
   )

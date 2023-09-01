@@ -19,8 +19,11 @@
     "vite-plugin-solid": "^2.5.0"
   },
   "dependencies": {
+    "@solid-primitives/event-bus": "^1.0.8",
     "@solid-primitives/event-props": "^0.2.5",
     "@solid-primitives/i18n": "^1.2.3",
+    "@solid-primitives/storage": "^2.1.1",
+    "@solid-primitives/upload": "^0.0.114",
     "@stitches/core": "^1.2.8",
     "flowbite": "^1.6.5",
     "solid-fa": "^0.1.0",

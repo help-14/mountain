@@ -4,9 +4,9 @@ import { ManagePage } from './manage'
 import I18nProvider from '../components/I18nProvider'
 import { languageData } from '../languages'
 import Div100vh from 'solidjs-div-100vh'
-
 import './index.css'
 import 'flowbite'
+import { languageSettings } from '../utils/settings'
 
 const root = document.getElementById('root')
 
@@ -17,8 +17,10 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 }
 
 render(() => {
+  const [langSettings, _] = languageSettings()
+
   return (
-    <I18nProvider dict={languageData} locale="en">
+    <I18nProvider dict={languageData} locale={langSettings.language}>
       <Div100vh>
         <ManagePage />
       </Div100vh>
