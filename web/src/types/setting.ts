@@ -1,5 +1,7 @@
 export type SortSettings = {
   by: string
+  order: number
+  group: boolean
 }
 
 export type ViewSettings = {

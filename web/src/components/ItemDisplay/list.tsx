@@ -5,6 +5,7 @@ import { VsLink } from 'solid-icons/vs'
 import './style.css'
 import { humanFileSize } from '../../utils/format'
 import selectionModeSignal from '../../signals/selectionMode'
+import selectionToolBus from '../../signals/selectionTool'
 
 const ItemListDisplay: Component<{
   info: FileInfo
@@ -61,6 +62,20 @@ const ItemListDisplay: Component<{
     check = true
   }
 
+  selectionToolBus.listen(tool => {
+    switch (tool) {
+      case 'all':
+        setSelected(true)
+        break
+      case 'none':
+        setSelected(false)
+        break
+      case 'invert':
+        setSelected(!selected())
+        break
+    }
+  })
+
   return (
     <div
       classList={{
@@ -96,7 +111,7 @@ const ItemListDisplay: Component<{
       <div onClick={e => onPress(e)} class="grow px-3 hover:cursor-text" ondblclick={() => setEditMode(!editMode())}>
         <Switch>
           <Match when={!editMode()}>
-            <p class="text-code">{fileName()}</p>
+            <p class="text-code truncate">{fileName()}</p>
           </Match>
           <Match when={editMode()}>
             <input
@@ -120,10 +135,10 @@ const ItemListDisplay: Component<{
         <p class="text-code pl-5 pr-5">{size()}</p>
       </div>
       <div onClick={e => onPress(e)} class="basis-1/6">
-        <p class="text-code pl-5 pr-5">{info.ext}</p>
+        <p class="text-code pl-5 pr-5 truncate">{info.ext}</p>
       </div>
       <div onClick={e => onPress(e)} class="basis-1/4">
-        <p class="text-code pl-5 pr-5">{modified()}</p>
+        <p class="text-code pl-5 pr-5 truncate">{modified()}</p>
       </div>
     </div>
   )

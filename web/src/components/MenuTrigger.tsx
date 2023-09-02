@@ -37,13 +37,7 @@ const MenuTrigger: Component<{ title: JSXElement; children: JSXElement }> = prop
               } else {
                 return (
                   <li>
-                    <a
-                      data-drawer-target="drawer-language"
-                      data-drawer-show="drawer-language"
-                      aria-controls="drawer-language"
-                      data-drawer-placement="right"
-                      href="#"
-                      class="block px-4 py-2 hover:bg-hover">
+                    <a href="#" class="block hover:bg-hover">
                       {item}
                     </a>
                   </li>

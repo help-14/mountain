@@ -4,6 +4,7 @@ import FileExtensionIcon from '../FileExtensionIcon'
 import selectionModeSignal from '../../signals/selectionMode'
 import './style.css'
 import { humanFileSize } from '../../utils/format'
+import selectionToolBus from '../../signals/selectionTool'
 
 const ItemTileDisplay: Component<{
   info: FileInfo
@@ -16,6 +17,20 @@ const ItemTileDisplay: Component<{
   const [selected, setSelected] = createSignal(false)
 
   createEffect(() => (info.selected = selected()))
+
+  selectionToolBus.listen(tool => {
+    switch (tool) {
+      case 'all':
+        setSelected(true)
+        break
+      case 'none':
+        setSelected(false)
+        break
+      case 'invert':
+        setSelected(!selected())
+        break
+    }
+  })
 
   return (
     <div

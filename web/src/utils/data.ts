@@ -1,3 +1,6 @@
+import { FileInfo } from '../types/fileInfo'
+import { SortSettings } from '../types/setting'
+
 export function utf8_to_b64(str: string): string {
   return window.btoa(encodeURIComponent(str))
 }
@@ -37,3 +40,66 @@ export function enabled(element: string, state: boolean): void {
 //   }
 //   return getHashPath()
 // }
+
+export function sortData(arr: FileInfo[], { by, order, group }: SortSettings) {
+  if (!arr) return []
+
+  let o = order === 0 ? 1 : -1
+  let result = arr
+
+  if (result.length > 0) {
+    if (by === 'name') {
+      result = arr.sort((a, b) => {
+        let x = a.name.toLowerCase()
+        let y = b.name.toLowerCase()
+        if (x < y) {
+          return -1 * o
+        }
+        if (x > y) {
+          return 1 * o
+        }
+        return 0
+      })
+    } else if (by === 'date') {
+      result = arr.sort((a, b) => {
+        let x = new Date(a.modified)
+        let y = new Date(b.modified)
+        if (x < y) {
+          return -1 * o
+        }
+        if (x > y) {
+          return 1 * o
+        }
+        return 0
+      })
+    } else if (by === 'type') {
+      result = arr.sort((a, b) => {
+        let x = a.ext.toLowerCase()
+        let y = b.ext.toLowerCase()
+        if (x < y) {
+          return -1 * o
+        }
+        if (x > y) {
+          return 1 * o
+        }
+        return 0
+      })
+    }
+
+    if (group) {
+      let dirs = []
+      let files = []
+      for (let i = 0; i < result.length; i++) {
+        const test = result[i]
+        if (test.directory) {
+          dirs.push({ ...test })
+        } else {
+          files.push({ ...test })
+        }
+      }
+      result = o === 1 ? dirs.concat(files) : files.concat(dirs)
+    }
+  }
+
+  return result
+}

@@ -7,6 +7,9 @@ import { createDropzone } from '@solid-primitives/upload'
 import { FaSolidXmark } from 'solid-icons/fa'
 import selectionModeSignal from '../../signals/selectionMode'
 import viewModeSignal from '../../signals/viewMode'
+import { sortData } from '../../utils/data'
+import { sortSettings } from '../../utils/settings'
+import selectionToolBus from '../../signals/selectionTool'
 
 const ListingPanel: Component<{}> = props => {
   const [files, setFiles] = createSignal([] as FileInfo[])
@@ -14,6 +17,7 @@ const ListingPanel: Component<{}> = props => {
 
   const [selectionMode, setSelectionMode] = selectionModeSignal
   const [viewMode, setViewMode] = viewModeSignal
+  const [sort, setSort] = sortSettings()
 
   const { setRef: dropzone, files: droppedFiles } = createDropzone({
     onDrop: async files => {
@@ -25,11 +29,17 @@ const ListingPanel: Component<{}> = props => {
   })
 
   createEffect(() => {
-    doGetFilesFromPath(location()).then(setFiles).catch(console.error)
+    doGetFilesFromPath(location())
+      .then(data => setFiles(sortData(data, sort)))
+      .catch(console.error)
   })
 
   const tileView = () => viewMode() === 'tile'
   const listView = () => viewMode() === 'list'
+
+  selectionToolBus.listen(tool => {
+    if (!selectionMode()) setSelectionMode(true)
+  })
 
   return (
     <div ref={dropzone}>

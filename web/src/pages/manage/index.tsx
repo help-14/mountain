@@ -3,7 +3,8 @@ import HeaderMenu from './HeaderMenu'
 import NavigationPanel from './NavigationPanel'
 import ListingPanel from './ListingPanel'
 import './css/index.css'
-import LanguageSelector from '../../components/LanguageSelector'
+import LanguageSelector from './LanguageSelector'
+import ShortcutDrawer from './ShortcutDrawer'
 
 export const ManagePage: Component = () => {
   return (
@@ -45,13 +46,8 @@ export const ManagePage: Component = () => {
         <ListingPanel />
       </div>
 
-      <div
-        id="drawer-language"
-        class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
-        tabindex="-1"
-        aria-labelledby="drawer-right-label">
-        <LanguageSelector />
-      </div>
+      <LanguageSelector />
+      <ShortcutDrawer />
     </div>
   )
 }

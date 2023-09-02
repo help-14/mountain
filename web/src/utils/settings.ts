@@ -4,6 +4,8 @@ import { createObjectStore } from './localStorage'
 export const sortSettings = () =>
   createObjectStore<SortSettings>('setting.sort', {
     by: 'name',
+    order: 0,
+    group: false,
   })
 
 export const viewSettings = () =>
