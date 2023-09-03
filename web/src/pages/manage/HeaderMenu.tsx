@@ -9,7 +9,6 @@ import {
   FaSolidEye,
   FaSolidList,
   FaSolidGrip,
-  FaSolidFolderTree,
   FaSolidMagnifyingGlass,
   FaSolidFileCode,
   FaSolidObjectGroup,
@@ -23,6 +22,7 @@ import {
   FaSolidBookOpen,
   FaSolidWrench,
   FaRegularSquareCheck,
+  FaSolidFolderTree,
 } from 'solid-icons/fa'
 import { AiOutlineSortAscending, AiOutlineSortDescending } from 'solid-icons/ai'
 import { Drawer } from 'flowbite'
@@ -30,7 +30,6 @@ import HStack from '../../components/HStack'
 import MenuTrigger from '../../components/MenuTrigger'
 import MenuLabel from '../../components/MenuLabel'
 import MenuSwitch from '../../components/MenuSwitch'
-import { CgMenuLeftAlt } from 'solid-icons/cg'
 import { sortSettings, viewSettings } from '../../utils/settings'
 import viewModeSignal from '../../signals/viewMode'
 import { drawerOptions, refreshPage } from '../../utils/ui'
@@ -68,16 +67,15 @@ const HeaderMenu: Component = () => {
     <div class="z-10 p-1 uk-padding-small w-full">
       <HStack>
         <button
-          data-drawer-target="sidebar"
-          data-drawer-toggle="sidebar"
-          aria-controls="sidebar"
           class="text-menu bg-900 hover:bg-hover focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center sm:hidden"
+          onclick={() => new Drawer(document.getElementById('sidebar'), { ...drawerOptions, placement: 'left' }).show()}
           type="button">
-          <CgMenuLeftAlt size="1.5em" />
+          <FaSolidFolderTree fill="#849289" size="1.3em" />
         </button>
 
         {/* Sort */}
-        <MenuTrigger title={<IconLabel icon={<FaSolidSort fill="#849289" />} label={t('header.sort.title')} />}>
+        <MenuTrigger
+          title={<IconLabel icon={<FaSolidSort fill="#849289" />} label={t('header.sort.title')} responsive={true} />}>
           <MenuSwitch
             icon={<FaSolidFileCode fill="#849289" />}
             label={t('header.sort.group')}
@@ -119,7 +117,8 @@ const HeaderMenu: Component = () => {
         </MenuTrigger>
 
         {/* View */}
-        <MenuTrigger title={<IconLabel icon={<FaSolidEye fill="#849289" />} label={t('header.view.title')} />}>
+        <MenuTrigger
+          title={<IconLabel icon={<FaSolidEye fill="#849289" />} label={t('header.view.title')} responsive={true} />}>
           <MenuLabel>{t('header.view.as')}</MenuLabel>
           <IconLabel
             padding={true}
@@ -153,7 +152,13 @@ const HeaderMenu: Component = () => {
 
         {/* Select */}
         <MenuTrigger
-          title={<IconLabel icon={<FaSolidObjectGroup fill="#849289" />} label={t('header.select.title')} />}>
+          title={
+            <IconLabel
+              icon={<FaSolidObjectGroup fill="#849289" />}
+              label={t('header.select.title')}
+              responsive={true}
+            />
+          }>
           <MenuSwitch
             icon={<FaRegularSquareCheck fill="#849289" />}
             label={t('header.select.mode')}
@@ -182,7 +187,10 @@ const HeaderMenu: Component = () => {
         </MenuTrigger>
 
         {/* Setting */}
-        <MenuTrigger title={<IconLabel icon={<FaSolidGear fill="#849289" />} label={t('header.setting.title')} />}>
+        <MenuTrigger
+          title={
+            <IconLabel icon={<FaSolidGear fill="#849289" />} label={t('header.setting.title')} responsive={true} />
+          }>
           <IconLabel
             padding={true}
             icon={<FaSolidLanguage fill="#849289" />}
@@ -193,7 +201,8 @@ const HeaderMenu: Component = () => {
         </MenuTrigger>
 
         {/* About */}
-        <MenuTrigger title={<IconLabel icon={<FaSolidInfo fill="#849289" />} label={t('header.about.title')} />}>
+        <MenuTrigger
+          title={<IconLabel icon={<FaSolidInfo fill="#849289" />} label={t('header.about.title')} responsive={true} />}>
           <IconLabel
             padding={true}
             icon={<FaSolidKeyboard fill="#849289" />}

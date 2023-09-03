@@ -61,13 +61,13 @@ const ListingPanel: Component<{}> = props => {
               <div class="grow px-3 contents-center self-center">
                 <p class="text-menu font-bold px-5">File name</p>
               </div>
-              <div class="basis-40 contents-center self-center text-center">
+              <div class="basis-40 contents-center self-center text-center xl:inline hidden">
                 <p class="text-menu font-bold px-5">Symlink</p>
               </div>
               <div class="basis-1/6 contents-center self-center">
                 <p class="text-menu font-bold px-5">Size</p>
               </div>
-              <div class="basis-1/6 contents-center self-center">
+              <div class="basis-1/6 contents-center self-center xl:inline hidden">
                 <p class="text-menu font-bold px-5">File extension</p>
               </div>
               <div class="basis-1/4 contents-center self-center">

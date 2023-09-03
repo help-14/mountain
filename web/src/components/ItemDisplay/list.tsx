@@ -126,7 +126,7 @@ const ItemListDisplay: Component<{
           </Match>
         </Switch>
       </div>
-      <div onClick={e => onPress(e)} class="basis-40">
+      <div onClick={e => onPress(e)} class="xl:inline hidden basis-40">
         <Show when={isLinked()}>
           <VsLink fill="#D3C6AA" class="mx-auto" />
         </Show>
@@ -134,7 +134,7 @@ const ItemListDisplay: Component<{
       <div onClick={e => onPress(e)} class="basis-1/6">
         <p class="text-code pl-5 pr-5">{size()}</p>
       </div>
-      <div onClick={e => onPress(e)} class="basis-1/6">
+      <div onClick={e => onPress(e)} class="xl:inline hidden basis-1/6">
         <p class="text-code pl-5 pr-5 truncate">{info.ext}</p>
       </div>
       <div onClick={e => onPress(e)} class="basis-1/4">

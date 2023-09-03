@@ -3,9 +3,10 @@ import { Component, JSXElement } from 'solid-js'
 const IconLabel: Component<{
   icon: JSXElement
   label: string
+  responsive?: boolean
   padding?: boolean
   handleClick?: Function
-}> = ({ icon, label, handleClick, padding }) => {
+}> = ({ icon, label, handleClick, padding, responsive }) => {
   return (
     <div
       classList={{
@@ -18,7 +19,14 @@ const IconLabel: Component<{
       }}
       onClick={e => handleClick?.(e.currentTarget)}>
       {icon}
-      <p class="ml-3">{label}</p>
+      <p
+        classList={{
+          'ml-3': true,
+          'sm:inline': responsive ?? false,
+          hidden: responsive ?? false,
+        }}>
+        {label}
+      </p>
     </div>
   )
 }
