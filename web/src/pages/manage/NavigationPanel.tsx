@@ -1,5 +1,5 @@
-import { Component, For, JSXElement } from 'solid-js'
-import { SourceProvider, SourceType } from '../../types/sourceProvider'
+import { Component, For, JSXElement, Show } from 'solid-js'
+import { SourceProvider, SourceType, createSourceProvider } from '../../types/sourceProvider'
 import { createStore } from 'solid-js/store'
 import TreeView from '../../components/TreeView'
 import { NodeType, createTreeNode } from '../../types/treeNode'
@@ -9,38 +9,41 @@ import { FaBrandsCloudflare, FaBrandsGoogleDrive, FaSolidQuestion, FaSolidShuttl
 import { SiAmazons3 } from 'solid-icons/si'
 
 const NavigationPanel: Component<{}> = props => {
-  const [sources, setSources] = createStore<SourceProvider[]>([
+  const [sources, setSources] = createStore<SourceProvider[]>([])
+
+  const temp = [
     {
       id: 'local',
-      name: 'Local',
+      title: 'Local',
       type: SourceType.Local,
     },
     {
       id: 'Onedrive',
-      name: 'Onedrive',
+      title: 'Onedrive',
       type: SourceType.OneDrive,
     },
     {
       id: 'CSloudflare',
-      name: 'Cloudflare',
+      title: 'Cloudflare',
       type: SourceType.CloudflareR2,
     },
     {
       id: 'DetaDrive',
-      name: 'DetaDrive',
+      title: 'DetaDrive',
       type: SourceType.DetaCollection,
     },
     {
       id: 'GoogleDrive',
-      name: 'GoogleDrive',
+      title: 'GoogleDrive',
       type: SourceType.GoogleDrive,
     },
     {
       id: 'AmazonS3',
-      name: 'AmazonS3',
+      title: 'AmazonS3',
       type: SourceType.AmazonS3,
     },
-  ])
+  ].map(createSourceProvider)
+  setSources(temp)
 
   const root = createTreeNode({
     title: '1',
@@ -73,24 +76,32 @@ const NavigationPanel: Component<{}> = props => {
         {source => {
           return (
             <div class="mt-5">
-              <TreeView
-                rootNode={
+              <div class="flex flex-col text-code">
+                <div class="m-0 p-0" onclick={() => source.setExpand(!source.expanded())}>
                   <div class="flex flex-row cursor-pointer hover:bg-500 px-2">
                     <div class="my-auto pr-2">{getSourceIcon(source.type)}</div>
-                    <span class="my-auto py-2">{source.name}</span>
+                    <span class="my-auto py-2">{source.title}</span>
                   </div>
-                }
-                rootData={root}
-                loadMore={(node: NodeType) => {
-                  node.setChildren([
-                    createTreeNode({
-                      title: (parseInt(node.title) + 1).toString(),
-                      data: '',
-                    }),
-                  ])
-                  return node
-                }}
-              />
+                </div>
+                <Show when={source.expanded()}>
+                  <For each={source.children()}>
+                    {child => (
+                      <TreeView
+                        rootData={child}
+                        loadMore={(node: NodeType | SourceProvider) => {
+                          node.setChildren([
+                            createTreeNode({
+                              title: Math.random().toString(),
+                              data: '',
+                            }),
+                          ])
+                          return node
+                        }}
+                      />
+                    )}
+                  </For>
+                </Show>
+              </div>
             </div>
           )
         }}

@@ -3,14 +3,10 @@ import { VsTriangleRight, VsTriangleDown } from 'solid-icons/vs'
 import { NodeType } from '../types/treeNode'
 import { FaSolidFolder } from 'solid-icons/fa'
 
-const TreeView: Component<{ rootNode: JSXElement; rootData: NodeType; loadMore: Function }> = ({
-  rootNode,
-  rootData,
-  loadMore,
-}) => {
+const TreeView: Component<{ rootData: NodeType; loadMore: Function }> = ({ rootData, loadMore }) => {
   function onSelect(nodeData: NodeType, allowCollapse = false) {
     if (nodeData.expanded()) {
-      //nodeData.setExpand(false)
+      if (allowCollapse) nodeData.setExpand(false)
     } else {
       if (nodeData.children().length === 0) loadMore?.(nodeData)
       nodeData.setExpand(true)
@@ -29,10 +25,13 @@ const TreeView: Component<{ rootNode: JSXElement; rootData: NodeType; loadMore: 
               <VsTriangleDown onclick={() => nodeData.setExpand(false)} />
             </Show>
           </span>
-          <span class="my-auto p-2 pl-0" onclick={() => onSelect(nodeData)}>
+          <span class="my-auto p-2 pl-0" onclick={() => onSelect(nodeData)} onDblClick={() => onSelect(nodeData, true)}>
             <FaSolidFolder size="1em" fill="#f7cd00" class="ml-auto" />
           </span>
-          <span class="my-auto p-2 pl-0 grow truncate" onclick={() => onSelect(nodeData)}>
+          <span
+            class="my-auto p-2 pl-0 grow truncate"
+            onclick={() => onSelect(nodeData)}
+            onDblClick={() => onSelect(nodeData, true)}>
             {nodeData.title}
           </span>
         </div>
@@ -43,14 +42,7 @@ const TreeView: Component<{ rootNode: JSXElement; rootData: NodeType; loadMore: 
     )
   }
 
-  return (
-    <div class="flex flex-col text-code">
-      <div class="m-0 p-0" onclick={() => rootData.setExpand(!rootData.expanded())}>
-        {rootNode}
-      </div>
-      <Show when={rootData.expanded()}>{renderChildren(rootData)}</Show>
-    </div>
-  )
+  return renderChildren(rootData)
 }
 
 export default TreeView
