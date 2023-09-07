@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@solid-primitives/event-bus": "^1.0.8",
+    "@solid-primitives/event-dispatcher": "^0.0.105",
     "@solid-primitives/event-props": "^0.2.5",
     "@solid-primitives/i18n": "^1.2.3",
     "@solid-primitives/storage": "^2.1.1",
