@@ -10,20 +10,15 @@ const IconLabel: Component<{
   return (
     <div
       classList={{
-        flex: true,
-        'flex-row': true,
-        'content-center': true,
-        'items-center': true,
-        'px-4': padding ?? false,
-        'py-2': padding ?? false,
+        'flex flex-row content-center items-center': true,
+        'px-4 py-2': padding ?? false,
       }}
       onClick={e => handleClick?.(e.currentTarget)}>
       {icon}
       <p
         classList={{
           'ml-3': true,
-          'sm:inline': responsive ?? false,
-          hidden: responsive ?? false,
+          'sm:inline hidden': responsive ?? false,
         }}>
         {label}
       </p>

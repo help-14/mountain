@@ -35,16 +35,8 @@ const ItemTileDisplay: Component<{
   return (
     <div
       classList={{
-        item: true,
-        flex: true,
-        'flex-row': true,
-        'hover:bg-hover': true,
-        'cursor-pointer': true,
-        'p-4': true,
-        'rounded-lg': true,
-        'box-border': true,
-        'border-2': selected(),
-        'border-active': selected(),
+        'item flex flex-row hover:bg-hover cursor-pointer p-4 rounded-lg box-border': true,
+        'border-2 border-active': selected(),
       }}
       style={{ width: '280px', margin: selected() ? '0px' : '2px', 'margin-right': selected() ? '4px' : '2px' }}
       onClick={e => handleClick?.(e.currentTarget, info)}>

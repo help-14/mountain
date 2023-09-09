@@ -80,7 +80,7 @@ const NavigationPanel: Component<{}> = props => {
                 <div class="m-0 p-0" onclick={() => source.setExpand(!source.expanded())}>
                   <div class="flex flex-row cursor-pointer hover:bg-500 px-2">
                     <div class="my-auto pr-2">{getSourceIcon(source.type)}</div>
-                    <span class="my-auto py-2">{source.title}</span>
+                    <span class="my-auto py-2 font-bold">{source.title}</span>
                   </div>
                 </div>
                 <Show when={source.expanded()}>

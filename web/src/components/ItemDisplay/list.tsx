@@ -6,6 +6,7 @@ import './style.css'
 import { humanFileSize } from '../../utils/format'
 import selectionModeSignal from '../../signals/selectionMode'
 import selectionToolBus from '../../signals/selectionTool'
+import compactModeBus from '../../signals/compactMode'
 
 const ItemListDisplay: Component<{
   info: FileInfo
@@ -17,6 +18,7 @@ const ItemListDisplay: Component<{
   const [editMode, setEditMode] = createSignal(false)
   const [fileName, setFileName] = createSignal(info.name)
   const [selectionMode, setSelectionMode] = selectionModeSignal
+  const [compact, setCompact] = createSignal(false)
 
   let fileNameTb: HTMLInputElement
   let selectBox: HTMLInputElement
@@ -62,6 +64,7 @@ const ItemListDisplay: Component<{
     check = true
   }
 
+  compactModeBus.listen(val => setCompact(val))
   selectionToolBus.listen(tool => {
     switch (tool) {
       case 'all':
@@ -79,16 +82,8 @@ const ItemListDisplay: Component<{
   return (
     <div
       classList={{
-        flex: true,
-        'flex-row': true,
-        'pl-3': true,
-        'pr-3': true,
-        'pt-2': true,
-        'pb-2': true,
-        item: true,
+        'flex flex-row pl-3 pr-3 pt-2 pb-2 item hover:bg-hover cursor-pointer': true,
         'bg-900': bgHighlight,
-        'hover:bg-hover': true,
-        'cursor-pointer': true,
         'bg-hover': selected(),
       }}
       onmouseup={() => onmouseup()}
@@ -126,20 +121,24 @@ const ItemListDisplay: Component<{
           </Match>
         </Switch>
       </div>
-      <div onClick={e => onPress(e)} class="xl:inline hidden basis-40">
-        <Show when={isLinked()}>
-          <VsLink fill="#D3C6AA" class="mx-auto" />
-        </Show>
-      </div>
+      <Show when={!compact()}>
+        <div onClick={e => onPress(e)} class="xl:inline hidden basis-40">
+          <Show when={isLinked()}>
+            <VsLink fill="#D3C6AA" class="mx-auto" />
+          </Show>
+        </div>
+      </Show>
       <div onClick={e => onPress(e)} class="basis-1/6">
         <p class="text-code pl-5 pr-5">{size()}</p>
       </div>
-      <div onClick={e => onPress(e)} class="xl:inline hidden basis-1/6">
-        <p class="text-code pl-5 pr-5 truncate">{info.ext}</p>
-      </div>
-      <div onClick={e => onPress(e)} class="basis-1/4">
-        <p class="text-code pl-5 pr-5 truncate">{modified()}</p>
-      </div>
+      <Show when={!compact()}>
+        <div onClick={e => onPress(e)} class="xl:inline hidden basis-1/6">
+          <p class="text-code pl-5 pr-5 truncate">{info.ext}</p>
+        </div>
+        <div onClick={e => onPress(e)} class="basis-1/4">
+          <p class="text-code pl-5 pr-5 truncate">{modified()}</p>
+        </div>
+      </Show>
     </div>
   )
 }

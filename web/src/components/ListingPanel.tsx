@@ -1,19 +1,21 @@
 import { Component, For, Switch, Match, createEffect, createSignal, Show } from 'solid-js'
-import { doGetFilesFromPath } from '../../utils/network'
-import ItemTileDisplay from '../../components/ItemDisplay/tile'
-import ItemListDisplay from '../../components/ItemDisplay/list'
-import { FileInfo } from '../../types/fileInfo'
+import { doGetFilesFromPath } from '../utils/network'
+import ItemTileDisplay from './ItemDisplay/tile'
+import ItemListDisplay from './ItemDisplay/list'
+import { FileInfo } from '../types/fileInfo'
 import { createDropzone } from '@solid-primitives/upload'
 import { FaSolidXmark } from 'solid-icons/fa'
-import selectionModeSignal from '../../signals/selectionMode'
-import viewModeSignal from '../../signals/viewMode'
-import { sortData } from '../../utils/data'
-import { sortSettings } from '../../utils/settings'
-import selectionToolBus from '../../signals/selectionTool'
+import selectionModeSignal from '../signals/selectionMode'
+import viewModeSignal from '../signals/viewMode'
+import { sortData } from '../utils/data'
+import { sortSettings } from '../utils/settings'
+import selectionToolBus from '../signals/selectionTool'
+import compactModeBus from '../signals/compactMode'
 
-const ListingPanel: Component<{}> = props => {
+const ListingPanel: Component = () => {
   const [files, setFiles] = createSignal([] as FileInfo[])
   const [location, setLocation] = createSignal('/Users/nhan/')
+  const [compact, setCompact] = createSignal(false)
 
   const [selectionMode, setSelectionMode] = selectionModeSignal
   const [viewMode, setViewMode] = viewModeSignal
@@ -37,9 +39,11 @@ const ListingPanel: Component<{}> = props => {
   const tileView = () => viewMode() === 'tile'
   const listView = () => viewMode() === 'list'
 
-  selectionToolBus.listen(tool => {
+  selectionToolBus.listen(() => {
     if (!selectionMode()) setSelectionMode(true)
   })
+
+  compactModeBus.listen(val => setCompact(val))
 
   return (
     <div ref={dropzone}>
@@ -61,23 +65,25 @@ const ListingPanel: Component<{}> = props => {
               <div class="grow px-3 contents-center self-center">
                 <p class="text-menu font-bold px-5">File name</p>
               </div>
-              <div class="basis-40 contents-center self-center text-center xl:inline hidden">
-                <p class="text-menu font-bold px-5">Symlink</p>
-              </div>
+              <Show when={!compact()}>
+                <div class="basis-40 contents-center self-center text-center xl:inline hidden">
+                  <p class="text-menu font-bold px-5">Symlink</p>
+                </div>
+              </Show>
               <div class="basis-1/6 contents-center self-center">
                 <p class="text-menu font-bold px-5">Size</p>
               </div>
-              <div class="basis-1/6 contents-center self-center xl:inline hidden">
-                <p class="text-menu font-bold px-5">File extension</p>
-              </div>
-              <div class="basis-1/4 contents-center self-center">
-                <p class="text-menu font-bold px-5">Modified at</p>
-              </div>
+              <Show when={!compact()}>
+                <div class="basis-1/6 contents-center self-center xl:inline hidden">
+                  <p class="text-menu font-bold px-5">File extension</p>
+                </div>
+                <div class="basis-1/4 contents-center self-center">
+                  <p class="text-menu font-bold px-5">Modified at</p>
+                </div>
+              </Show>
             </div>
             <For each={files()}>{(file, i) => <ItemListDisplay info={file} bgHighlight={i() % 2 !== 0} />}</For>
           </div>
-          {/* </tbody>
-          </table> */}
         </Match>
       </Switch>
     </div>

@@ -27,6 +27,7 @@
     "@solid-primitives/upload": "^0.0.114",
     "@stitches/core": "^1.2.8",
     "flowbite": "^1.6.5",
+    "nanoid": "^4.0.2",
     "solid-fa": "^0.1.0",
     "solid-icons": "^1.0.4",
     "solid-js": "^1.6.10",

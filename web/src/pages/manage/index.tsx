@@ -1,10 +1,11 @@
 import type { Component } from 'solid-js'
 import HeaderMenu from './HeaderMenu'
 import NavigationPanel from './NavigationPanel'
-import ListingPanel from './ListingPanel'
+import ListingPanel from '../../components/ListingPanel'
 import './css/index.css'
 import LanguageSelector from './LanguageSelector'
 import ShortcutDrawer from './ShortcutDrawer'
+import SplitPanel from '../../components/SplitPanel'
 
 export const ManagePage: Component = () => {
   return (
@@ -42,8 +43,8 @@ export const ManagePage: Component = () => {
         </div>
       </aside>
 
-      <div class="p-5 py-16 h-full sm:ml-80">
-        <ListingPanel />
+      <div class="fixed top-12 left-0 right-0 bottom-0 sm:ml-80">
+        <SplitPanel createNew={() => <ListingPanel />} />
       </div>
 
       <LanguageSelector />

@@ -1,6 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 import { Component } from 'solid-js'
 import IconLabel from '../../components/IconLabel'
+import { IoAddCircle } from 'solid-icons/io'
 import {
   FaSolidSort,
   FaSolidFont,
@@ -34,7 +35,9 @@ import { sortSettings, viewSettings } from '../../utils/settings'
 import viewModeSignal from '../../signals/viewMode'
 import { drawerOptions, refreshPage } from '../../utils/ui'
 import selectionToolBus from '../../signals/selectionTool'
+import addPanelBus from '../../signals/addListingPanel'
 import selectionModeSignal from '../../signals/selectionMode'
+import MenuButton from '../../components/MenuButton'
 
 const HeaderMenu: Component = () => {
   const [t] = useI18n()
@@ -64,8 +67,8 @@ const HeaderMenu: Component = () => {
   const [selectionMode, setSelectionMode] = selectionModeSignal
 
   return (
-    <div class="z-10 p-1 uk-padding-small w-full">
-      <HStack>
+    <div class="z-10 p-1 uk-padding-small w-full flex">
+      <HStack grow={true}>
         <button
           class="text-menu bg-900 hover:bg-hover focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center sm:hidden"
           onclick={() => new Drawer(document.getElementById('sidebar'), { ...drawerOptions, placement: 'left' }).show()}
@@ -223,6 +226,18 @@ const HeaderMenu: Component = () => {
           />
         </MenuTrigger>
       </HStack>
+
+      <div class="flex-row right-0 hidden sm:inline">
+        <MenuButton
+          title={
+            <IconLabel
+              icon={<IoAddCircle fill="#849289" font-size="18" />}
+              label={'Add panel'}
+              handleClick={() => addPanelBus.emit()}
+            />
+          }
+        />
+      </div>
     </div>
   )
 }
