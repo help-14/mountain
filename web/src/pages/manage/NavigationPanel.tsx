@@ -5,8 +5,13 @@ import TreeView from '../../components/TreeView'
 import { NodeType, createTreeNode } from '../../types/treeNode'
 import { FiHardDrive } from 'solid-icons/fi'
 import { ImOnedrive } from 'solid-icons/im'
-import { FaBrandsCloudflare, FaBrandsGoogleDrive, FaSolidQuestion, FaSolidShuttleSpace } from 'solid-icons/fa'
-import { SiAmazons3 } from 'solid-icons/si'
+import {
+  FaBrandsAmazon,
+  FaBrandsCloudflare,
+  FaBrandsGoogleDrive,
+  FaSolidQuestion,
+  FaSolidShuttleSpace,
+} from 'solid-icons/fa'
 
 const NavigationPanel: Component<{}> = props => {
   const [sources, setSources] = createStore<SourceProvider[]>([])
@@ -60,7 +65,7 @@ const NavigationPanel: Component<{}> = props => {
       case SourceType.GoogleDrive:
         return <FaBrandsGoogleDrive fill="#D3C6AA" />
       case SourceType.AmazonS3:
-        return <SiAmazons3 fill="#D3C6AA" />
+        return <FaBrandsAmazon fill="#D3C6AA" />
       case SourceType.CloudflareR2:
         return <FaBrandsCloudflare fill="#D3C6AA" />
       case SourceType.DetaCollection:

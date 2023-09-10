@@ -24,7 +24,6 @@
     "@solid-primitives/event-props": "^0.2.5",
     "@solid-primitives/i18n": "^1.2.3",
     "@solid-primitives/storage": "^2.1.1",
-    "@solid-primitives/upload": "^0.0.114",
     "@stitches/core": "^1.2.8",
     "flowbite": "^1.6.5",
     "nanoid": "^4.0.2",

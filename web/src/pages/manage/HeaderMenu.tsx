@@ -35,7 +35,6 @@ import { sortSettings, viewSettings } from '../../utils/settings'
 import viewModeSignal from '../../signals/viewMode'
 import { drawerOptions, refreshPage } from '../../utils/ui'
 import selectionToolBus from '../../signals/selectionTool'
-import addPanelBus from '../../signals/addListingPanel'
 import selectionModeSignal from '../../signals/selectionMode'
 import MenuButton from '../../components/MenuButton'
 
@@ -228,15 +227,15 @@ const HeaderMenu: Component = () => {
       </HStack>
 
       <div class="flex-row right-0 hidden sm:inline">
-        <MenuButton
+        {/* <MenuButton
           title={
             <IconLabel
               icon={<IoAddCircle fill="#849289" font-size="18" />}
               label={'Add panel'}
-              handleClick={() => addPanelBus.emit()}
+              handleClick={() => {}}
             />
           }
-        />
+        /> */}
       </div>
     </div>
   )
