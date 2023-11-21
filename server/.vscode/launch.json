@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "request": "launch",
+            "name": "Launch Server",
+            "type": "node",
+            "program": "main.go",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "go",
+            "runtimeArgs": [
+                "run",
+            ],
+            "outputCapture": "std",
+        }
+    ]
+}

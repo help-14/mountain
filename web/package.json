@@ -10,26 +10,26 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^10.4.14",
+    "autoprefixer": "^10.4.16",
     "flowbite-typography": "^1.0.3",
-    "postcss": "^8.4.23",
-    "tailwindcss": "^3.3.2",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
     "typescript": "^4.9.5",
-    "vite": "^4.1.1",
-    "vite-plugin-solid": "^2.5.0"
+    "vite": "^4.5.0",
+    "vite-plugin-solid": "^2.7.2"
   },
   "dependencies": {
     "@solid-primitives/event-bus": "^1.0.8",
     "@solid-primitives/event-dispatcher": "^0.0.105",
     "@solid-primitives/event-props": "^0.2.5",
-    "@solid-primitives/i18n": "^1.2.3",
+    "@solid-primitives/i18n": "^1.4.1",
     "@solid-primitives/storage": "^2.1.1",
     "@stitches/core": "^1.2.8",
-    "flowbite": "^1.6.5",
+    "flowbite": "^1.8.1",
     "nanoid": "^4.0.2",
     "solid-fa": "^0.1.0",
-    "solid-icons": "^1.0.4",
-    "solid-js": "^1.6.10",
+    "solid-icons": "^1.1.0",
+    "solid-js": "^1.8.5",
     "solid-transition-group": "^0.0.10",
     "solidjs-div-100vh": "^1.0.1"
   }

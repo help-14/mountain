@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/help-14/mountain/server/utils"
+	"github.com/help-14/mountain/utils"
 )
 
 // Client management

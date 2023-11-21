@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/help-14/mountain/server/utils"
+	"github.com/help-14/mountain/utils"
 )
 
 func DownloadFile(c *gin.Context) {

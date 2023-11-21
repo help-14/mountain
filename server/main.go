@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/help-14/mountain/server/api"
-	"github.com/help-14/mountain/server/middleware"
-	"github.com/help-14/mountain/server/static"
-	"github.com/help-14/mountain/server/utils"
+	"github.com/help-14/mountain/api"
+	"github.com/help-14/mountain/middleware"
+	"github.com/help-14/mountain/static"
+	"github.com/help-14/mountain/utils"
 )
 
 func main() {
