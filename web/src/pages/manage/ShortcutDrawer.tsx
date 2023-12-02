@@ -1,9 +1,7 @@
 import { Component } from 'solid-js'
-import { useI18n } from '@solid-primitives/i18n'
+import { t } from '../../utils/language'
 
 const ShortcutDrawer: Component = () => {
-  const [t] = useI18n()
-
   return (
     <div
       id="drawer-shortcut"

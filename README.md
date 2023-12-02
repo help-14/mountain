@@ -20,7 +20,3 @@ Web-based file browser. [Take a look at the live demo](https://mountain-demo.azu
 ## Special thanks:
 
 - Freepik for the logo
-- ThibaultJanBeyer for DragSelect
-- Rehhouari for alpinejs-i18n
-- Alpine.js
-- Bootstrap

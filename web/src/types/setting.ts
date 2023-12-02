@@ -1,3 +1,5 @@
+import { Locale } from '../languages'
+
 export type SortSettings = {
   by: string
   order: number
@@ -12,5 +14,5 @@ export type ViewSettings = {
 }
 
 export type LanguageSettings = {
-  language: string
+  language: Locale
 }

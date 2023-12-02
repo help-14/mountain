@@ -1,4 +1,6 @@
-export const vi = {
+import { Dict } from './en'
+
+export const vi: Dict = {
   flag: '🇻🇳',
   language: 'Tiếng Việt',
   header: {

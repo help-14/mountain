@@ -138,3 +138,5 @@ export const en = {
     compress: 'Compress:',
   },
 }
+
+export type Dict = typeof en

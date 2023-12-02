@@ -1,7 +1,6 @@
-import { useI18n } from '@solid-primitives/i18n'
 import { Component } from 'solid-js'
 import IconLabel from '../../components/IconLabel'
-import { IoAddCircle } from 'solid-icons/io'
+import { t } from '../../utils/language'
 import {
   FaSolidSort,
   FaSolidFont,
@@ -36,11 +35,8 @@ import viewModeSignal from '../../signals/viewMode'
 import { drawerOptions, refreshPage } from '../../utils/ui'
 import selectionToolBus from '../../signals/selectionTool'
 import selectionModeSignal from '../../signals/selectionMode'
-import MenuButton from '../../components/MenuButton'
 
 const HeaderMenu: Component = () => {
-  const [t] = useI18n()
-
   const [sort, setSort] = sortSettings()
   const setSortBy = (value: string) => {
     setSort({ ...sort, by: value })

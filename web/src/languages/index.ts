@@ -7,3 +7,5 @@ export const languageData = {
   vi,
   ru,
 }
+
+export type Locale = keyof typeof languageData

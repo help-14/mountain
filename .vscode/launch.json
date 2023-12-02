@@ -6,7 +6,7 @@
             "name": "Launch Server",
             "type": "node",
             "program": "main.go",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/server",
             "runtimeExecutable": "go",
             "runtimeArgs": [
                 "run",

@@ -1,8 +1,8 @@
 import { Component, For } from 'solid-js'
-import { languageData } from '../../languages'
+import { Locale, languageData } from '../../languages'
 import { languageSettings } from '../../utils/settings'
 import { refreshPage } from '../../utils/ui'
-import { useI18n } from '@solid-primitives/i18n'
+import { t } from '../../utils/language'
 
 const LanguageSelector: Component = () => {
   const langValue = Object.entries(languageData)
@@ -11,11 +11,10 @@ const LanguageSelector: Component = () => {
     title: value.language,
     flag: value.flag,
   }))
-  const [t] = useI18n()
 
   const [langSetting, setLangSetting] = languageSettings()
 
-  const setLanguage = (id: string) => {
+  const setLanguage = (id: Locale) => {
     setLangSetting({ ...langSetting, language: id })
     refreshPage()
   }
@@ -30,7 +29,7 @@ const LanguageSelector: Component = () => {
       <div class="grid grid-cols-1">
         <For each={data}>
           {lang => (
-            <a href="#" class="block px-4 py-2 hover:bg-hover text-code" onclick={() => setLanguage(lang.id)}>
+            <a href="#" class="block px-4 py-2 hover:bg-hover text-code" onclick={() => setLanguage(lang.id as Locale)}>
               {lang.flag + ' ' + lang.title}
             </a>
           )}

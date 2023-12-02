@@ -2,7 +2,7 @@ import { Component, JSXElement } from 'solid-js'
 
 const IconLabel: Component<{
   icon: JSXElement
-  label: string
+  label: string | undefined
   responsive?: boolean
   padding?: boolean
   handleClick?: Function

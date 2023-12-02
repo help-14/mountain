@@ -1,4 +1,6 @@
-export const ru = {
+import { Dict } from './en'
+
+export const ru: Dict = {
   flag: '🇷🇺',
   language: 'Русский',
   header: {
@@ -35,6 +37,8 @@ export const ru = {
       clickSelect: 'Нажмите, чтобы выбрать',
       clickBrowse: 'Нажмите, чтобы открыть',
       outsideDeselect: 'Нажмите снаружи, чтобы отменить выбор',
+      mode: 'Selection mode',
+      tools: 'Tools',
     },
     about: {
       title: 'О программе',

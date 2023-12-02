@@ -61,6 +61,7 @@ import {
   SiWebassembly,
   SiWindows,
   SiXaml,
+  SiYaml,
 } from 'solid-icons/si'
 import { FaRegularFile, FaSolidCode, FaSolidFile, FaSolidFolder } from 'solid-icons/fa'
 
@@ -206,7 +207,7 @@ const getIcon = (ext: string, iconSize: string) => {
     case 'iam':
     case 'u3d':
     case 'prc':
-      return <SiAutodesk size={iconSize} color="#000000" />
+      return <SiAutodesk size={iconSize} color="#535c68" />
 
     case 'apk':
     case 'xapk':
@@ -215,7 +216,7 @@ const getIcon = (ext: string, iconSize: string) => {
       return <SiAndroid size={iconSize} color="#3DDC84" />
 
     case 'ipa':
-      return <SiIos size={iconSize} color="#000000" />
+      return <SiIos size={iconSize} color="#535c68" />
 
     case 'json':
       return <VsJson size={iconSize} color="#f39c12" />
@@ -231,8 +232,9 @@ const getIcon = (ext: string, iconSize: string) => {
       return <SiTypescript size={iconSize} color="#3178C6" />
     case 'yml':
     case 'yaml':
+      return <SiYaml size={iconSize} color="#535c68" />
     case 'md':
-      return <SiMarkdown size={iconSize} color="#000000" />
+      return <SiMarkdown size={iconSize} color="#535c68" />
     case 'anydesk':
       return <SiAnydesk size={iconSize} color="#EF443B" />
     case 'htaccess':
@@ -263,7 +265,7 @@ const getIcon = (ext: string, iconSize: string) => {
     case 'rb':
       return <SiRuby size={iconSize} color="#CC342D" />
     case 'rs':
-      return <SiRust size={iconSize} color="#000000" />
+      return <SiRust size={iconSize} color="#d35400" />
     case 'qt':
       return <SiQt size={iconSize} color="#41CD52" />
     case 'py':

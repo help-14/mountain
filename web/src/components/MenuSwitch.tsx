@@ -1,6 +1,11 @@
 import { Component, JSXElement } from 'solid-js'
 
-const MenuSwitch: Component<{ icon: JSXElement; label: string; value: boolean; valueChanged?: Function }> = props => {
+const MenuSwitch: Component<{
+  icon: JSXElement
+  label: string | undefined
+  value: boolean
+  valueChanged?: Function
+}> = props => {
   let checkbox: HTMLInputElement
 
   return (
