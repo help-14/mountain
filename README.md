@@ -1,8 +1,10 @@
 # Mountain ⛰️
 
-Web-based file browser. [Take a look at the live demo](https://mountain-demo.azurewebsites.net).
+Web-based file browser.
 
-![Mountain](https://i.imgur.com/575GGwG.png)
+This is the preview of version 2.0
+
+![Mountain V2](https://i.imgur.com/RiIm44H.jpg)
 
 ## Features:
 
