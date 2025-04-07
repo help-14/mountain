@@ -6,7 +6,7 @@ document.addEventListener('click', () => {
   hideContextMenu.emit()
 })
 
-export function setupContextMenu(zone: HTMLElement, menu: HTMLElement) {
+export function setupContextMenu(zone: HTMLElement | null, menu: HTMLElement | null) {
   if (!zone || !menu) return
 
   menu.style.display = 'none'

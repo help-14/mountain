@@ -1,8 +1,8 @@
 import { Component, For, JSXElement, Show } from 'solid-js'
-import { SourceProvider, SourceType, createSourceProvider } from '../../types/sourceProvider'
+import { SourceProvider, SourceType, createSourceProvider } from '../types/sourceProvider'
 import { createStore } from 'solid-js/store'
-import TreeView from '../../components/TreeView'
-import { NodeType, createTreeNode } from '../../types/treeNode'
+import TreeView from '../components/TreeView'
+import { NodeType, createTreeNode } from '../types/treeNode'
 import { FiHardDrive } from 'solid-icons/fi'
 import { ImOnedrive } from 'solid-icons/im'
 import {

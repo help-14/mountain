@@ -1,6 +1,6 @@
 import { Component } from 'solid-js'
-import IconLabel from '../../components/IconLabel'
-import { t } from '../../utils/language'
+import IconLabel from './IconLabel'
+import { t } from '../utils/language'
 import {
   FaSolidSort,
   FaSolidFont,
@@ -26,15 +26,15 @@ import {
 } from 'solid-icons/fa'
 import { AiOutlineSortAscending, AiOutlineSortDescending } from 'solid-icons/ai'
 import { Drawer } from 'flowbite'
-import HStack from '../../components/HStack'
-import MenuTrigger from '../../components/MenuTrigger'
-import MenuLabel from '../../components/MenuLabel'
-import MenuSwitch from '../../components/MenuSwitch'
-import { sortSettings, viewSettings } from '../../utils/settings'
-import viewModeSignal from '../../signals/viewMode'
-import { drawerOptions, refreshPage } from '../../utils/ui'
-import selectionToolBus from '../../signals/selectionTool'
-import selectionModeSignal from '../../signals/selectionMode'
+import HStack from './HStack'
+import MenuTrigger from './MenuTrigger'
+import MenuLabel from './MenuLabel'
+import MenuSwitch from './MenuSwitch'
+import { sortSettings, viewSettings } from '../utils/settings'
+import viewModeSignal from '../signals/viewMode'
+import { drawerOptions, refreshPage } from '../utils/ui'
+import selectionToolBus from '../signals/selectionTool'
+import selectionModeSignal from '../signals/selectionMode'
 
 const HeaderMenu: Component = () => {
   const [sort, setSort] = sortSettings()

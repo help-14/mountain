@@ -1,8 +1,8 @@
 import { Component, For } from 'solid-js'
-import { Locale, languageData } from '../../languages'
-import { languageSettings } from '../../utils/settings'
-import { refreshPage } from '../../utils/ui'
-import { t } from '../../utils/language'
+import { Locale, languageData } from '../languages'
+import { languageSettings } from '../utils/settings'
+import { refreshPage } from '../utils/ui'
+import { t } from '../utils/language'
 
 const LanguageSelector: Component = () => {
   const langValue = Object.entries(languageData)

@@ -41,8 +41,8 @@ const ListingPanel: Component = () => {
     if (!selectionMode()) setSelectionMode(true)
   })
 
-  let zone: HTMLDivElement
-  let menu: HTMLDivElement
+  let zone: HTMLDivElement | null = null
+  let menu: HTMLDivElement | null = null
   compactModeBus.listen(val => setCompact(val))
 
   function setup() {

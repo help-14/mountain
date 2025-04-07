@@ -1,5 +1,5 @@
 import { Component } from 'solid-js'
-import { t } from '../../utils/language'
+import { t } from '../utils/language'
 
 const ShortcutDrawer: Component = () => {
   return (
