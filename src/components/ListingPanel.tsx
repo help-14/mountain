@@ -1,67 +1,70 @@
-import { Component, For, Switch, Match, createEffect, createSignal, Show, onMount } from 'solid-js'
-import { doGetFilesFromPath } from '../utils/network'
-import ItemTileDisplay from './ItemDisplay/tile'
-import ItemListDisplay from './ItemDisplay/list'
-import { FileInfo } from '../types/fileInfo'
-import { FaSolidXmark } from 'solid-icons/fa'
-import selectionModeSignal from '../signals/selectionMode'
-import viewModeSignal from '../signals/viewMode'
-import { sortData } from '../utils/data'
-import { sortSettings } from '../utils/settings'
-import selectionToolBus from '../signals/selectionTool'
-import compactModeBus from '../signals/compactMode'
-import { setupContextMenu } from '../utils/contextMenu'
-import IconLabel from './IconLabel'
-import { OcPaste3, OcTabexternal2 } from 'solid-icons/oc'
-import { IoCopyOutline, IoCut } from 'solid-icons/io'
-import { AiOutlineDelete } from 'solid-icons/ai'
-import { BiRegularShare } from 'solid-icons/bi'
-import listingSignal from '../signals/listingPanel'
+import {
+  Component,
+  For,
+  Switch,
+  Match,
+  createEffect,
+  createSignal,
+  Show,
+} from "solid-js";
+import { sortData, doGetFilesFromPath, sortSettings } from "~/lib";
+import ItemTileDisplay from "~/components/ItemDisplay/tile";
+import ItemListDisplay from "~/components/ItemDisplay/list";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "~/components/ui/context-menu";
+import { FileInfo, SortSettings } from "~/types";
+//import listingSignal from "~/signals/listingPanel";
+import selectionModeSignal from "~/signals/selectionMode";
+import viewModeSignal from "~/signals/viewMode";
+import selectionToolBus from "~/signals/selectionTool";
+import compactModeBus from "~/signals/compactMode";
+// import { OcPaste3, OcTabexternal2 } from "solid-icons/oc";
+// import { IoCopyOutline, IoCut } from "solid-icons/io";
+// import { AiOutlineDelete } from "solid-icons/ai";
+// import { BiRegularShare } from "solid-icons/bi";
+import { FaSolidXmark } from "solid-icons/fa";
 
 const ListingPanel: Component = () => {
-  const [files, setFiles] = createSignal([] as FileInfo[])
-  const [location, setLocation] = createSignal('/Users/nhan/')
-  const [compact, setCompact] = createSignal(false)
+  const [files, setFiles] = createSignal([] as FileInfo[]);
+  const [location, setLocation] = createSignal("/Users/nhan/");
+  const [compact, setCompact] = createSignal(false);
 
-  const [selectionMode, setSelectionMode] = selectionModeSignal
-  const [viewMode, setViewMode] = viewModeSignal
-  const [sort, setSort] = sortSettings()
-  const [roomAvailable, _] = listingSignal.roomAvailable
+  const [selectionMode, setSelectionMode] = selectionModeSignal;
+  const [viewMode, setViewMode] = viewModeSignal;
+  const [sort, setSort] = sortSettings();
 
   createEffect(() => {
     doGetFilesFromPath(location())
-      .then(data => setFiles(sortData(data, sort)))
-      .catch(console.error)
-  })
+      .then((data) => setFiles(sortData(data, sort)))
+      .catch(console.error);
+  });
 
-  const tileView = () => viewMode() === 'tile'
-  const listView = () => viewMode() === 'list'
+  const tileView = () => viewMode() === "tile";
+  const listView = () => viewMode() === "list";
 
+  compactModeBus.listen((val) => setCompact(val));
   selectionToolBus.listen(() => {
-    if (!selectionMode()) setSelectionMode(true)
-  })
-
-  let zone: HTMLDivElement | null = null
-  let menu: HTMLDivElement | null = null
-  compactModeBus.listen(val => setCompact(val))
-
-  function setup() {
-    if (!zone || !menu) setTimeout(setup, 100)
-    setupContextMenu(zone, menu)
-  }
-  setup()
+    if (!selectionMode()) setSelectionMode(true);
+  });
 
   return (
-    <div>
-      <div ref={zone!}>
+    <ContextMenu>
+      <ContextMenuTrigger>
         <Switch>
           <Match when={tileView()}>
-            <div class="flex flex-wrap gap-2 p-5 justify-left">
-              <For each={files()}>{file => <ItemTileDisplay info={file} />}</For>
+            <div class="flex flex-wrap gap-2 p-5 justify-left pb-10">
+              <For each={files()}>
+                {(file) => <ItemTileDisplay info={file} />}
+              </For>
             </div>
           </Match>
           <Match when={listView()}>
-            <div>
+            <div class="pb-10">
               <div class="flex flex-row p-3 text-lg bg-900">
                 <div class="basis-10 items-center flex">
                   <Show when={selectionMode()}>
@@ -93,50 +96,32 @@ const ListingPanel: Component = () => {
                   </div>
                 </Show>
               </div>
-              <For each={files()}>{(file, i) => <ItemListDisplay info={file} bgHighlight={i() % 2 !== 0} />}</For>
+              <For each={files()}>
+                {(file, i) => (
+                  <ItemListDisplay info={file} bgHighlight={i() % 2 !== 0} />
+                )}
+              </For>
             </div>
           </Match>
         </Switch>
-      </div>
+      </ContextMenuTrigger>
+      <ContextMenuContent class="bg-500 outline-none border-1 border-menu text-menu shadow">
+        <ContextMenuItem class="focus:bg-hover focus:text-code">
+          Profile
+        </ContextMenuItem>
+        <ContextMenuItem class="focus:bg-hover focus:text-code">
+          Billing
+        </ContextMenuItem>
+        <ContextMenuItem class="focus:bg-hover focus:text-code">
+          Team
+        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem class="focus:bg-hover focus:text-code">
+          Subscription
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  );
+};
 
-      <div ref={menu!} class="z-10 hidden rounded divide-y divide-gray-100 shadow bg-500 border-2 border-menu">
-        <ul class="py-1 text-code text-base">
-          <Show when={roomAvailable()}>
-            <li>
-              <a href="#" class="p-2 block hover:bg-hover" onclick={() => listingSignal.newPanel.emit('')}>
-                <IconLabel icon={<OcTabexternal2 />} label="New panel" />
-              </a>
-            </li>
-          </Show>
-          <li>
-            <a href="#" class="p-2 block hover:bg-hover">
-              <IconLabel icon={<IoCut />} label="Cut" />
-            </a>
-          </li>
-          <li>
-            <a href="#" class="p-2 block hover:bg-hover">
-              <IconLabel icon={<IoCopyOutline />} label="Copy" />
-            </a>
-          </li>
-          <li>
-            <a href="#" class="p-2 block hover:bg-hover">
-              <IconLabel icon={<OcPaste3 />} label="Paste" />
-            </a>
-          </li>
-          <li>
-            <a href="#" class="p-2 block hover:bg-hover">
-              <IconLabel icon={<BiRegularShare />} label="Move" />
-            </a>
-          </li>
-          <li>
-            <a href="#" class="p-2 block hover:bg-hover">
-              <IconLabel icon={<AiOutlineDelete />} label="Delete" />
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  )
-}
-
-export default ListingPanel
+export default ListingPanel;

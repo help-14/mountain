@@ -1,3 +1,3 @@
 import { createSignal } from 'solid-js'
 
-export default createSignal('')
+export default createSignal('tile')

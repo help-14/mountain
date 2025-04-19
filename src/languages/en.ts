@@ -5,6 +5,7 @@ export const en = {
     setting: {
       title: 'Setting',
       language: 'Language',
+      preferences: 'Preferences',
     },
     sort: {
       title: 'Sort',

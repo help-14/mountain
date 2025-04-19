@@ -14,9 +14,9 @@ const handleFetch = async (response: Response): Promise<any> => {
 }
 
 const getServerUrl = (url: string): string => {
-  if (DEV && !isServer) {
-    return combinePath('http://localhost:8080', url)
-  }
+  // if (DEV && !isServer) {
+  //   return combinePath('http://localhost:4000', url)
+  // }
   return url
 }
 
@@ -34,8 +34,7 @@ export const post = (url: string, data: any): Promise<any> =>
     body: JSON.stringify(data),
   }).then(handleFetch)
 
-export const doGetLanguage = (lang: string) => get(`/assets/languages/${lang}.json`)
-export const doGetIoTasks = () => get('/api/queue/io')
+// export const doGetIoTasks = () => get('/api/queue/io')
 
 export const goGetDirectoriesFromPath = (path: string) => get(`/api/get?directory=true&path=${utf8_to_b64(path)}`)
 export const doGetFilesFromPath = (path: string) => get(`/api/get?path=${utf8_to_b64(path)}`)

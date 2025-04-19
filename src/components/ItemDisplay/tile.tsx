@@ -1,45 +1,48 @@
-import { Component, Show, createEffect, createSignal } from 'solid-js'
-import { FileInfo } from '../../types/fileInfo'
-import FileExtensionIcon from '../FileExtensionIcon'
-import selectionModeSignal from '../../signals/selectionMode'
-import './style.css'
-import { humanFileSize } from '../../utils/format'
-import selectionToolBus from '../../signals/selectionTool'
+import "./style.css";
+import { Component, Show, createEffect, createSignal } from "solid-js";
+import { FileInfo } from "~/types";
+import FileExtensionIcon from "~/components/FileExtensionIcon";
+import selectionModeSignal from "~/signals/selectionMode";
+import { humanFileSize } from "~/lib";
+import selectionToolBus from "~/signals/selectionTool";
 
 const ItemTileDisplay: Component<{
-  info: FileInfo
-  handleClick?: Function
+  info: FileInfo;
+  handleClick?: Function;
 }> = ({ info, handleClick }) => {
-  let additionalInfo = info.directory ? '' : humanFileSize(info.size)
-  let selectBox: HTMLInputElement
+  let additionalInfo = info.directory ? "" : humanFileSize(info.size);
+  let selectBox!: HTMLInputElement;
 
-  const [selectionMode, setSelectionMode] = selectionModeSignal
-  const [selected, setSelected] = createSignal(false)
+  const [selectionMode, setSelectionMode] = selectionModeSignal;
+  const [selected, setSelected] = createSignal(false);
 
-  createEffect(() => (info.selected = selected()))
+  createEffect(() => (info.selected = selected()));
 
-  selectionToolBus.listen(tool => {
+  selectionToolBus.listen((tool) => {
     switch (tool) {
-      case 'all':
-        setSelected(true)
-        break
-      case 'none':
-        setSelected(false)
-        break
-      case 'invert':
-        setSelected(!selected())
-        break
+      case "all":
+        setSelected(true);
+        break;
+      case "none":
+        setSelected(false);
+        break;
+      case "invert":
+        setSelected(!selected());
+        break;
     }
-  })
+  });
 
   return (
     <div
       classList={{
-        'item flex flex-row hover:bg-hover cursor-pointer p-4 rounded-lg box-border': true,
-        'border-2 border-active': selected(),
+        "item flex flex-row hover:bg-500 cursor-pointer p-4 rounded-lg box-border w-[270px] transition-colors duration-200":
+          true,
+        "border-2 border-active": selected(),
+        "m-0 mr-1": selected(),
+        "m-0.5": !selected(),
       }}
-      style={{ width: '280px', margin: selected() ? '0px' : '2px', 'margin-right': selected() ? '4px' : '2px' }}
-      onClick={e => handleClick?.(e.currentTarget, info)}>
+      onClick={(e) => handleClick?.(e.currentTarget, info)}
+    >
       <Show when={selectionMode()}>
         <input
           ref={selectBox!}
@@ -52,12 +55,12 @@ const ItemTileDisplay: Component<{
       <div class="self-center">
         <FileExtensionIcon directory={info.directory} ext={info.ext} />
       </div>
-      <div class="flex w-full flex-col content-center items-start self-center ml-3">
-        <p class="text-code truncate">{info.name}</p>
+      <div class="flex flex-col content-center items-start self-center mx-3 max-w-[180px]">
+        <p class="text-code break-words line-clamp-2 w-full">{info.name}</p>
         <p class="text-menu italic text-sm">{additionalInfo}</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ItemTileDisplay
+export default ItemTileDisplay;

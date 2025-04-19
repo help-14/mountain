@@ -5,7 +5,7 @@ export const sortSettings = () =>
   createObjectStore<SortSettings>('setting.sort', {
     by: 'name',
     order: 0,
-    group: false,
+    group: true,
   })
 
 export const viewSettings = () =>

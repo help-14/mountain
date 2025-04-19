@@ -1,5 +1,4 @@
-import { FileInfo } from '../types/fileInfo'
-import { SortSettings } from '../types/setting'
+import { FileInfo, SortSettings } from '~/types'
 
 export function utf8_to_b64(str: string): string {
   return window.btoa(encodeURIComponent(str))
@@ -33,13 +32,6 @@ export function enabled(element: string, state: boolean): void {
     else e.setAttribute('disabled', 'true')
   }
 }
-
-// export function getStartUrl(): string {
-//   if (parent.location.hash.length <= 2) {
-//     return document.querySelector('#defaultPath').value
-//   }
-//   return getHashPath()
-// }
 
 export function sortData(arr: FileInfo[], { by, order, group }: SortSettings) {
   if (!arr) return []
