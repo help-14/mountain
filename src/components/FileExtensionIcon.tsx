@@ -1,4 +1,4 @@
-import { Component } from "solid-js";
+import { Component, Show, createMemo } from "solid-js";
 import { VsJson } from "solid-icons/vs";
 import { ImFinder } from "solid-icons/im";
 import {
@@ -61,7 +61,7 @@ import {
   SiXaml,
   SiYaml,
 } from "solid-icons/si";
-import { FaRegularFile, FaSolidCode, FaSolidFolder } from "solid-icons/fa";
+import { FaRegularFile, FaSolidCode, FaSolidFolder, FaSolidFolderOpen } from "solid-icons/fa";
 
 const getIcon = (ext: string, iconSize: string) => {
   switch (ext.toLowerCase()) {
@@ -327,25 +327,32 @@ const FileExtensionIcon: Component<{
   ext: string;
   iconSize?: string;
   fileSize?: string;
-}> = ({ directory, ext, iconSize, fileSize }) => {
-  if (!iconSize) iconSize = "1.3em";
-  if (!fileSize) fileSize = "3em";
+  open?: boolean;
+}> = (props) => {
+  const fileSize = () => props.fileSize ?? "3em";
+  const iconSize = () => props.iconSize ?? "1.3em";
+  const badge = createMemo(() => {
+    if (props.directory || iconSize() === "0") return null;
+    const ext = props.ext.startsWith(".") ? props.ext.slice(1) : props.ext;
+    return getIcon(ext, iconSize());
+  });
 
-  if (directory)
-    return <FaSolidFolder size={fileSize} color="#f7cd00" class="ml-auto" />;
-
-  if (ext.startsWith(".")) ext = ext.slice(1);
-  const icon = iconSize === "0" ? null : getIcon(ext, iconSize);
-  const fileIcon = (
-    <FaRegularFile size={fileSize} color="#636e72" class="ml-auto" />
-  );
-
-  if (icon === null) return fileIcon;
   return (
-    <div class="items-center justify-center flex relative">
-      {fileIcon}
-      <div class="absolute">{icon}</div>
-    </div>
+    <Show
+      when={!props.directory}
+      fallback={
+        <Show when={props.open} fallback={<FaSolidFolder size={fileSize()} color="#dbbc7f" />}>
+          <FaSolidFolderOpen size={fileSize()} color="#dbbc7f" />
+        </Show>
+      }
+    >
+      <div class="relative flex items-center justify-center">
+        <FaRegularFile size={fileSize()} color="#6c7a80" />
+        <Show when={badge()}>
+          <div class="absolute flex items-center justify-center pt-[0.15em]">{badge()}</div>
+        </Show>
+      </div>
+    </Show>
   );
 };
 

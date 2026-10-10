@@ -1,25 +1,15 @@
 import { A } from "@solidjs/router";
+import { HttpStatusCode } from "@solidjs/start";
 
 export default function NotFound() {
   return (
-    <main class="text-center mx-auto text-gray-700 p-4">
-      <h1 class="max-6-xs text-6xl text-sky-700 font-thin uppercase my-16">Not Found</h1>
-      <p class="mt-8">
-        Visit{" "}
-        <a href="https://solidjs.com" target="_blank" class="text-sky-600 hover:underline">
-          solidjs.com
-        </a>{" "}
-        to learn how to build Solid apps.
-      </p>
-      <p class="my-4">
-        <A href="/" class="text-sky-600 hover:underline">
-          Home
-        </A>
-        {" - "}
-        <A href="/about" class="text-sky-600 hover:underline">
-          About Page
-        </A>
-      </p>
+    <main class="flex h-dvh flex-col items-center justify-center gap-4 bg-900 p-6 text-center">
+      <HttpStatusCode code={404} />
+      <p class="font-mono text-6xl font-light text-active">404</p>
+      <p class="text-sm text-menu">This page doesn't exist.</p>
+      <A href="/" class="btn btn-primary">
+        Back to files
+      </A>
     </main>
   );
 }

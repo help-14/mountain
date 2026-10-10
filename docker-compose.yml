@@ -1,0 +1,17 @@
+services:
+  mountain:
+    build: .
+    container_name: mountain
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # Folder inside the container that Mountain serves.
+      MOUNTAIN_ROOT: /data
+      # Uncomment to require a login (HTTP basic auth).
+      # MOUNTAIN_USERNAME: admin
+      # MOUNTAIN_PASSWORD: change-me
+      # Uncomment to disable every write operation.
+      # MOUNTAIN_READONLY: "true"
+    volumes:
+      - ./data:/data

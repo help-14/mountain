@@ -2,23 +2,26 @@
   "name": "example-with-tailwindcss",
   "type": "module",
   "scripts": {
-    "dev": "vinxi dev --port 4000",
-    "build": "vinxi build",
-    "start": "vinxi start"
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node .output/server/index.mjs"
   },
   "dependencies": {
     "@kobalte/core": "^0.13.10",
     "@solid-primitives/event-bus": "^1.1.1",
     "@solid-primitives/i18n": "^2.2.1",
-    "@solidjs/router": "^0.15.3",
-    "@solidjs/start": "^1.1.5",
+    "@solidjs/router": "^1.0.0",
+    "@solidjs/start": "^2.0.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "fflate": "^0.8.3",
+    "nitro": "3.0.260903-beta",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.9.7",
+    "solid-js": "^1.9.17",
+    "solid-transition-group": "^0.3.0",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss-animate": "^1.0.7",
-    "vinxi": "^0.5.7"
+    "vite": "^8.3.4"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
@@ -26,6 +29,6 @@
     "tailwindcss": "^4.1.11"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   }
 }
